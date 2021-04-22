@@ -1,0 +1,32 @@
+<!-- <button mat-raised-button (click)="addItem()">
+  add item
+</button>
+ <form [formGroup]="formGroup">
+  <mat-horizontal-stepper  formArrayName="form">
+    <mat-step [formGroupName]="i" *ngFor="let customerGroup of formData; let i = index">
+      <ng-template matStepLabel>Step {{i + 1}}</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="cont" required>
+      </mat-form-field>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form> -->
+
+<div class="row">
+  <div class="column" >
+    <button type="button" (click)="createLabelsComponent()">
+      Add Label
+    </button>
+    <br />  <br />
+    <button type="button" (click)="createInputTextComponent()">
+      Add Input text
+    </button>
+  </div>
+  <div class="column" id="col2" >
+    <ng-template #viewContainerRef></ng-template>
+  </div>
+</div>
