@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
-import { ConfigurationStepsHomeComponent } from '../../configuration-steps-home/configuration-steps-home.component';
+import { InputsHomeComponent } from '../../configuration-steps-home/inputs-home/inputs-home.component';
 
 
 
@@ -16,7 +16,7 @@ export interface Label {
 })
 export class LabelsComponent{
   public unique_key: number;
-  public parentRef: ConfigurationStepsHomeComponent;
+  public parentRef: InputsHomeComponent;
 
 
 

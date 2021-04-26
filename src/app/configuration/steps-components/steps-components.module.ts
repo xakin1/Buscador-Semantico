@@ -7,8 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { LabelsComponent } from './labels/labels.component';
 import { InputTextComponent } from './input-text/input-text.component';
-import { MatStepperModule } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule, MatToolbar } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 
 
 @NgModule({
@@ -21,15 +23,21 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatStepperModule,
     ReactiveFormsModule
+
   ],
   exports: [
     MatChipsModule,
     MatInputModule,
     MatIconModule,
     MatStepperModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+
   ],
   entryComponents: [LabelsComponent,InputTextComponent]
 
 })
+
 export class StepsComponentsModule { }

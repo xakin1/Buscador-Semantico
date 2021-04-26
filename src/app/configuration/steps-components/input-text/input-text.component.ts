@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigurationStepsHomeComponent } from '../../configuration-steps-home/configuration-steps-home.component';
+import { Component } from '@angular/core';
+import { InputsHomeComponent } from '../../configuration-steps-home/inputs-home/inputs-home.component';
 
 @Component({
   selector: 'app-input-text',
@@ -8,5 +8,5 @@ import { ConfigurationStepsHomeComponent } from '../../configuration-steps-home/
 })
 export class InputTextComponent {
   public unique_key: number;
-  public parentRef: ConfigurationStepsHomeComponent;
+  public parentRef: InputsHomeComponent;
 }

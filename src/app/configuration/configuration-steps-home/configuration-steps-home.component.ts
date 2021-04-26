@@ -1,7 +1,5 @@
-import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
-import { InputTextComponent } from '../steps-components/input-text/input-text.component';
-import { LabelsComponent } from '../steps-components/labels/labels.component';
 
 /**
  * @title Stepper overview
@@ -11,56 +9,22 @@ import { LabelsComponent } from '../steps-components/labels/labels.component';
   templateUrl: './configuration-steps-home.component.html',
   styleUrls: ['./configuration-steps-home.component.scss']
 })
-export class ConfigurationStepsHomeComponent implements OnInit {
-  isLinear = false;
+export class ConfigurationStepsHomeComponent{
+
   formGroup : FormGroup;
   form: FormArray;
 
-  @ViewChild("viewContainerRef", { read: ViewContainerRef, static : false })
-  VCR: ViewContainerRef
-  constructor(private _formBuilder: FormBuilder,private CFR: ComponentFactoryResolver) {}
-  child_unique_key: number = 0;
-  componentsReferences = Array<ComponentRef<any>>()
-  componentRef: any;
+  RandomFormGroup: FormGroup;
+  @ViewChild('stepper',{static: false}) stepper;
+  stepOptions = [
+    { label: 'Buscar como seleccionar', value: '1' }
+  ]
+  steps = [{ title: null, value: null, completed: false }];
+  allCompleted = false;
+  procedureFinished:boolean = false
+  constructor(private _formBuilder: FormBuilder) {}
 
 
-
-  createLabelsComponent() {
-    let componentFactory = this.CFR.resolveComponentFactory(LabelsComponent);
-
-    let childComponentRef = this.VCR.createComponent(componentFactory);
-
-    let childComponent = childComponentRef.instance;
-    childComponent.unique_key = ++this.child_unique_key;
-    childComponent.parentRef = this;
-
-    // add reference for newly created component
-    this.componentsReferences.push(childComponentRef);
-  }
-
-  createInputTextComponent() {
-    let componentFactory = this.CFR.resolveComponentFactory(InputTextComponent);
-
-    let childComponentRef = this.VCR.createComponent(componentFactory);
-
-    let childComponent = childComponentRef.instance;
-    childComponent.unique_key = ++this.child_unique_key;
-    childComponent.parentRef = this;
-
-    // add reference for newly created component
-    this.componentsReferences.push(childComponentRef);
-  }
-
-  destroyComponent() {
-      this.componentRef.destroy();
-  }
-
-  ngOnInit() {
-    this.formGroup = this._formBuilder.group({
-      form : this._formBuilder.array([this.init()])
-    })
-    this.addItem();
-  }
 
   init(){
     return this._formBuilder.group({
@@ -68,10 +32,58 @@ export class ConfigurationStepsHomeComponent implements OnInit {
     })
   }
 
-  addItem(){
-    this.form = this.formGroup.get('form') as FormArray;
-    this.form.push(this.init());
+  ngOnInit() {
+     this.RandomFormGroup = this._formBuilder.group({
+       Ctrl: ['', Validators.required]
+    });
   }
 
-  get formData (){ return this.form.get('Data'); }
-}
+  addItem() {
+    this.steps.push({ title: null, value: null, completed: false });
+    this.stepper.selectedIndex = this.steps.length - 1;
+    this.allCompleted = false;
+  }
+
+  changeStepSelection(event, index) {
+    setTimeout(() =>{
+      this.stepper.selectedIndex = this.steps.length;
+    },0);
+    this.steps[index].completed = true;
+    this.allCompleted = true;
+  }
+
+  saveName(index) {
+    this.steps[index].title =  (<HTMLInputElement>document.getElementById("TitleInput")).value;
+  }
+
+
+  onRemoveAll() {
+    this.steps = [];
+    this.stepper.selectedIndex = this.steps.length;
+    this.allCompleted = true;
+  }
+
+  removeStep(i){
+    if(this.steps.length < i + 1){return;}
+    this.steps.splice(i,1);
+    this.stepper.selectedIndex = this.steps.length;
+    this.checkCompleted();
+  }
+
+  checkCompleted(){
+    this.allCompleted = this.steps.every(step => step.completed);
+  }
+
+  handleDone(){
+    this.procedureFinished = true;
+  }
+
+  handleReset(){
+    this.procedureFinished = false;
+    this.steps = [];
+    this.steps.push({ title: null, value: null, completed: false });
+    this.allCompleted = false;
+  }
+
+
+  }

@@ -1,32 +1,49 @@
-<!-- <button mat-raised-button (click)="addItem()">
-  add item
-</button>
- <form [formGroup]="formGroup">
-  <mat-horizontal-stepper  formArrayName="form">
-    <mat-step [formGroupName]="i" *ngFor="let customerGroup of formData; let i = index">
-      <ng-template matStepLabel>Step {{i + 1}}</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address" formControlName="cont" required>
-      </mat-form-field>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
+<div *ngIf="!procedureFinished">
+  <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-step *ngFor="let step of steps; let i = index" [completed]="step.completed">
+      <form>
+        <ng-template id="TitleDefined" matStepLabel *ngIf = "step.title!=null">{{step.title}}
+          <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)"
+            matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
+        </ng-template>
+        <ng-template id="TitleUndefined" matStepLabel *ngIf = "step.title==undefined">
+          <div>
+            <input matInput id="TitleInput" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()">
+            <button  id="TitleButton" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
+          </div>
+        </ng-template>
+        <app-inputs-home></app-inputs-home>
+        <br/>
+        <button *ngIf ="!steps[i].completed" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Done</button>
+      </form>
     </mat-step>
-  </mat-horizontal-stepper>
-</form> -->
-
-<div class="row">
-  <div class="column" >
-    <button type="button" (click)="createLabelsComponent()">
-      Add Label
+    <mat-step state="add" [completed]="false" [editable]="false">
+      <ng-template matStepLabel>
+        <button mat-flat-button [disabled]="!allCompleted" (click)="addItem()" class="add_button" [disableRipple]="!allCompleted">
+          Add a Step
+        </button>
+      </ng-template>
+    </mat-step>
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{index + 1}}
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+      {{index + 1}}
+    </ng-template>
+    <ng-template matStepperIcon="add">
+      <mat-icon>add</mat-icon>
+    </ng-template>
+  </mat-vertical-stepper>
+  <div style=" padding-left: 20px;">
+    <button mat-raised-button color="primary" (click)="handleDone()">
+      DONE
     </button>
-    <br />  <br />
-    <button type="button" (click)="createInputTextComponent()">
-      Add Input text
-    </button>
-  </div>
-  <div class="column" id="col2" >
-    <ng-template #viewContainerRef></ng-template>
   </div>
 </div>
+<div *ngIf="procedureFinished" style=" padding: 20px 30px;">
+  <p>Procedure created successfully.</p>
+  <button mat-raised-button color="primary" (click)="handleReset()">
+    RESET
+  </button>
+</div>
+
