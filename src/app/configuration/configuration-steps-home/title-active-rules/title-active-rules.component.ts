@@ -17,9 +17,6 @@ export class TitleActiveRulesComponent {
 
   constructor(private router: Router) {
     this.path = this.router.url;
-    console.log(this.router.url.split("/")[2]);
-    if (this.router.url.split("/")[2] != undefined )
-      this.labels.push({name: this.router.url.split("/")[2]})
   }
 
   visible = true;

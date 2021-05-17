@@ -3,21 +3,23 @@ import { CommonModule } from '@angular/common';
 
 import { ConfigurationStepsHomeComponent } from './configuration-steps-home/configuration-steps-home.component';
 
-import { TitleActiveRulesComponent } from './title-active-rules/title-active-rules.component';
 import { ConfigurationRoutingModule } from './configuration-routing.module';
-import { RulesModule } from './rules/rules.module';
 import { SharedModule } from '../shared/shared.module';
+import { TitleActiveRulesComponent } from './configuration-steps-home/title-active-rules/title-active-rules.component';
+import { RulesHomeComponent } from './configuration-steps-home/rules-home/rules-home.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [ConfigurationStepsHomeComponent,TitleActiveRulesComponent],
+  declarations: [ConfigurationStepsHomeComponent,TitleActiveRulesComponent,RulesHomeComponent],
   imports: [
     CommonModule,
-    RulesModule,
     ConfigurationRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   exports: [
     SharedModule,
+    ReactiveFormsModule,
   ]
 })
 export class ConfigurationModule { }

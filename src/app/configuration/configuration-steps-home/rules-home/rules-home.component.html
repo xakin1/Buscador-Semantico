@@ -1,23 +1,22 @@
 <div>
   <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step *ngFor="let step of steps; let i = index" [completed]="step.completed">
-      <form>
+      <form [formGroup]="formGroup">
         <ng-template #1 id="TitleDefined" matStepLabel *ngIf = "step.display">{{step.title}}
           <div class= "flex-container">
             <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)" matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
-            <app-info></app-info>
+            <app-info class = "info"></app-info>
           </div>
         </ng-template>
-      <br><br>
         <ng-template #2 id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
           <div class= "flex-container">
-              <input required id="TitleInput" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()">
+              <input  id="TitleInput" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()">
               <button id="TitleButton" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
-              <app-info></app-info>
+              <app-info class = "info"></app-info>
           </div>
         </ng-template>
         <app-labels></app-labels>
-        <br/>
+        <br/><br><br>
         <button *ngIf ="!steps[i].completed" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Done</button>
       </form>
     </mat-step>

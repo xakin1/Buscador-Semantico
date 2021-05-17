@@ -14,14 +14,11 @@ export class RulesHomeComponent{
   formGroup : FormGroup;
   form: FormArray;
 
-  RandomFormGroup: FormGroup;
   @ViewChild('stepper',{static: false}) stepper;
   steps = [{ title: null, value: null, completed: false, display: false }];
   allCompleted = false;
   constructor(private _formBuilder: FormBuilder) {
   }
-
-
 
   init(){
     return this._formBuilder.group({
@@ -30,7 +27,7 @@ export class RulesHomeComponent{
   }
 
   ngOnInit() {
-     this.RandomFormGroup = this._formBuilder.group({
+     this.formGroup = this._formBuilder.group({
        Ctrl: ['', Validators.required]
     });
   }
