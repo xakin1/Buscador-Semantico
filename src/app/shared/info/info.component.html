@@ -1,0 +1,8 @@
+<div (mouseover)="changeText=true" (mouseout)="changeText=false">
+  <mat-icon>info</mat-icon>
+  <span *ngIf= "changeText">
+    <div id= "info" class="column" style="background-color:#bbb;">
+      <i>Estamos aquí para ayudarte</i>
+    </div>
+  </span>
+</div>

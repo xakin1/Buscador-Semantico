@@ -1,0 +1,20 @@
+<div class= "flex-container">
+  <mat-form-field class="chip-list"  [style.width.%]="50">
+    <mat-label>Labels</mat-label>
+    <mat-chip-list #chipList aria-label="label selection" selectable >
+      <mat-chip *ngFor="let label of labels" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(label)"  (click)="print(label)">
+        {{label.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="New label..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  <app-info></app-info>
+</div>
+<br/>
+<br/>
