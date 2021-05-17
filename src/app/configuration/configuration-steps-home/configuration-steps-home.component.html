@@ -1,39 +1,6 @@
-<div *ngIf="!procedureFinished">
-  <mat-vertical-stepper [linear]="true" #stepper>
-    <mat-step *ngFor="let step of steps; let i = index" [completed]="step.completed">
-      <form>
-        <ng-template id="TitleDefined" matStepLabel *ngIf = "step.title!=null">{{step.title}}
-          <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)"
-            matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
-        </ng-template>
-        <ng-template id="TitleUndefined" matStepLabel *ngIf = "step.title==undefined">
-          <div>
-            <input matInput id="TitleInput" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()">
-            <button  id="TitleButton" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
-          </div>
-        </ng-template>
-        <app-inputs-home></app-inputs-home>
-        <br/>
-        <button *ngIf ="!steps[i].completed" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Done</button>
-      </form>
-    </mat-step>
-    <mat-step state="add" [completed]="false" [editable]="false">
-      <ng-template matStepLabel>
-        <button mat-flat-button [disabled]="!allCompleted" (click)="addItem()" class="add_button" [disableRipple]="!allCompleted">
-          Add a Step
-        </button>
-      </ng-template>
-    </mat-step>
-    <ng-template matStepperIcon="edit" let-index="index">
-      {{index + 1}}
-    </ng-template>
-    <ng-template matStepperIcon="done" let-index="index">
-      {{index + 1}}
-    </ng-template>
-    <ng-template matStepperIcon="add">
-      <mat-icon>add</mat-icon>
-    </ng-template>
-  </mat-vertical-stepper>
+<div  *ngIf="!procedureFinished">
+  <app-title-active-rules></app-title-active-rules>
+  <app-rules-home></app-rules-home>
   <div style=" padding-left: 20px;">
     <button mat-raised-button color="primary" (click)="handleDone()">
       DONE

@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'Buscador-semantico';
   opened: boolean = false;
 
+
   toggleSidebar() {
     this.opened = !this.opened;
   }
