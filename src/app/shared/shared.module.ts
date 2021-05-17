@@ -33,6 +33,8 @@ import { LabelsComponent } from './labels/labels.component';
     MatChipsModule,
     MatFormFieldModule,
     InfoComponent,
-    LabelsComponent]
+    LabelsComponent
+  ],
+  entryComponents: [InfoComponent]
 })
 export class SharedModule { }

@@ -14,6 +14,7 @@ export interface Label {
 })
 export class TitleActiveRulesComponent {
   path: any;
+  info: string = "Información útil sobre lo que son estas etiquetas";
 
   constructor(private router: Router) {
     this.path = this.router.url;

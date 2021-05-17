@@ -2,18 +2,20 @@
   <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step *ngFor="let step of steps; let i = index" [completed]="step.completed">
       <form [formGroup]="formGroup">
-        <ng-template #1 id="TitleDefined" matStepLabel *ngIf = "step.display">{{step.title}}
+        <ng-template #1 id="TitleDefined" matStepLabel *ngIf = "step.display">
           <div class= "flex-container">
+            <i class = "title"> {{step.title}} </i>
+            <button id="TitleButton"  *ngIf="stepper.selectedIndex === i" mat-raised-button color="primary" (click)="step.display=false"> Edit</button>
             <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)" matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
-            <app-info class = "info"></app-info>
+            <app-info class = "info"  info="Estoy Aquí Y Funciono" *ngIf="stepper.selectedIndex === i"></app-info>
           </div>
         </ng-template>
         <ng-template #2 id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
-          <div class= "flex-container">
-              <input  id="TitleInput" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()">
-              <button id="TitleButton" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
-              <app-info class = "info"></app-info>
-          </div>
+            <div class= "flex-container">
+              <input  id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
+              <button id="TitleButton"  *ngIf="stepper.selectedIndex === i" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
+              <app-info class = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
+            </div>
         </ng-template>
         <app-labels></app-labels>
         <br/><br><br>

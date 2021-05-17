@@ -6,13 +6,14 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
-    info: string;
+  @Input('info') info: string = "Estamos Aquí para ayudarte";
 
   changeText: boolean
   constructor() {
     this.changeText = false
   }
   ngOnInit() {
+    console.log(this.info)
   }
 
   setInfo( info: string){

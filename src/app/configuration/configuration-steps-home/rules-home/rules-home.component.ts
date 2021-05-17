@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
+import { title } from 'process';
 
 /**
  * @title Stepper overview
@@ -13,8 +14,10 @@ export class RulesHomeComponent{
 
   formGroup : FormGroup;
   form: FormArray;
+  info : string = "Informacion util sobre lo que son estos steps";
 
   @ViewChild('stepper',{static: false}) stepper;
+
   steps = [{ title: null, value: null, completed: false, display: false }];
   allCompleted = false;
   constructor(private _formBuilder: FormBuilder) {
@@ -42,22 +45,18 @@ export class RulesHomeComponent{
     setTimeout(() =>{
       this.stepper.selectedIndex = this.steps.length;
     },0);
-    if (this.steps[index].title ==undefined){
-      //MOSTRAR DIALOGO
-    }
-    else if(false){
+    this.saveName(index)
+    this.steps[index].completed = true;
+    this.allCompleted = true;
 
-    }
-    else{
-      this.steps[index].completed = true;
-      this.allCompleted = true;
-    }
 
   }
 
   saveName(index) {
-    this.steps[index].title =  (<HTMLInputElement>document.getElementById("TitleInput")).value;
-    this.steps[index].display = true;
+    if( (<HTMLInputElement>document.getElementById("Title")) != undefined){
+      this.steps[index].title =  (<HTMLInputElement>document.getElementById("Title")).value;
+      this.steps[index].display = true;
+    }
   }
 
 
@@ -72,6 +71,10 @@ export class RulesHomeComponent{
     this.steps.splice(i,1);
     this.stepper.selectedIndex = this.steps.length;
     this.checkCompleted();
+  }
+
+  edit(i){
+    this.stepper[i].display = false;
   }
 
   checkCompleted(){
