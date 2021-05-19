@@ -16,10 +16,19 @@
 
 #TitleButton{
   margin-left: 1rem;
+  height: 3em;
+  align-self: center;
 }
 
 #Title{
+  align-self: center;
   width:8em;
+  height: 3em;
+}
+
+#info{
+  align-self: center;
+  margin: 1rem;
 }
 
 #3{
@@ -38,6 +47,8 @@ ng-template{
 
 #info{
   display: inline-block;
+  flex: 0.25;
+  z-index: 999999;
 }
 
 .flex-container {
@@ -46,18 +57,20 @@ ng-template{
 }
 
 .flex-container > div {
-  width: 100px;
-  margin: 10px;
   text-align: center;
-  line-height: 75px;
-  font-size: 30px;
-}
+  width: 100%;
 
-.info{
-  margin-top: 2%;
 }
 
 .title{
-  margin-top: 1.25ch;
+  align-self: center;
 }
 
+.delete_icon{
+  align-self: center;
+}
+
+.list{
+  align-self: center;
+  margin-left: 1.25ch;
+}

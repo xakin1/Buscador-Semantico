@@ -1,6 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
-import { title } from 'process';
+import { LabelsComponent } from 'src/app/shared/labels/labels.component';
+import { RulesSynonymHomeComponent } from './rules-synonym-home/rules-synonym-home.component';
 
 /**
  * @title Stepper overview
@@ -14,11 +15,17 @@ export class RulesHomeComponent{
 
   formGroup : FormGroup;
   form: FormArray;
-  info : string = "Informacion util sobre lo que son estos steps";
+  info : string = "Regla que, junto las palabras claves, ayudarán a identificar el producto";
+  errorName: boolean = false;
+  title: string = "Palabras clave que definan al producto";
+  placeholder: string = "Nueva palabra clave...";
+
 
   @ViewChild('stepper',{static: false}) stepper;
+  @ViewChildren(LabelsComponent) listOfLabels;
+  @ViewChildren(RulesSynonymHomeComponent) listOfSynonym;
 
-  steps = [{ title: null, value: null, completed: false, display: false }];
+  steps = [{ title: null, value: null, completed: false, display: false, synonym: null }];
   allCompleted = false;
   constructor(private _formBuilder: FormBuilder) {
   }
@@ -36,7 +43,7 @@ export class RulesHomeComponent{
   }
 
   addItem() {
-    this.steps.push({ title: null, value: null, completed: false, display: false});
+    this.steps.push({ title: null, value: null, completed: false, display: false, synonym: []});
     this.stepper.selectedIndex = this.steps.length - 1;
     this.allCompleted = false;
   }
@@ -46,17 +53,15 @@ export class RulesHomeComponent{
       this.stepper.selectedIndex = this.steps.length;
     },0);
     this.saveName(index)
-    this.steps[index].completed = true;
     this.allCompleted = true;
-
-
   }
 
   saveName(index) {
-    if( (<HTMLInputElement>document.getElementById("Title")) != undefined){
-      this.steps[index].title =  (<HTMLInputElement>document.getElementById("Title")).value;
-      this.steps[index].display = true;
-    }
+    this.steps[index].synonym =  this.listOfSynonym._results[index].listOfLabels.labels
+    console.log(this.steps[index].synonym.length);
+      if ((<HTMLInputElement>document.getElementById("Title")))
+        this.steps[index].title =  (<HTMLInputElement>document.getElementById("Title")).value;
+      this.steps[index].display = true
   }
 
 

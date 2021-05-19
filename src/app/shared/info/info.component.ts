@@ -13,7 +13,6 @@ export class InfoComponent implements OnInit {
     this.changeText = false
   }
   ngOnInit() {
-    console.log(this.info)
   }
 
   setInfo( info: string){

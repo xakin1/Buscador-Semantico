@@ -1,0 +1,17 @@
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.flex-container > div {
+  text-align: center;
+  line-height: 75px;
+  width: 100%;
+
+}
+
+.info{
+  align-self: center;
+  flex: 0.25;
+  z-index: 999999;
+}
