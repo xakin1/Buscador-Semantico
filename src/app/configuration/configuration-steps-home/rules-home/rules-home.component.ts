@@ -27,7 +27,8 @@ export class RulesHomeComponent{
 
   infoKeywords: string = "Hacer click en una etiqueta para desplegar el diccionario de datos"
   textArea:boolean = true;
-
+  name = new FormControl('', [Validators.required]);
+  isValid = false;
 
   @ViewChild('stepper',{static: false}) stepper : any;
   @ViewChildren(LabelsComponent) listOfLabels : any;
@@ -58,12 +59,15 @@ export class RulesHomeComponent{
   }
 
   changeStepSelection(event, index) {
-    setTimeout(() =>{
-      this.stepper.selectedIndex = this.steps.length;
-    },0);
-    this.saveStep(index)
-    this.allCompleted = true;
-    this.steps[index].completed = true;
+    this.isValid = this.name.invalid;
+    if(!this.isValid){
+      setTimeout(() =>{
+        this.stepper.selectedIndex = this.steps.length;
+      },0);
+      this.saveStep(index)
+      this.allCompleted = true;
+      this.steps[index].completed = true;
+    }
   }
 
   saveStep(index) {

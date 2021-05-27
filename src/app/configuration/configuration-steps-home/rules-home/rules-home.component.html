@@ -18,12 +18,14 @@
         </ng-template>
         <ng-template #2 id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
             <div class= "flex-container">
-              <input  id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
+              <input [formControl]="name" id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
+              <label *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Name of step is required </label>
               <app-info id = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
               <div class= "flex-container">
                 <app-labels #synonym [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
                 <app-info [info] = infoSynonym class = "info"></app-info>
               </div>
+
             </div>
         </ng-template>
         <div class="row">
