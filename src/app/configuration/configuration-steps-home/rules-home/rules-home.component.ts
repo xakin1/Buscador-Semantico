@@ -1,7 +1,7 @@
-import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
 import { LabelsComponent } from 'src/app/shared/labels/labels.component';
-import { RulesSynonymHomeComponent } from './rules-synonym-home/rules-synonym-home.component';
+
 
 /**
  * @title Stepper overview
@@ -20,12 +20,21 @@ export class RulesHomeComponent{
   title: string = "Palabras clave que definan al producto";
   placeholder: string = "Nueva palabra clave...";
 
+  infoSynonym: string = "Lista de sinónimos que permitirá de igual manera identificar el paso correspondiente";
+  titleSynonym: string = "Listado de sinónimo";
+  placeholderSynonym: string = "Nuevo sinónimo...";
+  widthSynonym: number = 100;
 
-  @ViewChild('stepper',{static: false}) stepper;
-  @ViewChildren(LabelsComponent) listOfLabels;
-  @ViewChildren(RulesSynonymHomeComponent) listOfSynonym;
+  infoKeywords: string = "Hacer click en una etiqueta para desplegar el diccionario de datos"
+  textArea:boolean = true;
 
-  steps = [{ title: null, value: null, completed: false, display: false, synonym: null }];
+
+  @ViewChild('stepper',{static: false}) stepper : any;
+  @ViewChildren(LabelsComponent) listOfLabels : any;
+  @ViewChildren('synonym') listOfSynonym : any;
+  @ViewChildren('keywords') keywords : any;
+
+  @Input('Steps') steps = [{ title: null, completed: false, display: false, synonym: [], keywords: [] }];
   allCompleted = false;
   constructor(private _formBuilder: FormBuilder) {
   }
@@ -43,7 +52,7 @@ export class RulesHomeComponent{
   }
 
   addItem() {
-    this.steps.push({ title: null, value: null, completed: false, display: false, synonym: []});
+    this.steps.push({ title: null, completed: false, display: false, synonym: [], keywords: []});
     this.stepper.selectedIndex = this.steps.length - 1;
     this.allCompleted = false;
   }
@@ -52,16 +61,17 @@ export class RulesHomeComponent{
     setTimeout(() =>{
       this.stepper.selectedIndex = this.steps.length;
     },0);
-    this.saveName(index)
+    this.saveStep(index)
     this.allCompleted = true;
+    this.steps[index].completed = true;
   }
 
-  saveName(index) {
-    this.steps[index].synonym =  this.listOfSynonym._results[index].listOfLabels.labels
-    console.log(this.steps[index].synonym.length);
-      if ((<HTMLInputElement>document.getElementById("Title")))
-        this.steps[index].title =  (<HTMLInputElement>document.getElementById("Title")).value;
-      this.steps[index].display = true
+  saveStep(index) {
+      this.steps[index].synonym  =  this.listOfSynonym._results[0].labels
+      this.steps[index].keywords =  this.keywords._results[0].labels
+      this.steps[index].title    =  (<HTMLInputElement>document.getElementById("Title")).value;
+      this.steps[index].display  =  true
+
   }
 
 

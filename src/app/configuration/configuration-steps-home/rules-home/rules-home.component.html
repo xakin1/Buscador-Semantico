@@ -8,8 +8,8 @@
             <i class = "title" style = "margin-left: 0.5rem" > {{ step.title}} </i>
             <div *ngIf = "step.synonym.length != 0" class= "flex-container">
               <i class = "list" style =  "font-weight: bold;"> Lista de sinónimos: </i>
-                <div class= "flex-container" *ngFor="let synonym of step.synonym; let i = index">
-                  <i class = "list" style = "align-self: center"> {{synonym.name }}</i>
+                <div class= "flex-container" *ngFor="let synonym of step.synonym">
+                  <i class = "list" style = "align-self: center"> {{synonym.name }} </i>
                 </div>
             </div>
             <button id="TitleButton"  *ngIf="stepper.selectedIndex === i" mat-raised-button color="primary" (click)="step.display=false"> Edit</button>
@@ -20,16 +20,19 @@
             <div class= "flex-container">
               <input  id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
               <app-info id = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
-              <app-rules-synonym-home   ></app-rules-synonym-home>
-              <button id="TitleButton"  *ngIf="stepper.selectedIndex === i" mat-raised-button color="primary" (click)="saveName(i)"> Done</button>
+              <div class= "flex-container">
+                <app-labels #synonym [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
+                <app-info [info] = infoSynonym class = "info"></app-info>
+              </div>
             </div>
         </ng-template>
         <div class="row">
-          <div class="col1">
-            <app-labels [title]=title [placeholder]=placeholder #labels></app-labels>
+          <div class= "flex-container">
+            <app-labels id="keywords" [title]=title [placeholder]=placeholder [textArea] = textArea [editable] = "!step.display" [width] = 100 #keywords></app-labels>
+            <app-info [info] = infoKeywords class = "info"></app-info>
           </div>
           <div class="col2">
-            <button *ngIf ="!steps[i].completed" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Save</button>
+            <button *ngIf ="!steps[i].display" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Save</button>
           </div>
        </div>
       </form>

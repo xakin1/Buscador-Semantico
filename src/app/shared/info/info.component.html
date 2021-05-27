@@ -1,5 +1,5 @@
 <div id = "container" class="flex-container" (mouseover)="changeText=true" (mouseout)="changeText=false">
-  <mat-icon>info</mat-icon>
+  <mat-icon [style.z-index] = 1>info</mat-icon>
   <span *ngIf= "changeText">
     <div id= "info" class="column">
       <i >{{info}}</i>

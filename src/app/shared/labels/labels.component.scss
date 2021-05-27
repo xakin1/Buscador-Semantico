@@ -3,3 +3,25 @@
   position: inherit;
 
 }
+#dd{
+  width: 30%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.button{
+  margin-left: 1rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-left: 10px;
+}
+
+.flex-container > div {
+  margin: 1rem;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}

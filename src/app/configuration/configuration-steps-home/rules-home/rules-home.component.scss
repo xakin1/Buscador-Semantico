@@ -74,3 +74,14 @@ ng-template{
   align-self: center;
   margin-left: 1.25ch;
 }
+
+.info{
+  align-self: center;
+  flex: 0.25;
+}
+
+#keywords{
+  position: relative;
+  flex: 0.5;
+  width: max-content;
+}

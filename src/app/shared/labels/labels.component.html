@@ -2,10 +2,10 @@
   <mat-form-field class="chip-list"  [style.width.%]= width>
     <mat-label>{{title}}</mat-label>
     <mat-chip-list #chipList aria-label="label selection" selectable >
-      <mat-chip *ngFor="let label of labels" [selectable]="selectable"
-              [removable]="removable" (removed)="remove(label)"  (click)="print(label)">
+      <mat-chip *ngFor="let label of labels; let i = index" [selectable]="selectable"
+              [removable]="editable" (removed)="remove(label)"  (click)="print(i)">
         {{label.name}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        <mat-icon matChipRemove *ngIf="editable">cancel</mat-icon>
       </mat-chip>
       <input (keydown)="$event.stopPropagation()" placeholder= {{placeholder}}
             [matChipInputFor]="chipList"
@@ -14,4 +14,8 @@
             (matChipInputTokenEnd)="add($event)" >
     </mat-chip-list>
   </mat-form-field>
+</div>
+<div class="flex-container" *ngIf="display&&textArea">
+    <textarea placeholder = "Escribe aquí el dd de datos" id="dd" rows="4" cols="30" >{{labels[currentIndex].dd.join()}}</textarea>
+    <button *ngIf="editable" class="button" mat-raised-button color="primary" (click) = "saveDd()"> done</button>
 </div>

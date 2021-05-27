@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { LabelsComponent } from 'src/app/shared/labels/labels.component';
 
 @Component({
   selector: 'app-title-active-rules',
@@ -10,4 +11,12 @@ export class TitleActiveRulesComponent {
   title: string = "Comandos que llaman a esta configuración";
   placeholder: string = "Nuevo comando...";
   width: number = 100;
+
+  @ViewChild(LabelsComponent,{static: false}) listOfTitles: any;
+
+  @Input('titleList') titleList;
+
+  ngOnInit() {
+    this.titleList = this.listOfTitles.labels;
+ }
 }
