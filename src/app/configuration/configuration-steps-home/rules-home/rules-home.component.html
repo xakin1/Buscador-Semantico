@@ -1,8 +1,8 @@
 <div>
   <mat-vertical-stepper [linear]="true" #stepper>
-    <mat-step *ngFor="let step of steps; let i = index" [completed]="step.completed">
+    <mat-step style="height:1000px" *ngFor="let step of steps; let i = index" [completed]="step.completed" >
       <form [formGroup]="formGroup">
-        <ng-template #1 id="TitleDefined" matStepLabel *ngIf = "step.display" >
+        <ng-template #TitleDefined id="TitleDefined" matStepLabel *ngIf = "step.display" >
           <div class= "flex-container">
             <i class = "title" style =  "font-weight: bold;" > Titulo del step:  </i>
             <i class = "title" style = "margin-left: 0.5rem" > {{ step.title}} </i>
@@ -16,22 +16,21 @@
             <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)" matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
           </div>
         </ng-template>
-        <ng-template #2 id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
+        <ng-template #TitleUndefined id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
             <div class= "flex-container">
               <input [formControl]="name" id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
               <label *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Name of step is required </label>
               <app-info id = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
-              <div class= "flex-container">
-                <app-labels #synonym [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
+              <div style="width: 50rem" class= "flex-container">
+                <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
                 <app-info [info] = infoSynonym class = "info"></app-info>
               </div>
-
             </div>
         </ng-template>
         <div class="row">
           <div class= "flex-container">
             <app-labels id="keywords" [title]=title [placeholder]=placeholder [textArea] = textArea [editable] = "!step.display" [width] = 100 #keywords></app-labels>
-            <app-info [info] = infoKeywords class = "info"></app-info>
+            <app-info *ngIf="!step.display" [info] = infoKeywords class = "info"></app-info>
           </div>
           <div class="col2">
             <button *ngIf ="!steps[i].display" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Save</button>

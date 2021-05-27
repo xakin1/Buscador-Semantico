@@ -26,9 +26,13 @@
   height: 3em;
 }
 
-#info{
+app-info{
   align-self: center;
   margin: 1rem;
+}
+
+#synonym{
+  width: 50% !important;
 }
 
 #3{
@@ -43,23 +47,6 @@ ng-template{
   content: "";
   display: table;
   clear: both;
-}
-
-#info{
-  display: inline-block;
-  flex: 0.25;
-  z-index: 999999;
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.flex-container > div {
-  text-align: center;
-  width: 100%;
-
 }
 
 .title{

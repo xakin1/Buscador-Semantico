@@ -13,19 +13,3 @@ i {
 
 }
 
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-left: 10px;
-}
-
-.flex-container > div {
-  margin: 1rem;
-  text-align: center;
-
-}
-
-.mat-drawer-container {
-  position: relative;
-  z-index: 1;
-}

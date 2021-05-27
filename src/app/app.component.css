@@ -20,3 +20,7 @@ a{
   padding: 2em 3em;
   box-shadow: 0 0 2.5em rgb(85, 85, 85, 0.5);
 }
+
+.mat-vertical-stepper-header {
+  height: auto !important;
+}
