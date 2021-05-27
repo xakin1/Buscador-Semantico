@@ -20,7 +20,7 @@
             <div class= "flex-container">
               <input [formControl]="name" id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
               <label *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Name of step is required </label>
-              <app-info id = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
+              <app-info class = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
               <div style="width: 50rem" class= "flex-container">
                 <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
                 <app-info [info] = infoSynonym class = "info"></app-info>

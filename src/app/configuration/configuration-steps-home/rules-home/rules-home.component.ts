@@ -33,7 +33,7 @@ export class RulesHomeComponent{
   @ViewChild('stepper',{static: false}) stepper : any;
   @ViewChildren(LabelsComponent) listOfLabels : any;
   @ViewChildren('synonym') listOfSynonym : any;
-  @ViewChildren('keywords') keywords : any;
+  @ViewChildren('keywords') listOfKeywords : any;
 
   @Input('Steps') steps = [{ title: null, completed: false, display: false, synonym: [], keywords: [] }];
   allCompleted = false;
@@ -71,8 +71,10 @@ export class RulesHomeComponent{
   }
 
   saveStep(index) {
-      this.steps[index].synonym  =  this.listOfSynonym._results[0].labels
-      this.steps[index].keywords =  this.keywords._results[0].labels
+      if(this.listOfSynonym.labels != undefined)
+        this.steps[index].synonym  =  this.listOfSynonym._results[0].labels;
+      if(this.listOfKeywords.labels != undefined)
+        this.steps[index].keywords =  this.listOfKeywords._results[0].labels;
       this.steps[index].title    =  (<HTMLInputElement>document.getElementById("Title")).value;
       this.steps[index].display  =  true
 
