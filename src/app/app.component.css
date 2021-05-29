@@ -1,0 +1,26 @@
+ng-sidebar-container {
+  height: 100vh;
+}
+
+#header{
+  background: #673ab7;
+}
+mat-icon{
+  font-size: 50px;
+}
+
+a{
+  text-decoration: none;
+  color:black
+}
+
+::ng-deep .ng-sidebar{
+  background-color:white;
+  width: 200px;
+  padding: 2em 3em;
+  box-shadow: 0 0 2.5em rgb(85, 85, 85, 0.5);
+}
+
+.mat-vertical-stepper-header {
+  height: auto !important;
+}

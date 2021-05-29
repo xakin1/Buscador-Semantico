@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 20%;
+  padding: 10px;
+}
+
+#col2{
+	width: 70%;
+  margin-left: 30px;
+}
+
+#TitleButton{
+  margin-left: 1rem;
+  height: 3em;
+  align-self: center;
+}
+
+#Title{
+  align-self: center;
+  width:8em;
+  height: 3em;
+}
+
+#synonym{
+  width: 50% !important;
+}
+
+#3{
+  width: 30%;
+}
+ng-template{
+  width: 100%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.title{
+  align-self: center;
+}
+
+.delete_icon{
+  align-self: center;
+}
+
+.list{
+  align-self: center;
+  margin-left: 1.25ch;
+}
+
+#keywords{
+  position: relative;
+  flex: 0.5;
+  width: max-content;
+}
+
+.error{
+  color: red;
+  align-self: center;
+  margin-left: 1rem;
+}

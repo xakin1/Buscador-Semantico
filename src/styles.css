@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto }
+.mat-vertical-stepper-header {
+  height: auto !important;
+  width: 100% !important;
+  display: flex !important;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.flex-container > div {
+  text-align: center;
+  width: 100%;
+
+}
+
+.info {
+  flex: 0.25;
+  align-self: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}

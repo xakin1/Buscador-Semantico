@@ -1,0 +1,59 @@
+<div>
+  <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-step style="height:1000px" *ngFor="let step of steps; let i = index" [completed]="step.completed" >
+      <form [formGroup]="formGroup">
+        <ng-template #TitleDefined id="TitleDefined" matStepLabel *ngIf = "step.display" >
+          <div class= "flex-container">
+            <i class = "title" style =  "font-weight: bold;" > Titulo del step:  </i>
+            <i class = "title" style = "margin-left: 0.5rem" > {{ step.title}} </i>
+            <div *ngIf = "step.synonym.length != 0" class= "flex-container">
+              <i class = "list" style =  "font-weight: bold;"> Lista de sinónimos: </i>
+                <div class= "flex-container" *ngFor="let synonym of step.synonym">
+                  <i class = "list" style = "align-self: center"> {{synonym.name }} </i>
+                </div>
+            </div>
+            <button id="TitleButton"  *ngIf="stepper.selectedIndex === i" mat-raised-button color="primary" (click)="step.display=false"> Edit</button>
+            <mat-icon class="delete_icon"  *ngIf="stepper.selectedIndex === i" (click)="removeStep(i)" matTooltip="Remove step" matTooltipPosition="right">delete</mat-icon>
+          </div>
+        </ng-template>
+        <ng-template #TitleUndefined id="TitleUndefined" matStepLabel *ngIf = "!step.display" >
+            <div class= "flex-container">
+              <input [formControl]="name" id="Title" ngTrim=false type="text" placeholder="Name of step" (keydown)="$event.stopPropagation()" value={{step.title}}>
+              <label *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Name of step is required </label>
+              <app-info class = "info" [info] = info  *ngIf="stepper.selectedIndex === i"></app-info>
+              <div style="width: 50rem" class= "flex-container">
+                <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym [list]=step.synonym ></app-labels>
+                <app-info [info] = infoSynonym class = "info"></app-info>
+              </div>
+            </div>
+        </ng-template>
+        <div class="row">
+          <div class= "flex-container">
+            <app-labels id="keywords" [title]=title [placeholder]=placeholder [textArea] = textArea [editable] = "!step.display" [width] = 100 #keywords></app-labels>
+            <app-info *ngIf="!step.display" [info] = infoKeywords class = "info"></app-info>
+          </div>
+          <div class="col2">
+            <button *ngIf ="!steps[i].display" mat-raised-button color="primary" (click)="changeStepSelection($event, i)"> Save</button>
+          </div>
+       </div>
+      </form>
+    </mat-step>
+    <mat-step state="add" [completed]="false" [editable]="false">
+      <ng-template matStepLabel>
+        <button mat-flat-button [disabled]="!allCompleted" (click)="addItem()" class="add_button" [disableRipple]="!allCompleted">
+          Add a Step
+        </button>
+      </ng-template>
+    </mat-step>
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{index + 1}}
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+      {{index + 1}}
+    </ng-template>
+    <ng-template matStepperIcon="add">
+      <mat-icon>add</mat-icon>
+    </ng-template>
+  </mat-vertical-stepper>
+</div>
+

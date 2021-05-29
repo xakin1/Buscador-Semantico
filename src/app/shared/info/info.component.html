@@ -1,0 +1,8 @@
+<div id = "container" class="flex-container" (mouseover)="changeText=true" (mouseout)="changeText=false">
+  <mat-icon class="mat-drawer-container">info</mat-icon>
+  <span *ngIf= "changeText">
+    <div id= "info" class="column">
+      <i >{{info}}</i>
+    </div>
+  </span>
+</div>
