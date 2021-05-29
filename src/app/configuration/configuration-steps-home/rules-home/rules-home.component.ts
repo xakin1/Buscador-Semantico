@@ -1,6 +1,6 @@
 import {Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
-import { LabelsComponent } from 'src/app/shared/labels/labels.component';
+import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
 
 
 /**

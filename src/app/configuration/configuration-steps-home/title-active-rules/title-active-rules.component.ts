@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { LabelsComponent } from 'src/app/shared/labels/labels.component';
+import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
 
 @Component({
   selector: 'app-title-active-rules',

@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
-import { MatButtonModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatRadioModule, MatStepperModule, MatToolbarModule, MatTooltipModule } from '@angular/material';
-import { InfoComponent } from './info/info.component';
-import { LabelsComponent } from './labels/labels.component';
+import { MatButtonModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatRadioModule, MatSliderModule, MatStepperModule, MatToolbarModule, MatTooltipModule } from '@angular/material';
+import { InfoComponent } from './components/info/info.component';
+import { LabelsComponent } from './components/labels/labels.component';
+import { SliderComponent } from './components/slider/slider.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [InfoComponent,LabelsComponent],
+  declarations: [InfoComponent,LabelsComponent, SliderComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -20,7 +22,9 @@ import { LabelsComponent } from './labels/labels.component';
     MatTooltipModule,
     MatRadioModule,
     MatChipsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSliderModule,
+    FormsModule
   ],
   exports: [
     MatButtonModule,
@@ -32,8 +36,11 @@ import { LabelsComponent } from './labels/labels.component';
     MatRadioModule,
     MatChipsModule,
     MatFormFieldModule,
+    MatSliderModule,
     InfoComponent,
-    LabelsComponent
+    LabelsComponent,
+    SliderComponent,
+    FormsModule
   ],
   entryComponents: [InfoComponent]
 })
