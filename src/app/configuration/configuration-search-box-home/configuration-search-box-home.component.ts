@@ -1,5 +1,6 @@
-import { A } from '@angular/cdk/keycodes';
+import {map, startWith} from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SliderComponent } from 'src/app/shared/components/slider/slider.component';
 
@@ -10,17 +11,29 @@ import { SliderComponent } from 'src/app/shared/components/slider/slider.compone
 })
 export class ConfigurationSearchBoxHomeComponent implements OnInit {
 
-  @ViewChild('alto',{static: false}) alto: SliderComponent;
-  @ViewChild('alto',{static: false}) ancho: Observable<SliderComponent>;
-
   width: number
   heigth: number
   placeholder: string = (<HTMLInputElement>document.getElementById("placeholder")) ?(<HTMLInputElement>document.getElementById("placeholder")).value : "search";
 
+  maxResultados:number = 500;
+  minResultados:number = 0
+
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+
   constructor() { }
 
   ngOnInit() {
-    this.placeholder = (<HTMLInputElement>document.getElementById("placeholder")) ?(<HTMLInputElement>document.getElementById("placeholder")).value : "search";
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
 }
