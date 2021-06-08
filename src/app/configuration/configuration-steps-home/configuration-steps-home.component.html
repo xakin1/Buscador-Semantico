@@ -1,6 +1,6 @@
 <div  *ngIf="!procedureFinished">
-  <app-title-active-rules></app-title-active-rules>
-  <app-rules-home></app-rules-home>
+  <app-title-active-rules (added)="print()" (removed)="display=false" ></app-title-active-rules>
+  <app-rules-home [display]= display></app-rules-home>
   <div style=" padding-left: 20px;">
     <button mat-raised-button color="primary" (click)="handleDone()">
       DONE

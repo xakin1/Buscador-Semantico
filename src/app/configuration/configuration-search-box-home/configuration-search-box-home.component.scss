@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  max-height: 100%;
+  height:100vh;
+  display:flex;
+  flex-direction: column;
+}
+
+#col1{
+  width: 23%;
+  background-color: rgb(60, 60, 75);
+}
+
+#col2{
+  width: 70% !important;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.search, .search * {
+  box-sizing: border-box;
+}
+
+
+.search .search-input {
+  flex: 1 1;
+  min-width: 1px;
+  font-size: 1em;
+  line-height: 32px;
+  background: transparent;
+  transition: all .25s ease-in-out;
+  font-family: inherit;
+  border: 0;
+
+}
+
+*:focus {
+  outline: none;
+
+}
+
+.search.center, .search .center {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.search {
+  z-index: 99999;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+.search .search-input__group {
+  display: flex;
+  align-self: center;
+  border-radius: 500px;
+  margin-top: 1rem;
+  border: 2px solid #000;
+  color: #000;
+  background-color: #fff;
+  transition: all .25s ease-in-out;
+  padding-left: 16px;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+.search .search-input__btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-self: stretch;
+  align-items: center;
+  padding: 0 16px;
+  transition: all .25s ease-in-out;
+  border: 0;
+}
+
