@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+html, body {
+  height: 100%;
+}
 
 /* Create two equal columns that floats next to each other */
 .column {
@@ -9,9 +12,19 @@
   padding: 10px;
 }
 
+.column1 {
+  right: 0%;
+  z-index: 99;
+  top: 5.6%;
+  position: fixed;
+  width: 30%;
+  height: 100%;
+  padding: 1rem;
+  border-left: 2px solid black;
+}
+
 #col2{
 	width: 70%;
-  margin-left: 30px;
 }
 
 #TitleButton{
@@ -57,14 +70,20 @@ ng-template{
   margin-left: 1.25ch;
 }
 
-#keywords{
-  position: relative;
-  flex: 0.5;
-  width: max-content;
-}
-
 .error{
   color: red;
   align-self: center;
   margin-left: 1rem;
 }
+
+.infokeywords{
+  padding-left: 11rem !important;
+  flex: 0.25;
+  align-self: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+
+
+

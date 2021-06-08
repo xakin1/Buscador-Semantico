@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto }
 .mat-vertical-stepper-header {
   height: auto !important;
-  width: 100% !important;
+  width: 70% !important;
   display: flex !important;
 }
 
@@ -18,6 +18,20 @@ body { margin: 0; font-family: Roboto }
   width: 100%;
 
 }
+
+.mat-autocomplete-panel {
+  min-width: 0% !important;
+  max-width: 100% !important;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  visibility: hidden;
+  max-width: none !important;
+  max-height: none !important;
+  width: 100%;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 
 .info {
   flex: 0.25;
@@ -42,3 +56,4 @@ body { margin: 0; font-family: Roboto }
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+

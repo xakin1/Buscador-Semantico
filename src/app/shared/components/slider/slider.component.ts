@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,12 +10,13 @@ export class SliderComponent{
   autoTicks = false;
   disabled = false;
   invert = false;
-  max = 100;
-  min = 0;
+  @Input('max') max:number = 100;
+  @Input('min') min:number = 0;
+
   showTicks = false;
   step = 1;
   thumbLabel = false;
-  value = 50;
+  @Input('value') value:number = 50;
   vertical = false;
   tickInterval = 1;
 

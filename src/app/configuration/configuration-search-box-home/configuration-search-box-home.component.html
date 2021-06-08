@@ -1,7 +1,7 @@
 <div class="row">
   <div style="color: white; font-weight: lighter" id="col1" class="column">
     <div style="margin-left: 1rem;">
-      <h2 style="align-self: center">Opciones de configuración</h2>
+      <h2 style="align-self: center;">Opciones de configuración</h2>
       <div>
         <h5> Caja de búsqueda</h5>
         <div class="form-group">
@@ -21,16 +21,45 @@
         <label class="form-label" for="inputWidth">Texto del buscador</label>
       </div>
       <div class="form-group">
-        <input #placeholder type="text" class="form-control" id="placeholder" value="search..">
+        <input #placeholder type="text" class="form-control" id="placeholder" value="search...">
       </div>
+
+      <h5> Resultados</h5>
+      <div class="form-group">
+        <label class="form-label" for="inputWidth">Ancho</label>
+        <div class="row">
+          <app-slider  [max] = "66" [value] = "33" #anchoResultados></app-slider>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputWidth">Alto</label>
+      </div>
+      <div class="row">
+        <app-slider [max] = "maxResultados" [value] = 250 #altoResultados></app-slider>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputWidth">Columnas</label>
+      </div>
+      <div class="row">
+        <app-slider #columnasResultado></app-slider>
+      </div>
+
     </div>
+
   </div>
   <div id="col2" class="column">
     <!-- Search form -->
     <div id="searchbox">
       <div class=" search center">
         <div class="center search-input__group " [style.width.%] = "ancho.value" [style.height.px] = "alto.value" >
-          <input placeholder = {{placeholder.value}}  type="text" autocomplete="off" class="search-input " style="line-height: 32px;">
+          <!-- <input placeholder = {{placeholder.value}}  type="text" autocomplete="off" class="search-input " style="line-height: 32px;"> -->
+          <input
+            class="search-input"
+            type="text"
+            placeholder={{placeholder.value}}
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto">
           <a class="search-input__btn " tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
              <circle cx="11" cy="11" r="8"></circle>
@@ -39,6 +68,13 @@
           </a>
         </div>
       </div>
+      <mat-autocomplete  panelWidth= "{{anchoResultados.value}}%"  autoActiveFirstOption #auto="matAutocomplete" >
+        <div [style.height.px] = "altoResultados.value">
+          <mat-option  *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </div>
+      </mat-autocomplete>
     </div>
   </div>
 </div>

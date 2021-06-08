@@ -12,6 +12,7 @@ import { TitleActiveRulesComponent } from './title-active-rules/title-active-rul
 })
 export class ConfigurationStepsHomeComponent{
   procedureFinished:boolean = false
+  display: boolean;
 
   @ViewChild(TitleActiveRulesComponent,{static: false}) titles: any;
   @ViewChild(RulesHomeComponent,{static: false}) steps;
@@ -36,6 +37,11 @@ export class ConfigurationStepsHomeComponent{
 
   handleReset(){
     this.procedureFinished = false;
+  }
+
+  print(){
+    console.log('entro');
+    this.display= true;
   }
 
 }

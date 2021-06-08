@@ -1,18 +1,51 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ComponentsRoutingModule } from './components-routing.module';
+
 import { SliderComponent } from './slider/slider.component';
-import { SharedModule } from '../shared.module';
+import { DdComponent } from './dd/dd.component';
+import { MatAutocompleteModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatRadioModule, MatSliderModule, MatStepperModule, MatToolbarModule, MatTooltipModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { InfoComponent } from './info/info.component';
+import { LabelsComponent } from './labels/labels.component';
+import { ComponentsRoutingModule } from './components-routing.module';
+
 
 
 @NgModule({
-  declarations: [SliderComponent],
+  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent],
   imports: [
     CommonModule,
     ComponentsRoutingModule,
-    SharedModule
+    MatButtonModule,
+    MatIconModule,
+    MatRadioModule,
+    MatStepperModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatSliderModule,
+    MatAutocompleteModule,
+    FormsModule,
+    CommonModule
   ],
-  exports: [SharedModule,SliderComponent]
+  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatRadioModule,
+    MatStepperModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatSliderModule,
+    MatAutocompleteModule,
+    FormsModule,
+    CommonModule],
+
+  entryComponents: [InfoComponent]
 })
 export class ComponentsModule { }

@@ -41,8 +41,13 @@
   transition: all .25s ease-in-out;
   font-family: inherit;
   border: 0;
+
 }
 
+*:focus {
+  outline: none;
+
+}
 
 .search.center, .search .center {
   position: relative;

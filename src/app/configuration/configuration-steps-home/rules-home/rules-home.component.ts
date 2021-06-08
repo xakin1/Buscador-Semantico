@@ -1,7 +1,12 @@
 import {Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormControl,FormGroup, Validators,FormArray} from '@angular/forms';
+import { DdComponent } from 'src/app/shared/components/dd/dd.component';
 import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
 
+export interface Dd {
+  label: string;
+  dd: string[];
+}
 
 /**
  * @title Stepper overview
@@ -29,14 +34,17 @@ export class RulesHomeComponent{
   textArea:boolean = true;
   name = new FormControl('', [Validators.required]);
   isValid = false;
+  dd = [];
 
   @ViewChild('stepper',{static: false}) stepper : any;
   @ViewChildren(LabelsComponent) listOfLabels : any;
   @ViewChildren('synonym') listOfSynonym : any;
   @ViewChildren('keywords') listOfKeywords : any;
-
-  @Input('Steps') steps = [{ title: null, completed: false, display: false, synonym: [], keywords: [] }];
+  @ViewChildren(DdComponent) ddComponent : any;
+  @Input('display') display: boolean = false
+  @Input('Steps') steps = [{ title: null, completed: false, display: false, synonym: [], keywords: [], dd: [] }];
   allCompleted = false;
+  lastIndex: number = -1;
   constructor(private _formBuilder: FormBuilder) {
   }
 
@@ -50,10 +58,11 @@ export class RulesHomeComponent{
      this.formGroup = this._formBuilder.group({
        Ctrl: ['', Validators.required]
     });
+
   }
 
   addItem() {
-    this.steps.push({ title: null, completed: false, display: false, synonym: [], keywords: []});
+    this.steps.push({ title: null, completed: false, display: false, synonym: [], keywords: [], dd:[]});
     this.stepper.selectedIndex = this.steps.length - 1;
     this.allCompleted = false;
   }
@@ -64,7 +73,9 @@ export class RulesHomeComponent{
       setTimeout(() =>{
         this.stepper.selectedIndex = this.steps.length;
       },0);
+      console.log(this.listOfKeywords)
       this.saveStep(index)
+      this.saveDd(index)
       this.allCompleted = true;
       this.steps[index].completed = true;
     }
@@ -102,4 +113,47 @@ export class RulesHomeComponent{
     this.allCompleted = this.steps.every(step => step.completed);
   }
 
+  update(index){
+    if(this.ddComponent.first != undefined){
+      if(this.lastIndex == -1){
+        this.lastIndex = index;
+      }
+      if(this.dd[this.lastIndex] != undefined){
+        this.dd[this.lastIndex] = this.ddComponent.first.__proto__.getText();
+        this.ddComponent.first.__proto__.setText(this.dd[this.lastIndex]);
+      }
+      else{
+        this.dd.push(this.ddComponent.first.__proto__.getText());
+      }
+      if(this.dd[index] != undefined){
+        this.ddComponent.first.__proto__.setText(this.dd[index]);
+      }
+      else{
+        if(this.ddComponent.first.__proto__)
+        this.ddComponent.first.__proto__.setText('')
+      }
+      this.lastIndex = index;
+    }
+
   }
+
+  remove(index){
+    this.update(this.lastIndex)
+    if(index == this.lastIndex){
+
+    }
+    if(index < this.lastIndex ) this.lastIndex--;
+
+    this.dd.splice(index, 1);
+  }
+
+  saveDd(index){
+    this.update(this.lastIndex)
+    let i = 0;
+    this.listOfKeywords._results[index].labels.forEach(keyword => {
+      this.steps[index].dd.push({label: keyword, dd: this.dd[i].split(",")})
+      i++;
+    });
+  }
+
+}
