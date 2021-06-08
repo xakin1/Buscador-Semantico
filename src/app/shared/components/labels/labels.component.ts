@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 
@@ -6,7 +6,6 @@ import { MatChipInputEvent } from '@angular/material';
 
 export interface Label {
   name: string;
-  dd: string[];
 }
 
 @Component({
@@ -22,8 +21,11 @@ export class LabelsComponent{
   @Input('textArea') textArea: boolean = false;
   @Input('list') labels: Label[] = [];
   @Input('editable') editable: boolean = true;
+  @Input('removable') removable: boolean = true;
+  @Output() update = new EventEmitter<number>();
+  @Output() added = new EventEmitter<number>();
+  @Output() removed = new EventEmitter<number>();
 
-  @ViewChild('dd',{static: false}) dd : any;
   public unique_key: number;
 
   visible = true;
@@ -39,13 +41,15 @@ export class LabelsComponent{
 
     // Add labelt
     if ((value || '').trim()) {
-      this.labels.push({name: value.trim(), dd: []});
+      this.labels.push({name: value.trim()});
+      this.added.emit(this.labels.length-1);
     }
 
     // Reset the input value
     if (input) {
       input.value = '';
     }
+
   }
 
   remove(label: Label): void {
@@ -54,17 +58,15 @@ export class LabelsComponent{
     if (index >= 0) {
       this.labels.splice(index, 1);
     }
+    this.removed.emit(index);
   }
 
   print(index: number){
     this.currentIndex = index;
     this.display = true;
+    this.update.emit(this.currentIndex);
   }
 
-  saveDd(){
-    let dd =  (<HTMLInputElement>document.getElementById("dd")).value.trim();
-    this.labels[this.currentIndex].dd =  dd.split(",");
-    this.display = false;
-  }
+
 
 }
