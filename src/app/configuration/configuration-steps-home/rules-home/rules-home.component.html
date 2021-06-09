@@ -47,6 +47,23 @@
                 <app-dd [readOnly] = "step.display" [value]=dd[keywords.currentIndex]></app-dd>
             </div>
           </div>
+          <h3>Condiciones</h3>
+          <ng-template></ng-template>
+          <div  *ngFor="let conditions of condition">
+            <h4>Condición</h4>
+            <input type=”text” id=”demo” name=”comboboxdemo”/>
+            <select>
+            <option>Igual</option>
+            <option>mayor</option>
+            <option>menor</option>
+            <option>mayor o igual</option>
+            <option>menor o igual</option>
+            </select>
+            <h4>Siguiente paso</h4>
+            <app-combo-box [data] = "steps"  ></app-combo-box>
+          </div>
+          <br>
+          <button mat-raised-button color="primary" (click)="addCondition()"> Añadir condición</button>
         </div>
       </form>
     </mat-step>

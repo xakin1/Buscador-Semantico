@@ -45,6 +45,7 @@ export class RulesHomeComponent{
   @Input('Steps') steps = [{ title: null, completed: false, display: false, synonym: [], keywords: [], dd: [] }];
   allCompleted = false;
   lastIndex: number = -1;
+  condition = [];
   constructor(private _formBuilder: FormBuilder) {
   }
 
@@ -90,7 +91,6 @@ export class RulesHomeComponent{
       this.steps[index].display  =  true
 
   }
-
 
   onRemoveAll() {
     this.steps = [];
@@ -148,12 +148,18 @@ export class RulesHomeComponent{
   }
 
   saveDd(index){
-    this.update(this.lastIndex)
-    let i = 0;
-    this.listOfKeywords._results[index].labels.forEach(keyword => {
-      this.steps[index].dd.push({label: keyword, dd: this.dd[i].split(",")})
-      i++;
-    });
+    this.update(this.lastIndex);
+    if(this.dd.length != 0){
+      let i = 0;
+      this.listOfKeywords._results[index].labels.forEach(keyword => {
+        this.steps[index].dd.push({label: keyword, dd: this.dd[i].split(",")})
+        i++;
+      });
+    }
+  }
+
+  addCondition(){
+    this.condition.push('');
   }
 
 }
