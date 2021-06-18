@@ -31,6 +31,7 @@ export class RulesHomeComponent{
   widthSynonym: number = 100;
 
   infoKeywords: string = "Hacer click en una etiqueta para desplegar el diccionario de datos"
+
   textArea:boolean = true;
   name = new FormControl('', [Validators.required]);
   isValid = false;

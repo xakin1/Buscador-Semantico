@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-
+interface Stept{
+  title: string;
+}
 
 @Component({
   selector: 'app-combo-box',
@@ -10,6 +12,6 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ComboBoxComponent  {
   selectedValue: string;
   selectedCar: string;
-  @Input('data') data: string[];
+  @Input('data') data: Stept[];
 
 }

@@ -1,0 +1,18 @@
+span {
+  color: rgba(191, 191, 191, 0.87);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-left: 115px;
+  text-transform: uppercase;
+}
+
+.line-linkage-vertical {
+  width: 30px;
+  height: 0px;
+  border: 0.5px solid lightgrey;
+  position: relative;
+  top: -40px;
+  left: 6.95rem;
+  z-index: -1000;
+}
+

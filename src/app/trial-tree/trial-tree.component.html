@@ -1,0 +1,49 @@
+<ng-sidebar-container style="height: 93.7vh;">
+  <ng-sidebar style="width: 1200%" [opened]= open mode= "push" position="end">
+  <header>
+    <mat-icon class="header" (click) = "toggleSidebar()">clear</mat-icon>
+  </header>
+  <div  *ngIf="edit">
+    <div>
+      <h2>Configuracion</h2>
+      <h5>Titulo del step</h5>
+      <input id="Title" (change)="saveNameStep()" style="width: 100%;" placeholder="Escribe aquí el nombre del step">
+    </div>
+    <div>
+      <h2>Condicional</h2>
+      <button class="button" type="button">Añadir condicion</button>
+    </div>
+    <div>
+      <h2>Palabras clave que definan el producto</h2>
+      <div class= "flex-container">
+        <app-labels (added)="lastIndex=$event" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
+        <app-info   [info] = infoKeywords class = "info infokeywords"></app-info>
+      </div>
+    </div>
+    <div>
+      <h2>Lista de sinónimos</h2>
+      <div style="width: 50rem" class= "flex-container">
+        <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
+        <app-info [info] = infoSynonym class = "info a"></app-info>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!edit">
+    <app-step-box (click)="createStepPlus()"></app-step-box>
+    <app-step-box [titleStep]="condicionalfalse" (click)="createStepConditionalFalse()"></app-step-box>
+    <app-step-box [titleStep]="condicionaltrue" (click)="createStepConditionalTrue()"></app-step-box>
+    <app-step-box [titleStep]="condicional" (click)="createStepConditional()"></app-step-box>
+  </div>
+
+  </ng-sidebar>
+  <div class="flex-container" ng-sidebar-content>
+    <div style="width: fit-content;" id="left" ng-sidebar-content>
+      <ng-container class="position"  #viewContainerRefLeft></ng-container>
+    </div>
+    <div style="width: fit-content;" id="right" ng-sidebar-content>
+      <ng-container class="position"  #viewContainerRefRight></ng-container>
+</div>
+  </div>
+</ng-sidebar-container>
+
+

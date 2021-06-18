@@ -1,0 +1,5 @@
+
+<div [style.left.px]="left ? getPositionLeft() : (right ? getPositionRight() : '470')" [ngClass]= "left ? 'left': (right ? 'right' : 'position')" style="height: 128px; width: fit-content;">
+  <app-step-box [titleStep] = titleStep (edit)="editStep()" style="position: relative; top:-16px" class="step-box-position"></app-step-box>
+  <app-plus (open)="openSideBar()" class="plus-position"></app-plus>
+</div>
