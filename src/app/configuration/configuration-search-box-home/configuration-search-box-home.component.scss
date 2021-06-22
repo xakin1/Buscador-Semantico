@@ -86,3 +86,36 @@ svg:not(:root) {
   border: 0;
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+table td:first-child {
+  width: 100px;
+}
+
+
+table td:last-child {
+  width: 50px;
+}
+
+mat-icon:hover{
+  cursor: pointer;
+}
+
+.icon:hover{
+  cursor: pointer;
+}
+
