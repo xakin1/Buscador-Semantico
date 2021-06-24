@@ -19,7 +19,7 @@ export class StepPlusComponent implements OnInit {
   childNol = 0;
   childNor = 0;
   positionLeft = 450.4;
-  positionRight = 469.4;
+  positionRight = 226.4;
   position:string;
   public unique_key: number = 0;
   public parentRef: TrialTreeComponent;
@@ -38,7 +38,7 @@ export class StepPlusComponent implements OnInit {
     if(this.nor == 0 )
       return this.positionRight = 450
     else{
-      return  this.positionRight + 170.6 * this.nor ;
+      return  this.positionRight + 296 * this.nor ;
     }
   }
 

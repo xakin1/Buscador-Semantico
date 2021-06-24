@@ -23,7 +23,7 @@ export class TitleActiveRulesComponent {
   ngOnInit() {
     if(this.listOfTitles != undefined){
       this.titleList = this.listOfTitles.labels;
-      console.log(this.listOfTitles.labels)
+
     }
  }
 

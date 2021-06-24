@@ -16,11 +16,13 @@ import { PlusComponent } from './plus/plus.component';
 import { TrueComponent } from './true/true.component';
 import { StepBoxComponent } from './step-box/step-box.component';
 import { SidebarModule } from 'ng-sidebar';
+import { StepBoxRightComponent } from './step-box-right/step-box-right.component';
+import { ColumnComponent } from './column/column.component';
 
 
 
 @NgModule({
-  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent],
+  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent],
   imports: [
     CommonModule,
     ComponentsRoutingModule,
@@ -40,7 +42,7 @@ import { SidebarModule } from 'ng-sidebar';
     FormsModule,
     CommonModule
   ],
-  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent,
+  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
@@ -57,6 +59,6 @@ import { SidebarModule } from 'ng-sidebar';
     SidebarModule,
     CommonModule],
 
-  entryComponents: [EndComponent,PlusComponent]
+  entryComponents: [EndComponent,PlusComponent, StepBoxComponent,StepBoxRightComponent, ColumnComponent]
 })
 export class ComponentsModule { }

@@ -66,7 +66,6 @@ export class TrialTreeComponent implements OnInit {
     let position = this.componentsReferences[this.index] ? this.componentsReferences[this.index].instance.position : undefined;
     if( position != undefined){
       if( position == "left"){
-        console.log("left")
         childComponentRef       = this.VCRL.createComponent(componentFactory);
         childComponent          = childComponentRef.instance;
         childComponent.nor      = this.componentsReferences[this.index].instance.childNor;
@@ -77,7 +76,6 @@ export class TrialTreeComponent implements OnInit {
         childComponent.left     = true
       }
       else if (position == "right"){
-        console.log("right")
         childComponentRef       = this.VCRR.createComponent(componentFactory);
         childComponent          = childComponentRef.instance;
         childComponent.nor      = this.componentsReferences[this.index].instance.childNor;
@@ -93,18 +91,11 @@ export class TrialTreeComponent implements OnInit {
       childComponent = childComponentRef.instance;
     }
 
-    // console.log('step plus nor '+childComponent.nor);
-    // console.log('nol '+childComponent.nol);
-
-    // console.log('childNor '+childComponent.childNor);
-    // console.log('step plus childNol '+childComponent.childNol);
-
     childComponent.unique_key = ++this.child_unique_key;
     childComponent.parentRef = this;
     this.index = childComponent.unique_key
 
     childComponent.open.subscribe((event) => {
-      console.log(childComponent.position)
       this.openSideBar(childComponent.unique_key);
     });
 
@@ -135,7 +126,7 @@ export class TrialTreeComponent implements OnInit {
       childComponent.left = true
       childComponent.nor      = this.componentsReferences[this.index].instance.childNor;
       childComponent.nol      = this.componentsReferences[this.index].instance.childNol;
-      childComponent.childNol = this.componentsReferences[this.index].instance.childNol + 1
+      childComponent.childNol = this.componentsReferences[this.index].instance.childNol - 1
       childComponent.childNor = this.componentsReferences[this.index].instance.childNor - 1
       childComponent.position = this.componentsReferences[this.index].instance.position;
     }
@@ -156,13 +147,6 @@ export class TrialTreeComponent implements OnInit {
       childComponent = childComponentRef.instance;
       childComponent.position = "right";
     }
-
-    console.log('self true nor '+childComponent.nor);
-    console.log('nol '+childComponent.nol);
-
-
-    console.log('childNor '+childComponent.childNor);
-    console.log('self true childNol '+childComponent.childNol);
 
     childComponent.unique_key = ++this.child_unique_key;
     childComponent.parentRef = this;
@@ -193,10 +177,13 @@ export class TrialTreeComponent implements OnInit {
     let childComponent = undefined;
     let position = this.componentsReferences[this.index] ? this.componentsReferences[this.index].instance.position : undefined;
     if(position == "left"){
+
       childComponentRef = this.VCRL.createComponent(componentFactory);
       childComponent = childComponentRef.instance;
 
-      childComponent.left = true
+      childComponent.right = this.position == "right"
+      childComponent.left = this.position == "left"
+
       childComponent.nor      = this.componentsReferences[this.index].instance.childNor;
       childComponent.nol      = this.componentsReferences[this.index].instance.childNol;
       childComponent.childNol = this.componentsReferences[this.index].instance.childNol + 1
@@ -207,12 +194,19 @@ export class TrialTreeComponent implements OnInit {
       childComponentRef = this.VCRR.createComponent(componentFactory);
       childComponent = childComponentRef.instance;
 
-      childComponent.right = true
+      if( this.position == "right"){
+        childComponent.right = true;
+        childComponent.childNor = this.componentsReferences[this.index].instance.childNor - 1
+        childComponent.childNol = this.componentsReferences[this.index].instance.childNol - 1
+      }
+      if( this.position == "left"){
+        childComponent.left = "left"
+        childComponent.childNor = this.componentsReferences[this.index].instance.childNor - 1
+        childComponent.childNol = this.componentsReferences[this.index].instance.childNol + 1
+      }
 
       childComponent.nor      = this.componentsReferences[this.index].instance.childNor;
       childComponent.nol      = this.componentsReferences[this.index].instance.childNol;
-      childComponent.childNor = this.componentsReferences[this.index].instance.childNor + 1
-      childComponent.childNol = this.componentsReferences[this.index].instance.childNol - 1
       childComponent.position = this.componentsReferences[this.index].instance.position;
     }
     else{
@@ -220,12 +214,10 @@ export class TrialTreeComponent implements OnInit {
       childComponent = childComponentRef.instance;
       childComponent.position ="left";
     }
-    // console.log('self false nor '+childComponent.nor);
-    // console.log('nol '+childComponent.nol);
 
+    console.log(childComponent.nor)
+    console.log(childComponent.nol)
 
-    // console.log('childNor '+childComponent.childNor);
-    // console.log('self false childNol '+childComponent.childNol);
 
     childComponent.unique_key = ++this.child_unique_key;
     childComponent.parentRef = this;
@@ -284,12 +276,6 @@ export class TrialTreeComponent implements OnInit {
       childComponent.position = "left";
     }
 
-    // console.log('self false nor '+childComponent.nor);
-    // console.log('nol '+childComponent.nol);
-
-
-    // console.log('childNor '+childComponent.childNor);
-    // console.log('self false childNol '+childComponent.childNol);
 
 
 

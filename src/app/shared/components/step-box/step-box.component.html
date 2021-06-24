@@ -1,1 +1,6 @@
-<button (click)="editStep()" class="button" type="button">{{titleStep}}</button>
+<div class="row">
+  <div class="column" style=" width: 207px; background-color:#aaa;">
+    <button id={{unique_key}} (click)="editStep()" class="button" type="button">{{titleStep}}</button>
+  </div>
+  <ng-container ng-sidebar-content class="position" #viewContainer></ng-container>
+</div>

@@ -75,7 +75,6 @@ export class RulesHomeComponent{
       setTimeout(() =>{
         this.stepper.selectedIndex = this.steps.length;
       },0);
-      console.log(this.listOfKeywords)
       this.saveStep(index)
       this.saveDd(index)
       this.allCompleted = true;
