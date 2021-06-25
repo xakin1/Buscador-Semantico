@@ -1,3 +1,3 @@
-<div  #column id="column" style="background-color: aqua;" class="column"  >
-  <button *ngFor="let step of steps; let i = index" id ={{steps[i]}}  (click)="editStep()" class="button" type="button">{{titleStep}}</button>
+<div  #column id="column"  class="column"  >
+  <button *ngFor="let step of steps; let i = index" id ={{steps[i].id}}  (click)="editStep(steps[i].id,i)" class="button" type="button">{{steps[i].name}}</button>
 </div>

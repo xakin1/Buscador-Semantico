@@ -10,8 +10,9 @@
       <input id="Title" (change)="saveNameStep()" style="width: 100%;" placeholder="Escribe aquí el nombre del step">
     </div>
     <div>
-      <h2>Condicional</h2>
-      <button (click)="createNextStep()" class="button" type="button">Añadir condicion</button>
+      <h2>Condiciones</h2>
+      <input *ngFor = "let condition of conditionOfselectedStep; let i = index" id = "Condicion {{i}}" (change)="saveCondition(i)" style="width: 100%;" value ={{condition}} placeholder="Escribe aquí la condición">
+      <button (click)="newCondition()" class="button" type="button">Añadir Condición</button>
     </div>
     <div>
       <h2>Palabras clave que definan el producto</h2>
@@ -22,7 +23,7 @@
     </div>
     <div>
       <h2>Lista de sinónimos</h2>
-      <div style="width: 50rem" class= "flex-container">
+      <div style="width: fit-content" class= "flex-container">
         <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
         <app-info [info] = infoSynonym class = "info a"></app-info>
       </div>

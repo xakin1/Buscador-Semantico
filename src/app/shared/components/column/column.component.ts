@@ -1,6 +1,11 @@
 import { Component, ComponentFactoryResolver, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { StepBoxRightComponent } from '../step-box-right/step-box-right.component';
 
+export interface Step{
+  id: string
+  name: string,
+  haveNext: boolean
+}
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',
@@ -16,14 +21,14 @@ export class ColumnComponent implements OnInit {
   index : number = 0;
   @Input("titleStep") titleStep = "Title of Step"
 
-  steps: string[] = []
+  steps: Step[] = []
   @Output() edit = new EventEmitter<any>();
 
   ngOnInit() {
   }
 
-  editStep(){
-    this.edit.emit('');
+  editStep(id,i){
+    this.edit.emit({index: id, position: i});
   }
 
 

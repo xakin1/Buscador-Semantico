@@ -27,7 +27,7 @@ export class StepBoxComponent implements OnInit {
   }
 
   editStep(){
-    this.edit.emit(this.unique_key);
+    this.edit.emit({column: 0, index:this.unique_key});
   }
 
   createColumn(key){
@@ -38,45 +38,13 @@ export class StepBoxComponent implements OnInit {
     let childComponent     = childComponentRef.instance;
     childComponent.unique_key = key+1;
     this.componentsReferences.push(childComponentRef);
-
-    // childComponent.unique_key = key+1;
-    // childComponent.open.subscribe((event) => {
-    //   this.openSideBar(childComponent.unique_key);
-    // });
-
-    childComponent.edit.subscribe((event) => {
-      this.edit.emit(childComponent.unique_key)
+    childComponent.edit.subscribe(($event) => {
+      this.edit.emit({column: childComponent.unique_key-1, index: $event.index, position: $event.position})
     });
-
-    // // add reference for newly created component
-    // this.toggleSidebar();
-
-    // this.componentsReferences.push(childComponentRef)
-    return childComponentRef
   }
 
   public createStep(index,key) {
-    this.componentsReferences[index].instance.steps.push(key);
-    console.log(this.componentsReferences[index].instance.steps)
-    // let componentFactory = this.resolver.resolveComponentFactory(StepBoxRightComponent);
-
-    // let childComponentRef  = this.VCR.createComponent(componentFactory);
-    // let childComponent     = childComponentRef.instance;
-    // childComponent.unique_key = key+1;
-    // childComponent.open.subscribe((event) => {
-    //   this.openSideBar(childComponent.unique_key);
-    // });
-
-    // childComponent.edit.subscribe((event) => {
-    //   this.edited = true;
-    //   this.open = true;
-    //   this.index = childComponent.unique_key;
-    // });
-
-    // // add reference for newly created component
-    // this.toggleSidebar();
-
-    // this.componentsReferences.push(childComponentRef)
+    this.componentsReferences[index].instance.steps.push({id: key, name: 'Title of Step', haveNext: false});
   }
 
 
