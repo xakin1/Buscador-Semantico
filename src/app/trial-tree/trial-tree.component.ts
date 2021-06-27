@@ -215,10 +215,6 @@ export class TrialTreeComponent implements OnInit {
       childComponent.position ="left";
     }
 
-    console.log(childComponent.nor)
-    console.log(childComponent.nol)
-
-
     childComponent.unique_key = ++this.child_unique_key;
     childComponent.parentRef = this;
     this.index = childComponent.unique_key

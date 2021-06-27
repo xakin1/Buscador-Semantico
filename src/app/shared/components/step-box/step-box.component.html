@@ -1,5 +1,8 @@
 <div class="row">
   <div *ngFor="let steps of columns; let i = index" class="column" style=" width: 270px;">
-    <button *ngFor="let step of steps; let j = index" id ={{step.id}}  (click)="editStep(j,i)" class="button" type="button">{{step.name}}</button>
+    <button *ngFor="let step of steps; let j = index" id ={{step.id}}  (click)="editStep(j,i)" class="button" type="button">{{step.name}}
+      <div id = "self {{step.id}}" style="position: relative; top: 15px;left: -58px;"></div>
+    </button>
+
   </div>
 </div>

@@ -1,7 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 
 interface Stept{
-  title: string;
+  id: string
+  name: string,
+  haveNext: boolean,
+  synonym: any[],
+  keywords: any[],
+  dd: any[],
+  conditions: any[],
+  line: any[];
 }
 
 @Component({
@@ -12,6 +20,13 @@ interface Stept{
 export class ComboBoxComponent  {
   selectedValue: string;
   selectedCar: string;
-  @Input('data') data: Stept[];
+  @Input('data') steps: Stept[];
+  @Output() changed = new EventEmitter<any>();
+  selectedItem;
+
+  onChange(step){
+    this.changed.emit(step.id)
+  }
+
 
 }

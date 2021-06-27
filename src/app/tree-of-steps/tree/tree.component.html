@@ -28,9 +28,14 @@
         <app-info [info] = infoSynonym class = "info a"></app-info>
       </div>
     </div>
+    <div>
+      <h2>Siguiente Paso</h2>
+      <app-combo-box (changed)="drawNextStep($event)" [data] = steps></app-combo-box><br>
+      <button style="margin-top: 1rem;" (click)="createNextStep('')" class="button" type="button">Nuevo Paso</button>
+    </div>
   </div>
   <div *ngIf="!edit">
-    <app-step-box-right (click)="createStep()"></app-step-box-right>
+    <app-step-box-right  (click)="createStep()"></app-step-box-right>
   </div>
 
   </ng-sidebar>

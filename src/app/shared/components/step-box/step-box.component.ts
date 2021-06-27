@@ -12,7 +12,8 @@ export interface Step{
   keywords: any[],
   dd: any[],
   conditions: any[],
-  line: any[];
+  line: any[],
+  unique_key : number;
 }
 
 @Component({

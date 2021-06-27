@@ -31,6 +31,7 @@ export class TreeComponent implements OnInit {
   child_unique_key   : number = -1;
 
   step: any;
+  steps: any = [];
 
   @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
 
@@ -41,7 +42,9 @@ export class TreeComponent implements OnInit {
 
   saveNameStep() {
     if((<HTMLInputElement>document.getElementById("Title")) != undefined){
-        this.step[this.column][this.row].name = (<HTMLInputElement>document.getElementById("Title")).value;
+        let name = (<HTMLInputElement>document.getElementById("Title")).value;
+        this.step[this.column][this.row].name = name;
+        this.steps[ this.step[this.column][this.row].unique_key ].name = name;
     }
   }
 
@@ -82,8 +85,31 @@ export class TreeComponent implements OnInit {
 
     this.toggleSidebar();
 
-    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []}])
+    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key}])
+    this.steps.push({id: this.column+" "+this.row , name: "Title of Step"});
+
     this.step = childComponent.columns;
+  }
+
+  drawNextStep(id){
+
+    setTimeout(()=>{
+      let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
+      let endElement = (<HTMLInputElement>document.getElementById(id))
+      if(startElement == endElement){
+        endElement =  (<HTMLInputElement>document.getElementById("self " + id))
+
+        let line = new LeaderLine({
+          start: startElement,
+          end: endElement,
+          path: "magnet"
+          });
+
+        this.step[this.column][this.row].line.push(line)
+      }
+      else this.drawLine(startElement,endElement,'');
+    })
+
   }
 
   drawLine(startElement, endElement, label){
@@ -93,13 +119,14 @@ export class TreeComponent implements OnInit {
         start: startElement ,
         end: endElement,
         endLabel: label,
+        path: "magnet"
       })
     }
     else{
         line = new LeaderLine({
         start: startElement,
         end: endElement,
-
+        path: "magnet"
         });
     }
     this.step[this.column][this.row].line.push(line)
@@ -114,7 +141,8 @@ export class TreeComponent implements OnInit {
   createColumn(label){
     this.step[this.column][this.row].haveNext = true
 
-    this.step.push([{id: this.step.length +" 0", name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []}]);
+    this.step.push([{id: this.step.length +" 0", name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key}]);
+    this.steps.push({id: this.step.length +" 0", name: 'Title of Step'})
 
     setTimeout(()=>{
       let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
@@ -126,7 +154,8 @@ export class TreeComponent implements OnInit {
   }
 
   createStepInColumn(label) {
-    this.step[this.column+1].push({id:( this.step.length -1) +" "+this.step[this.column+1].length, name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []})
+    this.step[this.column+1].push({id:( this.step.length -1) +" "+this.step[this.column+1].length, name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key})
+    this.steps.push({id: this.step.length +" 0", name: 'Title of Step'})
 
     setTimeout(()=>{
       let startElement = (<HTMLInputElement>document.getElementById(this.column+" "+this.row));

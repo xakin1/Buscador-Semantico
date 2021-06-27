@@ -13,7 +13,6 @@ import { StepConditionalComponent } from './trial-tree/step-conditional/step-con
 import { StepConditionalTrueSelfComponent } from './trial-tree/step-conditional-true-self/step-conditional-true-self.component';
 import { StepConditionalFalseSelfComponent } from './trial-tree/step-conditional-false-self/step-conditional-false-self.component';
 import { SharedModule } from './shared/shared.module';
-import { StepsComponent } from './tree-of-steps/steps/steps.component';
 import { TreeComponent } from './tree-of-steps/tree/tree.component';
 
 @NgModule({
