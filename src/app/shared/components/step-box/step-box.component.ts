@@ -11,7 +11,8 @@ export interface Step{
   synonym: any[],
   keywords: any[],
   dd: any[],
-  conditions: any[]
+  conditions: any[],
+  line: any[];
 }
 
 @Component({

@@ -13,25 +13,23 @@ declare let LeaderLine: any;
 export class TreeComponent implements OnInit {
   open: boolean = true;
   edit: boolean = false;
-  condicionalfalse = "condicional false"
-  condicionaltrue  = "condicional true"
-  condicional  = "condicional"
-  child_unique_key: number = -1;
-  row: number = 0;
-  column: number = 0;
 
-  infoKeywords: string = "Hacer click en una etiqueta para desplegar el diccionario de datos"
-  info : string = "Regla que, junto las palabras claves, ayudarán a identificar el producto";
-  errorName: boolean = false;
-  title: string = "Palabras clave que definan al producto";
-  placeholder: string = "Nueva palabra clave...";
+  row   : number  = 0;
+  column: number  = 0;
+
+  infoKeywords: string  = "Hacer click en una etiqueta para desplegar el diccionario de datos"
+  info        : string  = "Regla que, junto las palabras claves, ayudarán a identificar el producto";
+  title       : string  = "Palabras clave que definan al producto";
+  placeholder : string  = "Nueva palabra clave...";
 
 
-  infoSynonym: string = "Lista de sinónimos que permitirá de igual manera identificar el paso correspondiente";
-  titleSynonym: string = "Listado de sinónimo";
-  placeholderSynonym: string = "Nuevo sinónimo...";
-  widthSynonym: number = 100;
-  conditionOfselectedStep = [];
+  infoSynonym : string  = "Lista de sinónimos que permitirá de igual manera identificar el paso correspondiente";
+  titleSynonym: string  = "Listado de sinónimo";
+  widthSynonym: number  = 100;
+
+  placeholderSynonym: string  = "Nuevo sinónimo...";
+  child_unique_key   : number = -1;
+
   step: any;
 
   @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
@@ -49,14 +47,17 @@ export class TreeComponent implements OnInit {
 
   saveCondition(i) {
     if((<HTMLInputElement>document.getElementById("Condicion " + i)) != undefined){
-        this.createNextStep((<HTMLInputElement>document.getElementById("Condicion " + i)).value);
-        if( this.step[this.column][this.row].conditions[i] != undefined )  this.step[this.column][this.row].conditions[i] = (<HTMLInputElement>document.getElementById("Condicion " + i)).value;
-        else this.step[this.column][this.row].conditions.push((<HTMLInputElement>document.getElementById("Condicion " + i)).value);
+      let label = (<HTMLInputElement>document.getElementById("Condicion " + i)).value;
+
+      if(this.step[this.column][this.row].conditions[i] == undefined ) this.createNextStep(label);
+      else this.changeLabelOfLine(i, label)
+
+      this.step[this.column][this.row].conditions[i] = label;
     }
   }
 
   newCondition(){
-    this.step[this.column][this.row].conditions.push('');
+    this.step[this.column][this.row].conditions.push(undefined);
   }
 
   toggleSidebar(){
@@ -66,7 +67,6 @@ export class TreeComponent implements OnInit {
 
   createStep(){
     let componentFactory = this.resolver.resolveComponentFactory(StepBoxComponent);
-
     let childComponentRef  = this.VCR.createComponent(componentFactory);
     let childComponent     = childComponentRef.instance;
 
@@ -76,39 +76,45 @@ export class TreeComponent implements OnInit {
       this.row = $event.row;
       this.column = $event.column;
 
-      //TODO: REVISAR
-      if(this.step[this.column][this.row] != undefined) this.conditionOfselectedStep = this.step[this.column][this.row].conditions;
-      else this.conditionOfselectedStep = [];
       if(<HTMLInputElement>document.getElementById("Title") != undefined)
         (<HTMLInputElement>document.getElementById("Title")).value = this.step[this.column][this.row].name
     });
 
     this.toggleSidebar();
 
-    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [] }])
+    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []}])
     this.step = childComponent.columns;
   }
 
   drawLine(startElement, endElement, label){
+    let line;
     if(label != ''){
-        new LeaderLine({
+        line = new LeaderLine({
         start: startElement ,
         end: endElement,
-        endLabel: label
+        endLabel: label,
       })
     }
     else{
-        new LeaderLine({
+        line = new LeaderLine({
         start: startElement,
-        end: endElement
+        end: endElement,
+
         });
     }
+    this.step[this.column][this.row].line.push(line)
+  }
+
+  changeLabelOfLine(i,label){
+    this.step[this.column][this.row].line[i].setOptions({
+      endLabel: label
+    })
   }
 
   createColumn(label){
     this.step[this.column][this.row].haveNext = true
 
-    this.step.push([{id: this.step.length +" 0", name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: []}]);
+    this.step.push([{id: this.step.length +" 0", name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []}]);
 
     setTimeout(()=>{
       let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
@@ -120,13 +126,10 @@ export class TreeComponent implements OnInit {
   }
 
   createStepInColumn(label) {
-
-    this.step[this.column+1].push({id:( this.step.length -1) +" "+this.step[this.column+1].length, name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: []})
+    this.step[this.column+1].push({id:( this.step.length -1) +" "+this.step[this.column+1].length, name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: []})
 
     setTimeout(()=>{
-      console.log("start "+ this.column +" "+this.row)
       let startElement = (<HTMLInputElement>document.getElementById(this.column+" "+this.row));
-      console.log("end "+ (this.step.length-1)+" "+ (this.step[this.column+1].length - 1))
       let endElement = (<HTMLInputElement>document.getElementById(this.step.length-1+" "+ (this.step[this.column+1].length-1)))
       this.drawLine(startElement,endElement,label);
     })
@@ -138,5 +141,4 @@ export class TreeComponent implements OnInit {
     if(this.step[this.column+1] == undefined) this.createColumn(label)
     else this.createStepInColumn(label)
   }
-
 }

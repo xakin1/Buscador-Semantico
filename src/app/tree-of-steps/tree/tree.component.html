@@ -11,7 +11,7 @@
     </div>
     <div>
       <h2>Condiciones</h2>
-      <input *ngFor = "let condition of conditionOfselectedStep; let i = index" id = "Condicion {{i}}" (change)="saveCondition(i)" style="width: 100%;" value ={{condition}} placeholder="Escribe aquí la condición">
+      <input *ngFor = "let condition of step[column][row].conditions; let i = index" id = "Condicion {{i}}" (change)="saveCondition(i)" style="width: 100%;" value ={{condition}} placeholder="Escribe aquí la condición">
       <button (click)="newCondition()" class="button" type="button">Añadir Condición</button>
     </div>
     <div>
