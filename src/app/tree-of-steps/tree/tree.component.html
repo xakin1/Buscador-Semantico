@@ -1,5 +1,5 @@
 <ng-sidebar-container style="height: 93.7vh;">
-  <ng-sidebar style="width: 1200%" [opened]= open mode= "push" position="end">
+  <ng-sidebar [style.width.px]="200" [opened]= open mode= "push" position="end">
   <header>
     <mat-icon class="header" (click) = "toggleSidebar()">clear</mat-icon>
   </header>
@@ -11,7 +11,19 @@
     </div>
     <div>
       <h2>Condiciones</h2>
-      <input *ngFor = "let condition of step[column][row].conditions; let i = index" id = "Condicion {{i}}" (change)="saveCondition(i)" style="width: 100%;" value ={{condition}} placeholder="Escribe aquí la condición">
+      <div style="margin-bottom: 3rem" *ngFor = "let condition of step[column][row].conditions; let i = index">
+        <input id = "Condicion {{i}}" style="width: 100%" value ={{condition}} placeholder="Escribe aquí la condición">
+        <div style="margin-top: 1rem ;">
+          <div class="flex-container">
+            <app-true></app-true>
+            <app-combo-box  (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = steps></app-combo-box>
+          </div>
+          <div class="flex-container">
+            <app-false></app-false>
+            <app-combo-box (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = steps></app-combo-box>
+          </div>
+        </div>
+      </div>
       <button (click)="newCondition()" class="button" type="button">Añadir Condición</button>
     </div>
     <div>
@@ -33,13 +45,17 @@
       <app-combo-box (changed)="drawNextStep($event)" [data] = steps></app-combo-box><br>
       <button style="margin-top: 1rem;" (click)="createNextStep('')" class="button" type="button">Nuevo Paso</button>
     </div>
+    <div>
+      <h2>Añadir final</h2>
+      <button style="margin-top: 1rem;" (click)="createEnd()" class="button" type="button">END</button>
+    </div>
   </div>
   <div *ngIf="!edit">
     <app-step-box-right  (click)="createStep()"></app-step-box-right>
   </div>
 
   </ng-sidebar>
-      <ng-container ng-sidebar-content class="position" #viewContainer></ng-container>
+      <ng-container ng-sidebar-content #viewContainer></ng-container>
 </ng-sidebar-container>
 
 

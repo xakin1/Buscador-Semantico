@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { iif } from 'rxjs';
+
 
 
 interface Stept{
@@ -22,10 +24,11 @@ export class ComboBoxComponent  {
   selectedCar: string;
   @Input('data') steps: Stept[];
   @Output() changed = new EventEmitter<any>();
+
   selectedItem;
 
   onChange(step){
-    this.changed.emit(step.id)
+    if( step != "") this.changed.emit(step.id)
   }
 
 

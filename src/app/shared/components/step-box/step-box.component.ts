@@ -1,8 +1,11 @@
-import { C } from '@angular/cdk/keycodes';
-import { Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
-import { ColumnComponent } from '../column/column.component';
-import { StepBoxRightComponent } from '../step-box-right/step-box-right.component';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import 'leader-line';
+declare let LeaderLine: any;
 
+export interface LineConditions{
+  true: any,
+  false: any
+}
 
 export interface Step{
   id: string
@@ -12,8 +15,10 @@ export interface Step{
   keywords: any[],
   dd: any[],
   conditions: any[],
-  line: any[],
+  lineConditions: LineConditions[],
+  lineNextStep: any,
   unique_key : number;
+  end: boolean;
 }
 
 @Component({
@@ -26,21 +31,41 @@ export class StepBoxComponent implements OnInit {
 
   @Output() edit = new EventEmitter<any>();
   @Input("titleStep") titleStep = "Title of Step"
-  constructor() { }
-  public unique_key: number = 0;
-  public haveNext = false;
-  open: boolean = true;
-  edited: boolean = false;
-  index : number = 0;
+  open: boolean = false;
   columns: Step[][] = []
+  constructor() { }
+  selectedItem ;
 
   ngOnInit() {
   }
 
-  editStep(row, column){
+  editStep(row, column,id){
+    this.open = true;
+    this.selectedItem = id
     this.edit.emit({row: row, column: column});
   }
 
+  public close(){
+    this.open = false;
+  }
 
+  public end(column,row,startElement){
+    this.columns[column][row].end = true;
 
+    setTimeout(()=>{
+      let endElement = (<HTMLInputElement>document.getElementById("end "+ this.columns[column][row].id))
+      console.log("end "+ this.columns[column][row].id)
+      let line = drawLine(startElement,endElement);
+      this.columns[column][row].lineNextStep = line;
+    })
+  }
+}
+
+function drawLine(startElement, endElement){
+  let line = new LeaderLine({
+      start: startElement,
+      end: endElement
+      });
+
+  return line
 }

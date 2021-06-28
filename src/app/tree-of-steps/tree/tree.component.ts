@@ -30,10 +30,14 @@ export class TreeComponent implements OnInit {
   placeholderSynonym: string  = "Nuevo sinónimo...";
   child_unique_key   : number = -1;
 
-  step: any;
-  steps: any = [];
+  step      : any;
+  steps     : any = [];
+  tree      : any;
+  condition : boolean = false;
+  lastId    : string;
 
   @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
+
 
   constructor(private resolver: ComponentFactoryResolver) { }
 
@@ -48,14 +52,29 @@ export class TreeComponent implements OnInit {
     }
   }
 
-  saveCondition(i) {
+  saveCondition(i,id, condition) {
+    this.condition = condition;
     if((<HTMLInputElement>document.getElementById("Condicion " + i)) != undefined){
       let label = (<HTMLInputElement>document.getElementById("Condicion " + i)).value;
+      this.lastId = id;
+      let lineCondition = this.condition ? this.step[this.column][this.row].lineConditions[i].true : this.step[this.column][this.row].lineConditions[i].false
 
-      if(this.step[this.column][this.row].conditions[i] == undefined ) this.createNextStep(label);
-      else this.changeLabelOfLine(i, label)
+        if(lineCondition == undefined ){
+          this.step[this.column][this.row].end = false;
+          if(this.step[this.column][this.row].lineNextStep != undefined) this.step[this.column][this.row].lineNextStep.remove()
+          let endElement = (<HTMLInputElement>document.getElementById(id))
+          if (endElement == undefined) this.createNextStep();
 
-      this.step[this.column][this.row].conditions[i] = label;
+          setTimeout(()=>{
+            let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
+            let endElement = (<HTMLInputElement>document.getElementById(this.lastId))
+            if(startElement == endElement) endElement =  (<HTMLInputElement>document.getElementById("self " + id))
+            let line = drawConditionalLine(startElement,endElement,label,this.condition );
+            this.condition ? this.step[this.column][this.row].lineConditions.push({true: line, false: undefined}) : this.step[this.column][this.row].lineConditions.push({true: undefined, false: false})
+          })
+        }
+        else this.changeLabelOfLine(i, label)
+        this.step[this.column][this.row].conditions[i] = label;
     }
   }
 
@@ -65,7 +84,13 @@ export class TreeComponent implements OnInit {
 
   toggleSidebar(){
     this.open = false;
+    this.tree.close();
     this.saveNameStep();
+  }
+
+  createEnd(){
+    let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
+    this.tree.end(this.column,this.row, startElement)
   }
 
   createStep(){
@@ -76,6 +101,7 @@ export class TreeComponent implements OnInit {
     childComponent.edit.subscribe(($event) => {
       this.edit = true;
       this.open = true;
+      childComponent.open = true
       this.row = $event.row;
       this.column = $event.column;
 
@@ -83,91 +109,109 @@ export class TreeComponent implements OnInit {
         (<HTMLInputElement>document.getElementById("Title")).value = this.step[this.column][this.row].name
     });
 
-    this.toggleSidebar();
-
-    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key}])
+    childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], lineConditions: [{true: undefined, false: undefined}],lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false}])
     this.steps.push({id: this.column+" "+this.row , name: "Title of Step"});
 
     this.step = childComponent.columns;
+    this.tree = childComponent;
+
+    this.toggleSidebar();
   }
 
   drawNextStep(id){
+    let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
+    let endElement = (<HTMLInputElement>document.getElementById(id))
+
+    if(this.step[this.column][this.row].lineNextStep != undefined) this.step[this.column][this.row].lineNextStep.remove()
 
     setTimeout(()=>{
-      let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
-      let endElement = (<HTMLInputElement>document.getElementById(id))
       if(startElement == endElement){
         endElement =  (<HTMLInputElement>document.getElementById("self " + id))
 
-        let line = new LeaderLine({
-          start: startElement,
-          end: endElement,
-          path: "magnet"
-          });
-
-        this.step[this.column][this.row].line.push(line)
+        let line = drawSelfLine(startElement, endElement)
+        this.step[this.column][this.row].lineNextStep = line
       }
-      else this.drawLine(startElement,endElement,'');
+      else {
+        let line = drawStepLine(startElement,endElement);
+        this.step[this.column][this.row].lineNextStep = line
+      }
     })
 
   }
 
-  drawLine(startElement, endElement, label){
-    let line;
-    if(label != ''){
-        line = new LeaderLine({
-        start: startElement ,
-        end: endElement,
-        endLabel: label,
-        path: "magnet"
-      })
-    }
-    else{
-        line = new LeaderLine({
-        start: startElement,
-        end: endElement,
-        path: "magnet"
-        });
-    }
-    this.step[this.column][this.row].line.push(line)
-  }
-
   changeLabelOfLine(i,label){
-    this.step[this.column][this.row].line[i].setOptions({
+    this.step[this.column][this.row].lineConditions[i].setOptions({
       endLabel: label
     })
   }
 
-  createColumn(label){
+  createColumn(){
+    let id = this.step.length +" 0";
+    let name = 'Title of Step'
+
     this.step[this.column][this.row].haveNext = true
 
-    this.step.push([{id: this.step.length +" 0", name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key}]);
-    this.steps.push({id: this.step.length +" 0", name: 'Title of Step'})
-
-    setTimeout(()=>{
-      let startElement = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
-      let endElement = (<HTMLInputElement>document.getElementById(this.step.length-1  +" 0"))
-      this.drawLine(startElement,endElement,label );
-    })
+    this.step.push([{id: id , name: name, haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], lineConditions: [{true: undefined, false: undefined}], lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false}]);
+    this.steps.push({id: id, name:name })
 
     this.toggleSidebar();
+    this.lastId = id;
   }
 
-  createStepInColumn(label) {
-    this.step[this.column+1].push({id:( this.step.length -1) +" "+this.step[this.column+1].length, name: 'Title of Step', haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], line: [], unique_key: ++this.child_unique_key})
-    this.steps.push({id: this.step.length +" 0", name: 'Title of Step'})
-
-    setTimeout(()=>{
-      let startElement = (<HTMLInputElement>document.getElementById(this.column+" "+this.row));
-      let endElement = (<HTMLInputElement>document.getElementById(this.step.length-1+" "+ (this.step[this.column+1].length-1)))
-      this.drawLine(startElement,endElement,label);
-    })
+  createStepInColumn() {
+    let id = ( this.step.length -1) +" "+this.step[this.column+1].length
+    let name = 'Title of Step'
+    this.step[this.column+1].push({id: id, name: name , haveNext: false, conditions: [],dd: [],keywords: [], synonym: [], lineConditions: [{true: undefined, false: undefined}], lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false})
+    this.steps.push({id: id, name: name})
 
     this.toggleSidebar();
+
+    this.lastId = id;
   }
 
-  createNextStep(label){
-    if(this.step[this.column+1] == undefined) this.createColumn(label)
-    else this.createStepInColumn(label)
+  createNextStep(){
+    if(this.step[this.column+1] == undefined) this.createColumn()
+    else this.createStepInColumn()
   }
+}
+
+function drawStepLine(startElement, endElement){
+  let line = new LeaderLine({
+      start: startElement,
+      end: endElement,
+      })
+
+  return line
+}
+
+function drawSelfLine(startElement, endElement){
+  let line = new LeaderLine({
+    start: startElement,
+    end: endElement,
+    path: "magnet"
+    });
+
+  return line
+}
+
+function drawConditionalLine(startElement, endElement,label,condition){
+  let line;
+  if(condition){
+    line = new LeaderLine({
+      start: startElement ,
+      end: endElement,
+      endLabel: label,
+      color: 'rgb(110, 224, 181)'
+    })
+  }
+  else{
+    line = new LeaderLine({
+      start: startElement ,
+      end: endElement,
+      midLabel: label,
+      color: 'rgb(255, 157, 157)'
+    })
+  }
+
+  return line
 }
