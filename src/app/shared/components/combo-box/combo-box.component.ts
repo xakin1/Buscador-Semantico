@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { iif } from 'rxjs';
 
 
@@ -23,12 +23,15 @@ export class ComboBoxComponent  {
   selectedValue: string;
   selectedCar: string;
   @Input('data') steps: Stept[];
+  @Input('id') id: string;
   @Output() changed = new EventEmitter<any>();
+
+
 
   selectedItem;
 
   onChange(step){
-    if( step != "") this.changed.emit(step.id)
+    if( step != "") this.changed.emit(step.id);
   }
 
 

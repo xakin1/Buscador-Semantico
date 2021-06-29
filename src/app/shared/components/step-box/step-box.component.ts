@@ -4,7 +4,9 @@ declare let LeaderLine: any;
 
 export interface LineConditions{
   true: any,
-  false: any
+  false: any,
+  indexFalse: number,
+  indexTrue: number;
 }
 
 export interface Step{

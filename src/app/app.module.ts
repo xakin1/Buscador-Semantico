@@ -14,6 +14,7 @@ import { StepConditionalTrueSelfComponent } from './trial-tree/step-conditional-
 import { StepConditionalFalseSelfComponent } from './trial-tree/step-conditional-false-self/step-conditional-false-self.component';
 import { SharedModule } from './shared/shared.module';
 import { TreeComponent } from './tree-of-steps/tree/tree.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { TreeComponent } from './tree-of-steps/tree/tree.component';
     StepConditionalComponent,
     StepConditionalTrueSelfComponent,
     StepConditionalFalseSelfComponent,
-    TreeComponent
+    TreeComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +32,8 @@ import { TreeComponent } from './tree-of-steps/tree/tree.component';
     BrowserAnimationsModule,
     SidebarModule,
     SharedModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [],
   entryComponents: [StepPlusComponent,StepConditionalComponent,StepConditionalFalseSelfComponent,StepConditionalTrueSelfComponent],

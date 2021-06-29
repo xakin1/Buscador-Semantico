@@ -5,14 +5,20 @@ import { TreeOfStepsRoutingModule } from './tree-of-steps-routing.module';
 import { StepsComponent } from './steps/steps.component';
 import { SharedModule } from '../shared/shared.module';
 import { TreeComponent } from './tree/tree.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [StepsComponent, TreeComponent],
   imports: [
-    CommonModule,
     TreeOfStepsRoutingModule,
-    SharedModule
+    CommonModule,
+    SharedModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    SharedModule,
+    ReactiveFormsModule,
   ]
 })
 export class TreeOfStepsModule { }

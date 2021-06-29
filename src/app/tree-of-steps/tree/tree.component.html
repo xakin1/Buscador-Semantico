@@ -11,16 +11,17 @@
     </div>
     <div>
       <h2>Condiciones</h2>
-      <div style="margin-bottom: 3rem" *ngFor = "let condition of step[column][row].conditions; let i = index">
-        <input id = "Condicion {{i}}" style="width: 100%" value ={{condition}} placeholder="Escribe aquí la condición">
+      <div style="margin-bottom: 3rem" *ngFor="let condition of step[column][row].conditions; let i = index">
+        <label  *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Inserte una condición </label>
+        <input [formControl]="name" id = "Condicion {{i}}" style="width: 100%" value ={{condition}} ngTrim=false type="text" placeholder="Escribe aquí la condición">
         <div style="margin-top: 1rem ;">
           <div class="flex-container">
             <app-true></app-true>
-            <app-combo-box  (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = steps></app-combo-box>
+            <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = steps></app-combo-box>
           </div>
           <div class="flex-container">
             <app-false></app-false>
-            <app-combo-box (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = steps></app-combo-box>
+            <app-combo-box [id]="'false ' + i" (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = steps></app-combo-box>
           </div>
         </div>
       </div>
@@ -39,11 +40,6 @@
         <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
         <app-info [info] = infoSynonym class = "info a"></app-info>
       </div>
-    </div>
-    <div>
-      <h2>Siguiente Paso</h2>
-      <app-combo-box (changed)="drawNextStep($event)" [data] = steps></app-combo-box><br>
-      <button style="margin-top: 1rem;" (click)="createNextStep('')" class="button" type="button">Nuevo Paso</button>
     </div>
     <div>
       <h2>Añadir final</h2>

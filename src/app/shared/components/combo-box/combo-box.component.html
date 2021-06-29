@@ -1,5 +1,5 @@
-<select [ngModel]="selectedItem"  (ngModelChange)="onChange($event)">
-  <option value="" selected></option>
+<select id="{{id}}" [ngModel]="selectedItem"  (ngModelChange)="onChange($event)">
+  <option value=""></option>
   <option [ngValue]="step" *ngFor="let step of steps">
     {{step.name}}
   </option>
