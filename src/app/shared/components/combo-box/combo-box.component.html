@@ -1,6 +1,7 @@
-<select>
-  <option value="" selected></option>
-  <option *ngFor="let data of data; let i = index">
-    {{data.title}}
+<select id="{{id}}" [ngModel]="selectedItem"  (ngModelChange)="onChange($event)">
+  <option value=""></option>
+  <option [ngValue]="step" *ngFor="let step of steps">
+    {{step.name}}
   </option>
+  <option value="-- Paso Nuevo --">-- Paso Nuevo --</option>
 </select>

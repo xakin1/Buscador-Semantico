@@ -1,0 +1,68 @@
+
+.button {
+  min-height: 1em;
+  border: black;
+  vertical-align: baseline;
+  background: rgb(236, 233, 233);
+  color: rgba(0,0,0,.6);
+  margin: 1rem;
+  padding: 15px 32px;
+  left: 4px;
+  position: inherit;
+  top:40px;
+}
+
+.open{
+  box-shadow: 0 0 10px #0f798f;
+}
+
+.button:hover{
+  box-shadow: 0 0 10px #0f798f;
+}
+
+.line-linkage-down {
+  width: 0px;
+  height: 50px;
+  border: 0.5px solid lightgrey;
+  position: relative;
+  top: -30px;
+  left:5.5rem;
+  z-index: -1000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 279px;
+  padding: 10px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+span {
+  color: #fff;
+  width: 38px;
+  display: flex;
+  font-size: 0.85rem;
+  background: #6e96e0;
+  font-weight: 500;
+  align-items: center;
+  border-radius: 0.3em;
+  justify-content: center;
+  cursor: inherit;
+  flex: 1 0 auto;
+  flex-direction: unset;
+
+}
+
+

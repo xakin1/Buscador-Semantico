@@ -10,11 +10,19 @@ import { InfoComponent } from './info/info.component';
 import { LabelsComponent } from './labels/labels.component';
 import { ComponentsRoutingModule } from './components-routing.module';
 import { ComboBoxComponent } from './combo-box/combo-box.component';
+import { EndComponent } from './end/end.component';
+import { FalseComponent } from './false/false.component';
+import { PlusComponent } from './plus/plus.component';
+import { TrueComponent } from './true/true.component';
+import { StepBoxComponent } from './step-box/step-box.component';
+import { SidebarModule } from 'ng-sidebar';
+import { StepBoxRightComponent } from './step-box-right/step-box-right.component';
+import { ColumnComponent } from './column/column.component';
 
 
 
 @NgModule({
-  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent],
+  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent],
   imports: [
     CommonModule,
     ComponentsRoutingModule,
@@ -30,10 +38,11 @@ import { ComboBoxComponent } from './combo-box/combo-box.component';
     MatSliderModule,
     MatAutocompleteModule,
     MatSelectModule,
+    SidebarModule,
     FormsModule,
     CommonModule
   ],
-  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,
+  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
@@ -47,8 +56,9 @@ import { ComboBoxComponent } from './combo-box/combo-box.component';
     MatAutocompleteModule,
     MatSelectModule,
     FormsModule,
+    SidebarModule,
     CommonModule],
 
-  entryComponents: [InfoComponent]
+  entryComponents: [EndComponent,PlusComponent, StepBoxComponent,StepBoxRightComponent, ColumnComponent]
 })
 export class ComponentsModule { }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleActiveRulesComponent } from './title-active-rules.component';
+import { EndComponent } from './end.component';
 
-describe('TitleActiveRulesComponent', () => {
-  let component: TitleActiveRulesComponent;
-  let fixture: ComponentFixture<TitleActiveRulesComponent>;
+describe('EndComponent', () => {
+  let component: EndComponent;
+  let fixture: ComponentFixture<EndComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TitleActiveRulesComponent ]
+      declarations: [ EndComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TitleActiveRulesComponent);
+    fixture = TestBed.createComponent(EndComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,64 @@
+<ng-sidebar-container style="height: 93.7vh;">
+  <ng-sidebar [style.width.px]="200" [opened]= open mode= "push" position="end">
+  <header>
+    <mat-icon class="header" (click) = "toggleSidebar()">clear</mat-icon>
+  </header>
+  <div  *ngIf="edit">
+    <div>
+      <h2>Configuracion</h2>
+      <h5>Titulo del step</h5>
+      <input id="Title" (change)="saveNameStep()" style="width: 100%;" placeholder="Escribe aquí el nombre del step">
+    </div>
+    <div>
+      <h2>Condiciones</h2>
+      <div style="margin-bottom: 3rem" *ngFor="let condition of step[column][row].conditions; let i = index">
+        <label  *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Inserte una condición </label>
+        <input [formControl]="name" id = "Condicion {{i}}" style="width: 100%" value ={{condition}} ngTrim=false type="text" placeholder="Escribe aquí la condición">
+        <div style="margin-top: 1rem ;">
+          <div class="flex-container">
+            <app-true></app-true>
+            <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = steps></app-combo-box>
+          </div>
+          <div class="flex-container">
+            <app-false></app-false>
+            <app-combo-box [id]="'false ' + i" (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = steps></app-combo-box>
+          </div>
+        </div>
+      </div>
+      <button (click)="newCondition()" class="button" type="button">Añadir Condición</button>
+    </div>
+    <div>
+      <h2>Palabras clave que definan el producto</h2>
+      <div class= "flex-container">
+        <!-- <app-labels (update)="update($event)" (removed)="remove($event)" (added)="lastIndex=$event" (added)="lastIndex=$event" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels> -->
+        <app-labels (removed)="remove($event)" (added)="addDd()" (update)="updateDd($event)" [list]="step[column][row].keywords" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
+        <app-info [info] = infoKeywords class = "info infokeywords"></app-info>
+      </div>
+      <div *ngIf="step[column][row].keywords[keywords.currentIndex] != undefined">
+        <i style="font-weight: bold;">Palabra clave seleccionada: </i> <i>{{keywords.labels[keywords.currentIndex].name}}</i>
+        <div class="row">
+            <app-dd #dd [value]="step[column][row].dd[keywords.currentIndex].join()" ></app-dd>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Lista de sinónimos</h2>
+      <div style="width: fit-content" class= "flex-container">
+        <app-labels #synonym  [list]="step[column][row].synonym" id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
+        <app-info [info] = infoSynonym class = "info a"></app-info>
+      </div>
+    </div>
+    <div>
+      <h2>Añadir final</h2>
+      <button style="margin-top: 1rem;" (click)="createEnd()" class="button" type="button">END</button>
+    </div>
+  </div>
+  <div *ngIf="!edit">
+    <app-step-box-right  (click)="createStep()"></app-step-box-right>
+  </div>
+
+  </ng-sidebar>
+      <ng-container ng-sidebar-content #viewContainer></ng-container>
+</ng-sidebar-container>
+
+

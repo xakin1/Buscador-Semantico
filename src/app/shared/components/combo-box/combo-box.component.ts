@@ -1,6 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { iif } from 'rxjs';
 
 
+
+interface Stept{
+  id: string
+  name: string,
+  haveNext: boolean,
+  synonym: any[],
+  keywords: any[],
+  dd: any[],
+  conditions: any[],
+  line: any[];
+}
 
 @Component({
   selector: 'app-combo-box',
@@ -10,6 +22,17 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ComboBoxComponent  {
   selectedValue: string;
   selectedCar: string;
-  @Input('data') data: string[];
+  @Input('data') steps: Stept[];
+  @Input('id') id: string;
+  @Output() changed = new EventEmitter<any>();
+
+
+
+  selectedItem;
+
+  onChange(step){
+    if( step != "") this.changed.emit(step.id);
+  }
+
 
 }

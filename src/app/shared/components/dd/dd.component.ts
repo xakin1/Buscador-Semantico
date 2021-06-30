@@ -8,18 +8,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 export class DdComponent implements OnInit {
 
   constructor() { }
-  @ViewChild('dd',{static: false}) dd : any;
-  @Input('value') valueOfDd: string;
+  @Input('value') valueOfDd;
   @Input('readOnly') readOnly: boolean = false
 
   ngOnInit() {
-  }
-
-  getText(){
-    return (<HTMLInputElement>document.getElementById("dd")).value;
-  }
-
-  setText(value: string){
-    (<HTMLInputElement>document.getElementById("dd")).value = value;
   }
 }

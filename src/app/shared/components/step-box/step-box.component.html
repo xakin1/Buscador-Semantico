@@ -1,0 +1,11 @@
+<div class="row">
+  <div *ngFor="let steps of columns; let i = index" class="column" style=" width: 270px;">
+    <div *ngFor="let step of steps; let j = index;" style="padding-bottom: 1rem" class="flex-container">
+      <button id ={{step.id}} [ngClass]= "(open && this.selectedItem == step.id) ? 'open' : 'button'" (click)="editStep(j,i,step.id)" class="button" type="button">{{step.name}}
+        <div id = "self {{step.id}}" style="align-self: center;position: relative;top: 15px;left: -16px;">
+        </div>
+      </button>
+      <app-end style="position: relative;top: 29px;left: 26px;height: 20px;padding-left: 5px;" id = "end {{step.id}}" *ngIf="step.end"></app-end>
+    </div>
+  </div>
+</div>
