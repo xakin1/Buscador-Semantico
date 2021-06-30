@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { StepBoxComponent } from 'src/app/shared/components/step-box/step-box.component';
 import 'leader-line';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
+import { DdComponent } from 'src/app/shared/components/dd/dd.component';
 declare let LeaderLine: any;
 
 @Component({
@@ -40,9 +42,14 @@ export class TreeComponent implements OnInit {
   lastIndexFalse: number
 
   @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
+  @ViewChild("keywords", { read: ViewContainerRef, static : false }) keyword: LabelsComponent
+  @ViewChild("synonym", { read: ViewContainerRef, static : false }) synonym: LabelsComponent
+  @ViewChild("dd", { read: ViewContainerRef, static : false }) dd: DdComponent
+
   name = new FormControl('', [Validators.required]);
   formGroup : FormGroup;
   isValid   : boolean = false;
+  display   : boolean = false;
 
   constructor(private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder) { }
 
@@ -151,7 +158,35 @@ export class TreeComponent implements OnInit {
   toggleSidebar(){
     this.open = false;
     this.tree.close();
-    this.saveNameStep();
+    this.saveStep();
+  }
+
+  loadStep(){
+    setTimeout(()=>{
+      let index = 0
+
+      this.step[this.column][this.row].conditions.forEach(element => {
+        (<HTMLInputElement>document.getElementById("Condicion " + index)).value = element;
+        index++;
+      })
+    });
+
+
+    setTimeout(()=>{
+      let index = 0
+
+      this.step[this.column][this.row].lineConditions.forEach(element => {
+        let selectFalse = document.getElementById("false " + index) as HTMLSelectElement;
+        let selectTrue  = document.getElementById("true " + index) as HTMLSelectElement;
+
+        if(selectFalse != undefined) selectFalse.selectedIndex  = element.indexFalse
+        if(selectTrue  != undefined) selectTrue.selectedIndex   = element.indexTrue
+        index++;
+      });
+
+      if(<HTMLInputElement>document.getElementById("Title") != undefined)
+        (<HTMLInputElement>document.getElementById("Title")).value = this.step[this.column][this.row].name
+    })
   }
 
   createEnd(){
@@ -171,33 +206,7 @@ export class TreeComponent implements OnInit {
       this.column         = $event.column;
       childComponent.open = true;
 
-
-
-      setTimeout(()=>{
-        let index = 0
-
-        this.step[this.column][this.row].conditions.forEach(element => {
-          (<HTMLInputElement>document.getElementById("Condicion " + index)).value = element;
-          index++;
-        })
-      });
-
-
-      setTimeout(()=>{
-        let index = 0
-
-        this.step[this.column][this.row].lineConditions.forEach(element => {
-          let selectFalse = document.getElementById("false " + index) as HTMLSelectElement;
-          let selectTrue  = document.getElementById("true " + index) as HTMLSelectElement;
-
-          if(selectFalse  != undefined) selectFalse.selectedIndex   = element.indexFalse
-          if(selectTrue   != undefined) selectTrue.selectedIndex    = element.indexTrue
-          index++;
-        });
-
-        if(<HTMLInputElement>document.getElementById("Title") != undefined)
-          (<HTMLInputElement>document.getElementById("Title")).value = this.step[this.column][this.row].name
-      })
+      this.loadStep()
     });
 
     childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false,
@@ -256,7 +265,7 @@ export class TreeComponent implements OnInit {
     let id = ( this.step.length -1) +" "+this.step[this.column+1].length
     let name = 'Title of Step'
 
-    this.step[this.column+1].push({id: id, name: name , haveNext: false, conditions: [],dd: [],keywords: [],
+    this.step[this.column+1].push({id: id, name: name , haveNext: false, conditions: [], dd: [], keywords: [],
       synonym: [], lineConditions: [{true: undefined, false: undefined,indexFalse: undefined, indexTrue: undefined}],
       lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false})
 
@@ -269,6 +278,33 @@ export class TreeComponent implements OnInit {
     if(this.step[this.column+1] == undefined) this.createColumn()
     else this.createStepInColumn()
   }
+
+  updateDd(event){
+    if ((<HTMLInputElement>document.getElementById("dd")) != undefined){
+      if((<HTMLInputElement>document.getElementById("dd")).value != undefined)
+        this.step[this.column][this.row].dd[event.oldIndex] = ((<HTMLInputElement>document.getElementById("dd")).value.split(','));
+        (<HTMLInputElement>document.getElementById("dd")).value =this.step[this.column][this.row].dd[event.newIndex].join()
+    }
+  }
+
+  remove(index){
+    if (index >= 0) {
+      this.step[this.column][this.row].dd.splice(index, 1);
+      (<HTMLInputElement>document.getElementById("dd")).value =this.step[this.column][this.row].dd[index].join()
+    }
+  }
+
+  addDd(){
+    this.step[this.column][this.row].dd.push([])
+  }
+
+  saveStep() {
+      this.step[this.column][this.row].keyword = this.keyword != undefined ? this.keyword.labels : [];
+      this.step[this.column][this.row].synonym = this.synonym != undefined ? this.synonym.labels : [];
+
+      this.saveNameStep()
+  }
+
 }
 
 function drawStepLine(startElement, endElement){
@@ -305,3 +341,5 @@ function changeSelection(index,condition,i){
   var select = document.getElementById(condition+" "+i) as HTMLSelectElement;
   select.selectedIndex = index
 }
+
+

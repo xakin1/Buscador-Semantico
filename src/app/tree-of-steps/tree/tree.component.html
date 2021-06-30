@@ -30,14 +30,21 @@
     <div>
       <h2>Palabras clave que definan el producto</h2>
       <div class= "flex-container">
-        <app-labels (added)="lastIndex=$event" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
-        <app-info   [info] = infoKeywords class = "info infokeywords"></app-info>
+        <!-- <app-labels (update)="update($event)" (removed)="remove($event)" (added)="lastIndex=$event" (added)="lastIndex=$event" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels> -->
+        <app-labels (removed)="remove($event)" (added)="addDd()" (update)="updateDd($event)" [list]="step[column][row].keywords" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
+        <app-info [info] = infoKeywords class = "info infokeywords"></app-info>
+      </div>
+      <div *ngIf="step[column][row].keywords[keywords.currentIndex] != undefined">
+        <i style="font-weight: bold;">Palabra clave seleccionada: </i> <i>{{keywords.labels[keywords.currentIndex].name}}</i>
+        <div class="row">
+            <app-dd #dd [value]="step[column][row].dd[keywords.currentIndex].join()" ></app-dd>
+        </div>
       </div>
     </div>
     <div>
       <h2>Lista de sinónimos</h2>
       <div style="width: fit-content" class= "flex-container">
-        <app-labels id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
+        <app-labels #synonym  [list]="step[column][row].synonym" id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
         <app-info [info] = infoSynonym class = "info a"></app-info>
       </div>
     </div>

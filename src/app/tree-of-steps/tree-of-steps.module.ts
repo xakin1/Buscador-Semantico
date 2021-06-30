@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [StepsComponent, TreeComponent],
+  declarations: [StepsComponent ],
   imports: [
     TreeOfStepsRoutingModule,
     CommonModule,

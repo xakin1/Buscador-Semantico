@@ -19,10 +19,10 @@ export class LabelsComponent{
   @Input('placeholder') placeholder: string = "New label...";
   @Input('width') width: number= 50;
   @Input('textArea') textArea: boolean = false;
-  @Input('list') labels: Label[] = [];
+  @Input('list') public labels: Label[] = [];
   @Input('editable') editable: boolean = true;
   @Input('removable') removable: boolean = true;
-  @Output() update = new EventEmitter<number>();
+  @Output() update = new EventEmitter<any>();
   @Output() added = new EventEmitter<number>();
   @Output() removed = new EventEmitter<number>();
 
@@ -32,7 +32,8 @@ export class LabelsComponent{
   selectable = true;
   addOnBlur = true;
   display = false;
-  currentIndex:number = null;
+  currentIndex:number = undefined;
+
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   add(event: MatChipInputEvent): void {
@@ -62,9 +63,9 @@ export class LabelsComponent{
   }
 
   print(index: number){
+    this.update.emit({oldIndex: this.currentIndex, newIndex: index});
     this.currentIndex = index;
     this.display = true;
-    this.update.emit(this.currentIndex);
   }
 
 
