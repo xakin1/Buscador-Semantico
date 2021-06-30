@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TreeComponent } from './tree-of-steps/tree/tree.component';
+import { TreeComponent } from './configuration/tree/tree.component';
+
 
 
 
