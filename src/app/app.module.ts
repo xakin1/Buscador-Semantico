@@ -10,12 +10,11 @@ import { SharedModule } from './shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfigurationSearchBoxHomeComponent } from './configuration/configuration-search-box-home/configuration-search-box-home.component';
 import { TreeComponent } from './configuration/tree/tree.component';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConfigurationSearchBoxHomeComponent,
-    TreeComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +23,7 @@ import { TreeComponent } from './configuration/tree/tree.component';
     SidebarModule,
     SharedModule,
     MatIconModule,
+    ConfigurationModule,
     ReactiveFormsModule
   ],
   providers: [],
