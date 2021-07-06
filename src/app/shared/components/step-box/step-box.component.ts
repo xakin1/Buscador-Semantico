@@ -3,24 +3,36 @@ import 'leader-line';
 declare let LeaderLine: any;
 
 export interface LineConditions{
-  true: any,
-  false: any,
-  indexFalse: number,
-  indexTrue: number;
+  true                : any,
+  false               : any,
+  indexFalse          : number,
+  indexTrue           : number,
+  columnNextStepTrue  : number,
+  rowNextStepTrue     : number,
+  columnNextStepFalse : number,
+  rowNextStepFalse    : number;
+}
+
+export interface NextStep{
+  lineNextStep  : any,
+  idIneBackStepC: any,
+  idIneBackStepR: any,
+  nextStepColumn: number,
+  nextStepRow   : number;
 }
 
 export interface Step{
-  id: string
-  name: string,
-  haveNext: boolean,
-  synonym: any[],
-  keywords: any[],
-  dd: any[],
-  conditions: any[],
+  id            : string
+  name          : string,
+  haveNext      : boolean,
+  end           : boolean,
+  synonym       : any[],
+  keywords      : any[],
+  dd            : any[],
+  conditions    : any[],
   lineConditions: LineConditions[],
-  lineNextStep: any,
-  unique_key : number;
-  end: boolean;
+  nextStep      : NextStep,
+  unique_key    : number;
 }
 
 @Component({
@@ -50,7 +62,6 @@ export class StepBoxComponent implements OnInit {
   public close(){
     this.open = false;
   }
-
   public end(column,row,startElement){
     this.columns[column][row].end = true;
 
@@ -58,7 +69,7 @@ export class StepBoxComponent implements OnInit {
       let endElement = (<HTMLInputElement>document.getElementById("end "+ this.columns[column][row].id))
       console.log("end "+ this.columns[column][row].id)
       let line = drawLine(startElement,endElement);
-      this.columns[column][row].lineNextStep = line;
+      this.columns[column][row].nextStep.lineNextStep = line;
     })
   }
 }

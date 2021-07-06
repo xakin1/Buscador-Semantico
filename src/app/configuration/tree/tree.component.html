@@ -49,8 +49,16 @@
       </div>
     </div>
     <div>
+      <h2>Borrar paso</h2>
+      <button mat-raised-button color="warn" (click)="removeStep()" class="button" type="button">Borrar</button>
+    </div>
+    <div>
       <h2>Añadir final</h2>
-      <button style="margin-top: 1rem;" (click)="createEnd()" class="button" type="button">END</button>
+      <button style="margin-top: 1rem;"  (click)="createEnd()" class="button" type="button">END</button>
+    </div>
+    <div>
+      <h2>Siguiente Paso</h2>
+      <button style="margin-top: 1rem;"  (click)="createNextStepWithOutConditions()" class="button" type="button">Paso siguiente</button>
     </div>
   </div>
   <div *ngIf="!edit">
