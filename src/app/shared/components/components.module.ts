@@ -19,6 +19,39 @@ import { SidebarModule } from 'ng-sidebar';
 import { StepBoxRightComponent } from './step-box-right/step-box-right.component';
 import { ColumnComponent } from './column/column.component';
 
+export interface LineConditions{
+  true                  : any,
+  false                 : any,
+  indexFalse            : number,
+  indexTrue             : number,
+  columnNextStepTrue    : number,
+  rowNextStepTrue       : number,
+  columnNextStepFalse   : number,
+  rowNextStepFalse      : number,
+}
+
+export interface NextStep{
+  nextStepColumn  : number
+  nextStepRow     : number
+}
+
+export interface Step{
+  id            : string
+  name          : string,
+  haveNext      : boolean,
+  end           : boolean,
+  lineNextStep  : any,
+  synonym       : any[],
+  keywords      : any[],
+  dd            : any[],
+  conditions    : any[],
+  lineConditions: LineConditions[],
+  nextStep      : NextStep[],
+  unique_key    : number,
+  backStepColumn: number,
+  backStepRow   : number,
+  conditionBack : number;
+}
 
 
 @NgModule({

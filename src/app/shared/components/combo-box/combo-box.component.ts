@@ -1,18 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { iif } from 'rxjs';
+import { Step } from '../../shared.module';
 
-
-
-interface Stept{
-  id: string
-  name: string,
-  haveNext: boolean,
-  synonym: any[],
-  keywords: any[],
-  dd: any[],
-  conditions: any[],
-  line: any[];
-}
 
 @Component({
   selector: 'app-combo-box',
@@ -22,7 +10,7 @@ interface Stept{
 export class ComboBoxComponent  {
   selectedValue: string;
   selectedCar: string;
-  @Input('data') steps: Stept[];
+  @Input('data') steps: Step[];
   @Input('id') id: string;
   @Output() changed = new EventEmitter<any>();
 

@@ -17,11 +17,11 @@
         <div style="margin-top: 1rem ;">
           <div class="flex-container">
             <app-true></app-true>
-            <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = steps></app-combo-box>
+            <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = step.flat()></app-combo-box>
           </div>
           <div class="flex-container">
             <app-false></app-false>
-            <app-combo-box [id]="'false ' + i" (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = steps></app-combo-box>
+            <app-combo-box [id]="'false ' + i" (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = step.flat()></app-combo-box>
           </div>
         </div>
       </div>
@@ -30,7 +30,6 @@
     <div>
       <h2>Palabras clave que definan el producto</h2>
       <div class= "flex-container">
-        <!-- <app-labels (update)="update($event)" (removed)="remove($event)" (added)="lastIndex=$event" (added)="lastIndex=$event" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels> -->
         <app-labels (removed)="remove($event)" (added)="addDd()" (update)="updateDd($event)" [list]="step[column][row].keywords" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
         <app-info [info] = infoKeywords class = "info infokeywords"></app-info>
       </div>
@@ -44,7 +43,7 @@
     <div>
       <h2>Lista de sinónimos</h2>
       <div style="width: fit-content" class= "flex-container">
-        <app-labels #synonym  [list]="step[column][row].synonym" id="synonym" [title]=titleSynonym [placeholder]=placeholderSynonym [width] = widthSynonym ></app-labels>
+        <app-labels #synonym  [list] = "step[column][row].synonym" id = "synonym" [title] = titleSynonym [placeholder] = placeholderSynonym [width] = widthSynonym ></app-labels>
         <app-info [info] = infoSynonym class = "info a"></app-info>
       </div>
     </div>

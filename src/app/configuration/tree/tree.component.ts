@@ -72,26 +72,22 @@ export class TreeComponent implements OnInit {
   saveNameStep() {
     if((<HTMLInputElement>document.getElementById("Title")) != undefined){
         let name = (<HTMLInputElement>document.getElementById("Title")).value;
+
+        name = name == undefined ? '' : name
         this.step[this.column][this.row].name = name;
-        this.steps[this.step[this.column][this.row].unique_key].name = name;
     }
   }
 
-  //TODO: SOLO PUEDES CREAR UNO PONER UN AVISO COMO CUANDO HACES CON LAS CONDICIONES
   createNextStepWithOutConditions(){
-    if(this.step[this.column][this.row].nextStep.nextStepColumn == undefined){
-      this.createNextStep()
+    if(!this.step[this.column][this.row].haveNext){
+      this.createNextStep(undefined)
 
       setTimeout(()=>{
         let startElement  = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
         let endElement    = (<HTMLInputElement>document.getElementById(this.lastId));
 
         let line = drawStepLine(startElement, endElement)
-        this.step[this.column][this.row].nextStep.lineNextStep         = line;
-        this.step[this.newColumn][this.newRow].nextStep.idIneBackStepC = this.column;
-        this.step[this.newColumn][this.newRow].nextStep.idIneBackStepR = this.row;
-        this.step[this.column][this.row].nextStep.nextStepColumn       = this.newColumn;
-        this.step[this.column][this.row].nextStep.nextStepRow          = this.newRow;
+        this.step[this.column][this.row].lineNextStep = line;
       });
     }
   }
@@ -101,27 +97,29 @@ export class TreeComponent implements OnInit {
     if(!this.isValid){
       this.condition = condition;
 
+      //Vemos si ya hemos creado la condición o si solo queremos modificarla
       if((<HTMLInputElement>document.getElementById("Condicion " + i)) != undefined){
         let label = (<HTMLInputElement>document.getElementById("Condicion " + i)).value;
         this.lastId = id;
         var select;
         var lineCondition
 
-        if(condition){
-          lineCondition = this.step[this.column][this.row].lineConditions[i].true
-          select = document.getElementById("true " + i) as HTMLSelectElement;
-        }
-        else{
-          lineCondition = this.step[this.column][this.row].lineConditions[i].false
-          select = document.getElementById("false " + i) as HTMLSelectElement;
-        }
+        //Miramos si es en la rama true o false
+
+        select = condition ? document.getElementById("true " + i) as HTMLSelectElement
+                           : document.getElementById("false " + i) as HTMLSelectElement;
 
         var selectedIndex = select.selectedIndex
+        console.log()
 
         if(lineCondition != undefined ) lineCondition.remove()
           this.step[this.column][this.row].end = false;
 
-          if(this.step[this.column][this.row].lineNextStep != undefined) this.step[this.column][this.row].lineNextStep.remove()
+          //si tenia un paso siguiente lo borramos y ponemos las condiciones
+          if(this.step[this.column][this.row].lineNextStep != undefined){
+            this.step[this.column][this.row].lineNextStep.remove()
+            this.step[this.column][this.row].lineNextStep = undefined
+          }
 
           let endElement      = (<HTMLInputElement>document.getElementById(id))
           let selectFalse     = document.getElementById("false " + i) as HTMLSelectElement;
@@ -129,7 +127,7 @@ export class TreeComponent implements OnInit {
           this.lastIndexFalse = selectFalse.selectedIndex
           this.lastIndexTrue  = selectTrue.selectedIndex
 
-          if (endElement == undefined) this.createNextStep();
+          if (endElement == undefined) this.createNextStep(i);
 
           setTimeout(()=>{
             let startElement  = (<HTMLInputElement>document.getElementById(this.column +" "+this.row));
@@ -139,20 +137,20 @@ export class TreeComponent implements OnInit {
 
             let line = drawConditionalLine(startElement,endElement,label,this.condition, selectedIndex );
 
+            //si hay una condicion simplemente la modificamos y si no la creamos
             if(this.step[this.column][this.row].lineConditions[i] == undefined)
               this.condition
                 ? this.step[this.column][this.row].lineConditions.push({true: line, false: undefined, indexFalse: undefined, indexTrue: this.lastIndexTrue,
                     columnNextStepFalse: undefined, rowNextStepFalse: undefined, columnNextStepTrue: this.newColumn, rowNextStepTrue: this.newRow})
 
-                : this.step[this.column][this.row].lineConditions.push({true: undefined, false: false, indexFalse: this.lastIndexFalse, indexTrue: undefined,
+                : this.step[this.column][this.row].lineConditions.push({true: undefined, false: line, indexFalse: this.lastIndexFalse, indexTrue: undefined,
                     columnNextStepFalse: this.newColumn, rowNextStepFalse: this.newRow, columnNextStepTrue: undefined, rowNextStepTrue: undefined});
             else
               this.condition
-                ? (this.step[this.column][this.row].lineConditions[i].true  = line, this.step[this.column][this.row].lineConditions[i].indexTrue  = this.lastIndexTrue,
-                    this.step[this.column][this.row].lineConditions[i].columnNextStepTrue  = this.newColumn, this.step[this.column][this.row].lineConditions[i].rowNextStepTrue  = this.newRow)
+                ? (this.step[this.column][this.row].lineConditions[i].true != undefined ?  (this.step[this.column][this.row].lineConditions[i].true.remove() ,this.step[this.column][this.row].lineConditions[i].true = line ): this.step[this.column][this.row].lineConditions[i].true = line,/*tendriamos que borrar el otro step pero eso ya luego*/
+                   this.step[this.column][this.row].lineConditions[i].indexTrue = this.lastIndexTrue)
 
-                : (this.step[this.column][this.row].lineConditions[i].false = line, this.step[this.column][this.row].lineConditions[i].indexFalse = this.lastIndexFalse,
-                    this.step[this.column][this.row].lineConditions[i].columnNextStepFalse  = this.newColumn, this.step[this.column][this.row].lineConditions[i].rowNextStepFalse  = this.newRow)
+                :  (this.step[this.column][this.row].lineConditions[i].false != undefined ?  (this.step[this.column][this.row].lineConditions[i].false.remove() ,this.step[this.column][this.row].lineConditions[i].false = line ): this.step[this.column][this.row].lineConditions[i].false = line, this.step[this.column][this.row].lineConditions[i].indexFalse = this.lastIndexFalse)
 
             changeSelection(this.lastIndexFalse, false,i)
             changeSelection(this.lastIndexTrue, true, i )
@@ -171,18 +169,11 @@ export class TreeComponent implements OnInit {
   }
 
   newCondition(){
-    if(this.step[this.column][this.row].conditions.length == 0){
-      this.step[this.column][this.row].conditions.push(undefined);
-      this.step[this.column][this.row].lineConditions.push({true: undefined, false: undefined, indexFalse: undefined, indexTrue: undefined, columnNextStepFalse: undefined,
-        rowNextStepFalse: undefined, columnNextStepTrue: undefined, rowNextStepTrue: undefined});
-    }
+    if(this.step[this.column][this.row].conditions.length == 0) this.step[this.column][this.row].conditions.push(undefined);
     else{
       this.isValid = this.name.invalid;
-      if(!this.isValid){
+      if(!this.isValid && this.step[this.column][this.row].conditions[this.step[this.column][this.row].conditions.length-1] != undefined)
         this.step[this.column][this.row].conditions.push(undefined);
-        this.step[this.column][this.row].lineConditions.push({true: undefined, false: undefined, indexFalse: undefined, indexTrue: undefined, columnNextStepFalse: undefined,
-          rowNextStepFalse: undefined, columnNextStepTrue: undefined, rowNextStepTrue: undefined});
-      }
     }
   }
 
@@ -240,11 +231,8 @@ export class TreeComponent implements OnInit {
     });
 
     childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step", haveNext: false,
-      conditions: [],dd: [],keywords: [], synonym: [], lineConditions: [{true: undefined, false: undefined,
-      indexFalse: undefined, indexTrue: undefined, columnNextStepFalse: undefined, rowNextStepFalse: undefined, columnNextStepTrue: undefined, rowNextStepTrue: undefined}],
-      nextStep: {lineNextStep: undefined, nextStepColumn : undefined, nextStepRow : undefined, idIneBackStepC: undefined, idIneBackStepR: undefined}, unique_key: ++this.child_unique_key, end: false}])
-
-    this.steps.push({id: this.column+" "+this.row , name: "Title of Step"});
+      conditions: [],dd: [],keywords: [], synonym: [], lineConditions: [],
+      lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false, backStepColumn: undefined, backStepRow: undefined, nextStep: [], conditionBack: undefined}])
 
     this.step = childComponent.columns;
     this.tree = childComponent;
@@ -276,7 +264,7 @@ export class TreeComponent implements OnInit {
     this.step[this.column][this.row].lineConditions[i].setOptions({endLabel: label})
   }
 
-  createColumn(){
+  createColumn(i){
     let id = this.step.length +" 0";
     this.newColumn = this.step.length;
     this.newRow = 0;
@@ -285,34 +273,32 @@ export class TreeComponent implements OnInit {
     this.step[this.column][this.row].haveNext = true
 
     this.step.push([{id: id , name: name, haveNext: false, conditions: [],dd: [],keywords: [],
-      synonym: [], lineConditions: [{true: undefined, false: undefined,
-        indexFalse: undefined, indexTrue: undefined, columnNextStepFalse: undefined, rowNextStepFalse: undefined, columnNextStepTrue: undefined, rowNextStepTrue: undefined}],
-        nextStep: {lineNextStep: undefined, idIneBackStepC: undefined, idIneBackStepR: undefined, nextStepColumn : undefined, nextStepRow : undefined}, unique_key: ++this.child_unique_key, end: false}]);
-
-    this.steps.push({id: id, name:name })
+      synonym: [], lineConditions: [],
+        lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false, backStepColumn: this.column, backStepRow: this.row,  nextStep:  [], conditionBack: i}]);
 
     this.lastId = id;
   }
 
-  createStepInColumn() {
+  createStepInColumn(i) {
     let id          = (this.step.length -1) + " " + this.step[this.column+1].length
     let name        = 'Title of Step'
     this.newColumn  = this.step.length -1;
     this.newRow     = this.step[this.column+1].length
 
-    this.step[this.column+1].push({id: id, name: name , haveNext: false, conditions: [], dd: [], keywords: [],
-      synonym: [], lineConditions: [{true: undefined, false: undefined,
-      indexFalse: undefined, indexTrue: undefined, columnNextStepFalse: undefined, rowNextStepFalse: undefined, columnNextStepTrue: undefined, rowNextStepTrue: undefined}],
-      nextStep: {lineNextStep: undefined, idIneBackStepC: undefined, idIneBackStepR: undefined, nextStepColumn : undefined, nextStepRow : undefined}, unique_key: ++this.child_unique_key, end: false})
+    this.step[this.column][this.row].haveNext = true
 
-    this.steps.push({id: id, name: name})
+    this.step[this.column+1].push({id: id, name: name , haveNext: false, conditions: [], dd: [], keywords: [],
+      synonym: [], lineConditions: [],
+      lineNextStep: undefined, unique_key: ++this.child_unique_key, end: false, backStepColumn: this.column, backStepRow: this.row,  nextStep:  [], conditionBack: i});
 
     this.lastId = id;
   }
 
-  createNextStep(){
-    if(this.step[this.column+1] == undefined) this.createColumn()
-    else this.createStepInColumn()
+  createNextStep(i){
+    if(this.step[this.column+1] == undefined) this.createColumn(i)
+    else this.createStepInColumn(i)
+
+    this.step[this.column][this.row].nextStep.push({nextStepColumn: this.newColumn, nextStepRow: this.newRow})
   }
 
   updateDd(event){
@@ -342,36 +328,71 @@ export class TreeComponent implements OnInit {
   }
 
   removeNextStep(column, row){
-    let rowb = this.step[column][row].nextStep.idIneBackStepR;
-    let columnb = this.step[column][row].nextStep.idIneBackStepC;
+    let rowb = this.step[column][row].backStepRow;
+    let columnb = this.step[column][row].backStepColumn;
 
     if( rowb != undefined && columnb != undefined){
-      if(this.step[columnb][rowb].nextStep.lineNextStep != undefined)
-        this.step[columnb][rowb].nextStep.lineNextStep.remove();
-      this.step[columnb][rowb].nextStep.lineNextStep = undefined
-      this.step[columnb][rowb].nextStep.lineNextStep = undefined
-      this.step[columnb][rowb].nextStep.nextStepColumn = undefined
-      this.step[columnb][rowb].nextStep.nextStepRow = undefined
+      if(this.step[columnb][rowb].lineNextStep != undefined){
+        this.step[columnb][rowb].lineNextStep.remove();
+        this.step[columnb][rowb].lineNextStep = undefined
+      }
     }
 
-    if(this.step[column][row].nextStep.nextStepColumn != undefined)
-      this.removeNextStep(this.step[column][row].nextStep.nextStepColumn, this.step[column][row].nextStep.nextStepRow)
+    if(this.step[column][row].haveNext == true)
+      this.step[column][row].nextStep.forEach(element => {
+        this.removeNextStep(element.nextStepColumn, element.nextStepRow)
+        element.nextStepColumn = undefined;
+        element.nextStepRow = undefined
+      });
+
+    //TODO REVISAR ESTO A LO MEJOR HAY ALGUN CASO EN EL QUE NO SEA CIERTO
+    if(rowb != undefined && columnb != undefined) this.step[columnb][rowb].haveNext = false
+    this.step[column].splice(row,1);
+    if(this.step[column] == []) this.step.splice(column, 1)
+  }
+
+  removeNextConditionalStep(column, row){
+    let rowb = this.step[column][row].backStepRow;
+    let columnb = this.step[column][row].backStepColumn;
+    let conditionBack = this.step[column][row].conditionBack;
+
+      if(this.step[columnb][rowb].lineConditions[conditionBack].true != undefined){
+        this.step[columnb][rowb].lineConditions[conditionBack].true.remove();
+        this.step[columnb][rowb].lineConditions[conditionBack].true = undefined
+      }
+      if(this.step[columnb][rowb].lineConditions[conditionBack].false != undefined){
+        this.step[columnb][rowb].lineConditions[conditionBack].false.remove();
+        this.step[columnb][rowb].lineConditions[conditionBack].false = undefined
+      };
+
+      this.step[columnb][rowb].conditions.splice(conditionBack,1);
+
+    if(this.step[column][row].haveNext == true)
+      this.step[column][row].lineConditions.forEach(element => {
+        if(element.rowNextStepTrue != undefined && element.columnNextStepTrue != undefined)
+          this.removeNextConditionalStep(element.columnNextStepTrue,element.rowNextStepTrue)
+
+        if(element.rowNextStepFalse != undefined && element.columnNextStepFalse != undefined)
+          this.removeNextConditionalStep(element.columnNextStepFalse,element.rowNextStepFalse)
+        element.nextStepColumn = undefined;
+        element.nextStepRow = undefined
+      });
 
     this.step[column].splice(row,1);
+    if(this.step[column].length == 0)
+      this.step.splice(column, 1)
   }
 
   removeStep(){
     this.edit = false;
-    this.step[this.column][this.row].lineConditions.forEach(element => {
-      if(element.true != undefined)
-        element.true.remove();
-      if(element.false != undefined)
-        element.false.remove();
-    });
+    try{
+      this.removeNextConditionalStep(this.column, this.row)
 
-    this.removeNextStep(this.column, this.row)
-
-    this.step[this.column].splice(this.row,1);
+      this.removeNextStep(this.column, this.row)
+    }
+    catch(e){
+      console.log(e)
+    }
   }
 }
 

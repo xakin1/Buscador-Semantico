@@ -1,39 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import 'leader-line';
+import { Step } from '../../shared.module';
 declare let LeaderLine: any;
 
-export interface LineConditions{
-  true                : any,
-  false               : any,
-  indexFalse          : number,
-  indexTrue           : number,
-  columnNextStepTrue  : number,
-  rowNextStepTrue     : number,
-  columnNextStepFalse : number,
-  rowNextStepFalse    : number;
-}
-
-export interface NextStep{
-  lineNextStep  : any,
-  idIneBackStepC: any,
-  idIneBackStepR: any,
-  nextStepColumn: number,
-  nextStepRow   : number;
-}
-
-export interface Step{
-  id            : string
-  name          : string,
-  haveNext      : boolean,
-  end           : boolean,
-  synonym       : any[],
-  keywords      : any[],
-  dd            : any[],
-  conditions    : any[],
-  lineConditions: LineConditions[],
-  nextStep      : NextStep,
-  unique_key    : number;
-}
 
 @Component({
   selector: 'app-step-box',
@@ -69,7 +38,7 @@ export class StepBoxComponent implements OnInit {
       let endElement = (<HTMLInputElement>document.getElementById("end "+ this.columns[column][row].id))
       console.log("end "+ this.columns[column][row].id)
       let line = drawLine(startElement,endElement);
-      this.columns[column][row].nextStep.lineNextStep = line;
+      this.columns[column][row].lineNextStep = line;
     })
   }
 }
