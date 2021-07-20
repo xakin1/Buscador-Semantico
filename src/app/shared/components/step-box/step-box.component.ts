@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import 'leader-line';
-import { Step } from '../../shared.module';
+import { Step } from '../components.module';
 declare let LeaderLine: any;
 
 
@@ -36,9 +36,8 @@ export class StepBoxComponent implements OnInit {
 
     setTimeout(()=>{
       let endElement = (<HTMLInputElement>document.getElementById("end "+ this.columns[column][row].id))
-      console.log("end "+ this.columns[column][row].id)
       let line = drawLine(startElement,endElement);
-      this.columns[column][row].lineNextStep = line;
+      this.columns[column][row].nextStep.push({column: undefined, row: undefined,  line: line});
     })
   }
 }

@@ -12,50 +12,48 @@ import { ComponentsRoutingModule } from './components-routing.module';
 import { ComboBoxComponent } from './combo-box/combo-box.component';
 import { EndComponent } from './end/end.component';
 import { FalseComponent } from './false/false.component';
-import { PlusComponent } from './plus/plus.component';
 import { TrueComponent } from './true/true.component';
 import { StepBoxComponent } from './step-box/step-box.component';
 import { SidebarModule } from 'ng-sidebar';
 import { StepBoxRightComponent } from './step-box-right/step-box-right.component';
 import { ColumnComponent } from './column/column.component';
+import { DefaultComponent } from './default/default.component';
 
-export interface LineConditions{
-  true                  : any,
-  false                 : any,
-  indexFalse            : number,
-  indexTrue             : number,
-  columnNextStepTrue    : number,
-  rowNextStepTrue       : number,
-  columnNextStepFalse   : number,
-  rowNextStepFalse      : number,
-}
 
 export interface NextStep{
-  nextStepColumn  : number
-  nextStepRow     : number
+  column  : number,
+  row     : number,
+  line    : any;
+}
+
+export interface BackStep{
+  column    : number,
+  row       : number,
+  condition : number;
+}
+
+export interface ConditionIndex{
+  true    : number,
+  false   : number;
 }
 
 export interface Step{
   id            : string
   name          : string,
-  haveNext      : boolean,
   end           : boolean,
-  lineNextStep  : any,
+  deleted       : boolean,
   synonym       : any[],
   keywords      : any[],
   dd            : any[],
   conditions    : any[],
-  lineConditions: LineConditions[],
   nextStep      : NextStep[],
-  unique_key    : number,
-  backStepColumn: number,
-  backStepRow   : number,
-  conditionBack : number;
+  backStep      : BackStep[],
+  conditionIndex: ConditionIndex[];
 }
 
 
 @NgModule({
-  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent],
+  declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent, FalseComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent, DefaultComponent],
   imports: [
     CommonModule,
     ComponentsRoutingModule,
@@ -75,7 +73,7 @@ export interface Step{
     FormsModule,
     CommonModule
   ],
-  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, PlusComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent,
+  exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent, DefaultComponent,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
@@ -92,6 +90,6 @@ export interface Step{
     SidebarModule,
     CommonModule],
 
-  entryComponents: [EndComponent,PlusComponent, StepBoxComponent,StepBoxRightComponent, ColumnComponent]
+  entryComponents: [EndComponent, StepBoxComponent,StepBoxRightComponent, ColumnComponent]
 })
 export class ComponentsModule { }
