@@ -1,4 +1,4 @@
-<select id="{{id}}" [ngModel]="selectedItem"  (ngModelChange)="onChange(selectedItem, $event)">
+<select id="{{id}}" [ngModel]="selectedItem"  (ngModelChange)="onChange($event)">
   <option value=""></option>
   <option [ngValue]="step" *ngFor="let step of steps">
     {{step.name}}
