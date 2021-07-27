@@ -6,10 +6,10 @@
         <ng-sidebar [opened]= opened mode= "push">
           <ul class = "menu">
             <li>
-              <a href="/configuration/steps" (click) = "toggleSidebar()">Steps configuration</a> <br /><br />
+              <a (click) = "goTo('configuration/steps')">Configuración de steps</a> <br /><br />
             </li>
             <li>
-              <a href="/configuration/searchBox" (click) = "toggleSidebar()">Search box configuration</a> <br /><br />
+              <a (click) = "goTo('configuration/searchBox')">Search box configuration</a> <br /><br />
             </li>
           </ul>
         </ng-sidebar>

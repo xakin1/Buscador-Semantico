@@ -33,8 +33,8 @@ export interface BackStep{
 }
 
 export interface ConditionIndex{
-  true    : number,
-  false   : number;
+  true          : number,
+  conditionName : any;
 }
 
 export interface Step{
@@ -49,6 +49,7 @@ export interface Step{
   nextStep      : NextStep[],
   backStep      : BackStep[],
   conditionIndex: ConditionIndex[];
+  defaultIndex  : number;
 }
 
 

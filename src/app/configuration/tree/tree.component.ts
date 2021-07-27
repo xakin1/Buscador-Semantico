@@ -49,10 +49,10 @@ export class TreeComponent implements OnInit {
   @ViewChild("synonym", { read: ViewContainerRef, static : false }) synonym: LabelsComponent
   @ViewChild("dd", { read: ViewContainerRef, static : false }) dd: DdComponent
 
-  name = new FormControl('', [Validators.required]);
+
   formGroup : FormGroup;
-  isValid   : boolean = false;
   display   : boolean = false;
+  vacio     : boolean = true;
 
   constructor(private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder) { }
 
@@ -70,6 +70,14 @@ export class TreeComponent implements OnInit {
     this.openNav()
   }
 
+  ngOnDestroy() {
+    // avoid memory leaks here by cleaning up after ourselves. If we
+    // don't then we will continue to run our initialiseInvites()
+    // method on every navigationEnd event.
+    if(this.step != undefined)
+      this.removeNextStep(0,0, undefined, undefined)
+  }
+
   saveNameStep() {
     if((<HTMLInputElement>document.getElementById("Title")) != undefined){
         let name = (<HTMLInputElement>document.getElementById("Title")).value;
@@ -79,8 +87,17 @@ export class TreeComponent implements OnInit {
     }
   }
 
+  saveNameStepCondition(i) {
+    if((<HTMLInputElement>document.getElementById("Condicion "+i)) != undefined){
+        let name = (<HTMLInputElement>document.getElementById("Condicion "+i)).value;
+        this.step[this.column][this.row].conditionIndex[i].conditionName = name;
+    }
+  }
+
   createNextStepWithOutConditions(id){
     if(this.step[this.column][this.row].nextStep != []){
+      let selectDefault  = document.getElementById("next Step") as HTMLSelectElement;
+      this.step[this.column][this.row].defaultIndex = selectDefault.selectedIndex;
       this.create(0,id)
 
       setTimeout(()=>{
@@ -101,37 +118,22 @@ export class TreeComponent implements OnInit {
     }
   }
 
-
-
   // i: Nº de la condición que activo esta función
   // id: id del step seleccionado
   // condition: boolean que indica si es la rama true o false
-  saveCondition(i,id, condition) {
-    this.isValid = this.name.invalid;
-    if(!this.isValid){
-      this.condition = condition;
-
+  saveCondition(i,id) {
       //Vemos si ya hemos creado la condición o si solo queremos modificarla
       if((<HTMLInputElement>document.getElementById("Condicion " + i)) != undefined){
         let label = (<HTMLInputElement>document.getElementById("Condicion " + i)).value;
         this.lastId = id;
         var select;
 
-        //Miramos si es en la rama true o false
-        select = condition ? document.getElementById("true " + i) as HTMLSelectElement
-                           : document.getElementById("false " + i) as HTMLSelectElement;
+        select = document.getElementById("true " + i) as HTMLSelectElement;
 
-        let index = condition ? i + i : i + i + 1;
+        let index = i + 1;
 
-        let selectFalse     = document.getElementById("false " + i) as HTMLSelectElement;
         let selectTrue      = document.getElementById("true " + i) as HTMLSelectElement;
-        if( this.step[this.column][this.row].conditionIndex[i] != undefined){
-          this.step[this.column][this.row].conditionIndex[i].false = selectFalse.selectedIndex;
-          this.step[this.column][this.row].conditionIndex[i].true  = selectTrue.selectedIndex;
-        }
-        else{
-          this.step[this.column][this.row].conditionIndex.push({true: selectTrue.selectedIndex, false: selectFalse.selectedIndex})
-        }
+        this.step[this.column][this.row].conditionIndex[i].true  = selectTrue.selectedIndex;
 
         this.create(index,id)
 
@@ -143,24 +145,21 @@ export class TreeComponent implements OnInit {
 
             if(startElement == endElement){
               endElement =  (<HTMLInputElement>document.getElementById("self " + id))
-              line = drawSelfConditionalLine(startElement,endElement, label, condition)
+              line       = drawSelfConditionalLine(startElement,endElement, label)
            }
-           else line = drawConditionalLine(startElement,endElement,label,this.condition);
+           else line = drawConditionalLine(startElement,endElement,label);
 
             this.setNextStep(index,line)
-            this.chargeIndex();
+
         })
 
         this.step[this.column][this.row].conditions[i] = label;
       }
-    }
-    else {
-      let selectFalse = document.getElementById("false " + i) as HTMLSelectElement;
-      let selectTrue  = document.getElementById("true " + i) as HTMLSelectElement;
+      else {
+        let selectTrue = document.getElementById("true " + i) as HTMLSelectElement;
 
-      selectFalse.selectedIndex = 0
-      selectTrue.selectedIndex  = 0
-    }
+        selectTrue.selectedIndex  = 0
+      }
   }
 
   create(index,id){
@@ -215,15 +214,15 @@ export class TreeComponent implements OnInit {
       else
         this.step[this.column][this.row].nextStep[index] = ({column: this.newColumn , row: this.newRow,  line: line});
     }
+    this.chargeIndex();
   }
 
   newCondition(){
-    if(this.step[this.column][this.row].conditions.length == 0)
+    if( this.step[this.column][this.row].conditionIndex[this.step[this.column][this.row].conditionIndex.length-1].conditionName != undefined){
       this.step[this.column][this.row].conditions.push(undefined);
-    else if( (<HTMLInputElement>document.getElementById("Condicion " + (this.step[this.column][this.row].conditions.length -1))).value != '')
-      this.step[this.column][this.row].conditions.push(undefined);
+      this.step[this.column][this.row].conditionIndex.push({true: undefined, conditionName: undefined})
+    }
   }
-
   toggleSidebar(){
     this.open = false;
     this.tree.close();
@@ -233,14 +232,15 @@ export class TreeComponent implements OnInit {
   chargeIndex(){
     let index = 0;
      //Revisar
-     this.step[this.column][this.row].conditionIndex.forEach(condition => {
-      let selectFalse = document.getElementById("false " + index) as HTMLSelectElement;
-      let selectTrue  = document.getElementById("true " + index) as HTMLSelectElement;
+     let selectDefault = document.getElementById("next Step") as HTMLSelectElement;
+     if(selectDefault != undefined){
+      selectDefault.selectedIndex  = this.step[this.column][this.row].defaultIndex;
+    }
 
-      if(selectFalse != undefined){
-        selectFalse.selectedIndex  = condition.false;
-      }
-      if(selectTrue  != undefined) selectTrue.selectedIndex   = condition.true;
+     this.step[this.column][this.row].conditionIndex.forEach(condition => {
+      let selectTrue = document.getElementById("true " + index) as HTMLSelectElement;
+
+      if(selectTrue != undefined) selectTrue.selectedIndex = condition.true;
       index++;
     });
   }
@@ -268,6 +268,7 @@ export class TreeComponent implements OnInit {
   }
 
   createStep(){
+    this.vacio = false;
     //miramos si esta borrado o no
     if(this.step != undefined ? !this.step[0][0].deleted : true){
       let componentFactory   = this.resolver.resolveComponentFactory(StepBoxComponent);
@@ -276,17 +277,17 @@ export class TreeComponent implements OnInit {
 
       childComponent.edit.subscribe(($event) => {
         this.edit           = true;
-        this.open           = true;
         this.row            = $event.row;
         this.column         = $event.column;
         childComponent.open = true;
 
+        this.openNav();
         this.loadStep()
       });
 
       childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step",
         conditions: [undefined],dd: [],keywords: [], synonym: [], end: false,
-        backStep: [], nextStep: [], deleted: false, conditionIndex: [] }])
+        backStep: [], nextStep: [], deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}], defaultIndex: undefined }])
 
       this.step = childComponent.columns;
       this.tree = childComponent;
@@ -294,9 +295,9 @@ export class TreeComponent implements OnInit {
     else{
       this.step[0][0] = {id: this.step[0][0].id , name: "Title of Step",
       conditions: [undefined],dd: [],keywords: [], synonym: [], end: false,
-      backStep:[], nextStep: this.step[0][0].nextStep, deleted: false, conditionIndex: []}
+      backStep:[], nextStep: this.step[0][0].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}], defaultIndex: undefined}
     }
-    this.toggleSidebar();
+    this.closeNav();
 
   }
 
@@ -314,8 +315,8 @@ export class TreeComponent implements OnInit {
     if(this.step[this.column][this.row].nextStep[i] == undefined || (this.step[this.column][this.row].nextStep[i] != undefined &&
        this.step[this.column][this.row].nextStep[i].row == undefined) ){
       this.step.push([{id: id , name: name, conditions: [undefined],dd: [],keywords: [],
-        synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}],
-        nextStep:  [], deleted: false, conditionIndex: []}]);
+        synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i, defaultIndex: undefined}],
+        nextStep:  [], deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}]}]);
     }
     else{
       this.newColumn = this.step[this.column][this.row].nextStep[i].column;
@@ -332,7 +333,7 @@ export class TreeComponent implements OnInit {
 
         this.step[this.newColumn][this.newRow] = {id: id , name: name, conditions: [undefined],dd: [],keywords: [],
           synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}],
-          nextStep: this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: []}
+          nextStep: this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}],defaultIndex: undefined}
     }
 
     this.lastId = id;
@@ -347,8 +348,8 @@ export class TreeComponent implements OnInit {
     //miramos si esta borrado o no (ya que si lo estuvieramos creando nextstep no podría tener nada)
     if(this.step[this.column][this.row].nextStep[i] == undefined  || (this.step[this.column][this.row].nextStep[i] != undefined && this.step[this.column][this.row].nextStep[i].row == undefined)){
       this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [],
-        synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i}],
-        nextStep:  [], deleted: false,conditionIndex: []});
+        synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i,defaultIndex: undefined}],
+        nextStep:  [], deleted: false,conditionIndex: [{true: undefined, conditionName: undefined}]});
     }
     else{
       this.newRow = this.step[this.column][this.row].nextStep[i].row;
@@ -357,8 +358,8 @@ export class TreeComponent implements OnInit {
         this.newRow     = this.step[this.column+1].length
 
         this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [],
-          synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i}],
-          nextStep:  [], deleted: false,conditionIndex: []});
+          synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i,defaultIndex: undefined}],
+          nextStep:  [], deleted: false,conditionIndex: [{true: undefined, conditionName: undefined}]});
       }
       else{
         id =  this.step[this.newColumn][this.newRow].id;
@@ -369,9 +370,8 @@ export class TreeComponent implements OnInit {
         }
         this.step[this.newColumn][this.newRow] = {id: id , name: name, conditions: [undefined],dd: [],keywords: [],
           synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}],
-          nextStep:  this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: []}
+          nextStep:  this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}],defaultIndex: undefined}
       }
-
     }
 
     this.lastId = id;
@@ -461,7 +461,8 @@ export class TreeComponent implements OnInit {
   removeStep(column,row){
     this.removeNextStep(column, row, undefined, undefined)
     if(this.step[0][0].deleted) {
-      this.open = true
+      this.vacio = true;
+      this.openNav();
       this.edit = false
     }
   }
@@ -478,13 +479,13 @@ export class TreeComponent implements OnInit {
   }
 
   /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-openNav() {
-  document.getElementById("mySidebar").style.width = "350px";
-}
+  openNav() {
+    document.getElementById("mySidebar").style.width = "350px";
+  }
 
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-closeNav() {
-  document.getElementById("mySidebar").style.width = "0";
+  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+  closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
 }
 
 }
@@ -498,24 +499,24 @@ function drawStepLine(startElement, endElement){
   return line
 }
 
-function drawConditionalLine(startElement, endElement,label,condition){
+function drawConditionalLine(startElement, endElement,label){
   let line = new LeaderLine({
     start: startElement,
     end: endElement,
     endLabel: label,
-    color: condition ? 'rgb(110, 224, 181)' : 'rgb(255, 157, 157)'
+    color: 'rgb(110, 224, 181)'
   })
 
   return line
 }
 
-function drawSelfConditionalLine(startElement, endElement, label, condition){
+function drawSelfConditionalLine(startElement, endElement, label){
   let line = new LeaderLine({
     start: startElement,
     end: endElement,
     path: "magnet",
     endLabel: label,
-    color: condition ? 'rgb(110, 224, 181)' : 'rgb(255, 157, 157)'
+    color: 'rgb(110, 224, 181)'
     });
 
   return line
@@ -531,7 +532,7 @@ function drawSelfLine(startElement, endElement){
   return line
 }
 
-function changeSelection(index,condition,i){
-  var select = document.getElementById(condition+" "+i) as HTMLSelectElement;
+function changeSelection(index,i){
+  var select = document.getElementById("true "+i) as HTMLSelectElement;
   select.selectedIndex = index
 }

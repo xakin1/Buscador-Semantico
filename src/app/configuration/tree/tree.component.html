@@ -1,6 +1,6 @@
   <div id="mySidebar" class="sidebar" style="margin-left: 1rem;" >
     <div style="background-color: #57D6B1;width: 100%;height: 56px;position:  relative;top: -60px; ">
-    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <a *ngIf="!vacio" href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     </div>
     <div  style = "margin-left: 1rem; top: -58px; position: relative;"*ngIf="edit">
       <div >
@@ -9,17 +9,12 @@
       </div>
       <div>
         <h3>Condiciones</h3>
-        <div style="margin-bottom: 3rem; margin-top: 1rem" *ngFor="let condition of step[column][row].conditions; let i = index">
-          <label  *ngIf="name.invalid && isValid" [ngClass] = "'error'"> Inserte una condición </label>
-          <input [formControl]="name" id = "Condicion {{i}}" style="width: fit-content" value ={{condition}} ngTrim=false type="text" placeholder="Escribe aquí la condición">
+        <div style="margin-bottom: 1rem; margin-top: 1rem" *ngFor="let condition of step[column][row].conditions; let i = index">
+          <input  (change)="saveNameStepCondition(i)" id = "Condicion {{i}}" style="width: fit-content" value ={{condition}} ngTrim=false type="text" placeholder="Escribe aquí la condición">
           <div style="margin-top: 1rem ;">
-            <div class="flex-container">
+            <div *ngIf="step[column][row].conditionIndex[i].conditionName != undefined" class="flex-container">
               <app-true></app-true>
-              <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event,true)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = "availableSteps(step)"></app-combo-box>
-            </div>
-            <div class="flex-container">
-              <app-false></app-false>
-              <app-combo-box [id]="'false ' + i" (changed)="saveCondition(i,$event,false)" style="position: relative;top: 24px;margin-left: 1rem;" [data] = "availableSteps(step)"></app-combo-box>
+              <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = "availableSteps(step)"></app-combo-box>
             </div>
           </div>
         </div>

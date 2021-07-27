@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ConfigurationSearchBoxHomeComponent } from './configuration/configuration-search-box-home/configuration-search-box-home.component';
 import { TreeComponent } from './configuration/tree/tree.component';
 
 
@@ -11,12 +12,16 @@ const routes: Routes = [
     component: TreeComponent
   },
   {
-    path: 'configuration', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule)
+    path: 'configuration/steps',
+    component: TreeComponent
+  },
+  {
+    path: 'configuration/searchBox', component: ConfigurationSearchBoxHomeComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
