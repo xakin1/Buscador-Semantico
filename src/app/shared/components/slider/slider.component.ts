@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,6 +12,7 @@ export class SliderComponent{
   invert = false;
   @Input('max') max:number = 100;
   @Input('min') min:number = 0;
+  @Output() change = new EventEmitter<number>();
 
   showTicks = false;
   step = 1;
@@ -19,6 +20,10 @@ export class SliderComponent{
   @Input('value') value:number = 50;
   vertical = false;
   tickInterval = 1;
+
+  sliderOnChange(value: number) {
+    this.change.emit(value)
+  }
 
   getSliderTickInterval(): number | 'auto' {
     if (this.showTicks) {

@@ -8,5 +8,7 @@
         [thumbLabel]="thumbLabel"
         [tickInterval]="getSliderTickInterval()"
         [(ngModel)]="value"
-        [vertical]="vertical">
+        [vertical]="vertical"
+        (slideend)="sliderOnChange(value)"
+        (pointerup)="sliderOnChange(value)">
     </mat-slider>

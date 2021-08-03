@@ -71,8 +71,6 @@ export class ConfigurationSearchBoxHomeComponent implements OnInit {
 
   }
 
-
-
   abir_enlace(link){
     window.open(link);
  }
@@ -150,8 +148,6 @@ export class ConfigurationSearchBoxHomeComponent implements OnInit {
           }
       }
       }
-
-
     });
   }
 

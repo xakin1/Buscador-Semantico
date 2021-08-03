@@ -5,6 +5,7 @@ import 'leader-line';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
 import { DdComponent } from 'src/app/shared/components/dd/dd.component';
+import { Router } from '@angular/router';
 declare let LeaderLine: any;
 
 @Component({
@@ -31,15 +32,17 @@ export class TreeComponent implements OnInit {
 
   placeholderSynonym : string  = "Nuevo sinónimo...";
   child_unique_key   : number  = -1;
-  accesiblestep      : any = undefined;
+  accesiblestep      : any     = undefined;
 
-  step      : any = undefined;
   tree      : any;
+  step      : any     = undefined;
   condition : boolean = false;
   lastId    : string;
   newColumn : number;
   newRow    : number;
 
+  openedSearchBox: boolean = false;
+  labelButtonSearchBox = ">"
 
   lastIndexTrue : number
   lastIndexFalse: number
@@ -54,7 +57,10 @@ export class TreeComponent implements OnInit {
   display   : boolean = false;
   vacio     : boolean = true;
 
-  constructor(private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder) { }
+  maxResultados:number = 500;
+  minResultados:number = 0
+
+  constructor(private route:Router,private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder) { }
 
   init(){
     return this._formBuilder.group({
@@ -85,6 +91,34 @@ export class TreeComponent implements OnInit {
         name = name == undefined ? '' : name
         this.step[this.column][this.row].name = name;
     }
+  }
+
+  changePlaceHolder(){
+    if((<HTMLInputElement>document.getElementById("placeholder")) != undefined){
+      let placeholder = (<HTMLInputElement>document.getElementById("placeholder")).value;
+      this.step[this.column][this.row].searchBox.placeHolder = placeholder
+    }
+  }
+
+  changeAnchoBuscador(value){
+    this.step[this.column][this.row].searchBox.anchoBusqueda = value
+  }
+
+  changeAltoBuscador(value){
+    this.step[this.column][this.row].searchBox.altoBusqueda = value
+  }
+
+  changeAnchoResultado(value){
+    this.step[this.column][this.row].searchBox.anchoBarra = value
+  }
+
+  changeAltoResultado(value){
+    this.step[this.column][this.row].searchBox.altoBarra = value
+  }
+
+  showSearchBox(){
+    console.log("entro")
+    this.step[this.column][this.row].searchBox.show = !this.step[this.column][this.row].searchBox.show
   }
 
   saveNameStepCondition(i) {
@@ -268,7 +302,10 @@ export class TreeComponent implements OnInit {
   }
 
   createStep(){
+    let name = "Title of Step";
     this.vacio = false;
+
+    // this.send_Creacion_Step(name)
     //miramos si esta borrado o no
     if(this.step != undefined ? !this.step[0][0].deleted : true){
       let componentFactory   = this.resolver.resolveComponentFactory(StepBoxComponent);
@@ -285,16 +322,16 @@ export class TreeComponent implements OnInit {
         this.loadStep()
       });
 
-      childComponent.columns.push([{id: this.column+" "+this.row , name: "Title of Step",
-        conditions: [undefined],dd: [],keywords: [], synonym: [], end: false,
+      childComponent.columns.push([{id: this.column+" "+this.row , name: name,
+        conditions: [undefined],dd: [],keywords: [], synonym: [], end: false, searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
         backStep: [], nextStep: [], deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}], defaultIndex: undefined }])
 
       this.step = childComponent.columns;
       this.tree = childComponent;
     }
     else{
-      this.step[0][0] = {id: this.step[0][0].id , name: "Title of Step",
-      conditions: [undefined],dd: [],keywords: [], synonym: [], end: false,
+      this.step[0][0] = {id: this.step[0][0].id , name: name,
+      conditions: [undefined],dd: [],keywords: [], synonym: [], end: false, searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
       backStep:[], nextStep: this.step[0][0].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}], defaultIndex: undefined}
     }
     this.closeNav();
@@ -314,7 +351,7 @@ export class TreeComponent implements OnInit {
     //miramos si esta borrado o no (ya que si lo estuvieramos creando nextstep no podría tener nada)
     if(this.step[this.column][this.row].nextStep[i] == undefined || (this.step[this.column][this.row].nextStep[i] != undefined &&
        this.step[this.column][this.row].nextStep[i].row == undefined) ){
-      this.step.push([{id: id , name: name, conditions: [undefined],dd: [],keywords: [],
+      this.step.push([{id: id, name: name, conditions: [undefined], dd: [], keywords: [], searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
         synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i, defaultIndex: undefined}],
         nextStep:  [], deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}]}]);
     }
@@ -332,7 +369,7 @@ export class TreeComponent implements OnInit {
         }
 
         this.step[this.newColumn][this.newRow] = {id: id , name: name, conditions: [undefined],dd: [],keywords: [],
-          synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}],
+          synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}], searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
           nextStep: this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}],defaultIndex: undefined}
     }
 
@@ -347,7 +384,7 @@ export class TreeComponent implements OnInit {
 
     //miramos si esta borrado o no (ya que si lo estuvieramos creando nextstep no podría tener nada)
     if(this.step[this.column][this.row].nextStep[i] == undefined  || (this.step[this.column][this.row].nextStep[i] != undefined && this.step[this.column][this.row].nextStep[i].row == undefined)){
-      this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [],
+      this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [], searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
         synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i,defaultIndex: undefined}],
         nextStep:  [], deleted: false,conditionIndex: [{true: undefined, conditionName: undefined}]});
     }
@@ -357,7 +394,7 @@ export class TreeComponent implements OnInit {
       if(!this.step[this.newColumn][this.newRow].deleted){
         this.newRow     = this.step[this.column+1].length
 
-        this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [],
+        this.step[this.column+1].push({id: id, name: name , conditions: [undefined], dd: [], keywords: [], searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeHolder: "Search..."},
           synonym: [], end: false,backStep: [{column: this.column, row: this.row, condition: i,defaultIndex: undefined}],
           nextStep:  [], deleted: false,conditionIndex: [{true: undefined, conditionName: undefined}]});
       }
@@ -369,7 +406,7 @@ export class TreeComponent implements OnInit {
           this.step[this.column][this.row].nextStep[i].line = undefined;
         }
         this.step[this.newColumn][this.newRow] = {id: id , name: name, conditions: [undefined],dd: [],keywords: [],
-          synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}],
+          synonym: [], end: false, backStep: [{column: this.column, row: this.row, condition: i}], searchBox: {show: false, altoBusqueda: undefined, anchoBusqueda: undefined, altoBarra: undefined, anchoBarra: undefined, placeolder: "Search..."},
           nextStep:  this.step[this.newColumn][this.newRow].nextStep, deleted: false, conditionIndex: [{true: undefined, conditionName: undefined}],defaultIndex: undefined}
       }
     }
@@ -483,12 +520,102 @@ export class TreeComponent implements OnInit {
     document.getElementById("mySidebar").style.width = "350px";
   }
 
+   /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+   openSearchBox() {
+    // this.openedSearchBox = !this.openedSearchBox
+    // if(!this.openedSearchBox){
+    //   document.getElementById("mySearchBox").style.width = "0px";
+    //   document.getElementById("myButton").style.left = "0px";
+    //   this.labelButtonSearchBox = ">"
+    // }
+    // else{
+    //   document.getElementById("mySearchBox").style.width = "350px";
+    //   document.getElementById("myButton").style.left = "350px";
+    //   this.labelButtonSearchBox = "<"
+    // }
+
+    this.route.navigate(['searchBox']);
+
+  }
+
+
   /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
   closeNav() {
     document.getElementById("mySidebar").style.width = "0";
 }
 
+
+
+  send_Creacion_Step(name: string) {
+
+    var type = '';
+    var data = {
+      'apiKey': '02d5214506fa468484e962868800395f','userPwd': '69637182',
+      'profileID': '1268900770',
+      'name': name ,
+      'description': '',
+    };
+
+    var url = 'https://api.s-recsolutions.com/v1/command/new/step';
+
+    this.send_post(data, url, type).then((j) => {
+      console.log('Response:', j);
+    });
+  }
+
+  send_post(data, url, type) {
+    var valor, index;
+    return fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'text/plain',
+        'Content-Type': 'text/plain'
+      },
+      body: JSON.stringify(data)
+    }).then(function(response) {
+      return response.text();
+    }).then(function(text) {
+      if (!localStorage.getItem('userPwd') && !localStorage.getItem('profileID')) {
+        index = text.indexOf('\n');
+        valor = text.substring(0, index);
+        localStorage.setItem('userPwd', valor);
+        valor = text.substring(index + 1);
+        localStorage.setItem('profileID', valor);
+      }
+      if(type == 'event') {
+        text = valor;
+        index = text.indexOf('\n');
+        valor = text.substring(0, index);
+        valor = text.substring(index + 1);
+        localStorage.setItem('idEvent', valor);
+      }
+      return text;
+    });
+  }
+
+  send_get(params, url) {
+    var queryString = Object.keys(params).map(function(key) {
+      return key + '=' + params[key]
+    }).join('&');
+
+    var completeUrl = url +"?"+ queryString;
+    return fetch(completeUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        // 'Accept': 'text/plain',
+        'Content-Type': 'application/json'
+      },
+    }).then(function(response) {
+      return response.text();
+    }).then(function(text) {
+      return text;
+    });
 }
+
+}
+
 
 function drawStepLine(startElement, endElement){
   let line = new LeaderLine({
@@ -536,3 +663,5 @@ function changeSelection(index,i){
   var select = document.getElementById("true "+i) as HTMLSelectElement;
   select.selectedIndex = index
 }
+
+

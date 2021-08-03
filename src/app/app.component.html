@@ -1,26 +1,12 @@
 <div class="row">
   <div class="col-md-3">
     <router-outlet>
-      <ng-sidebar-container>
-        <!-- sidebar -->
-        <ng-sidebar [opened]= opened mode= "push">
-          <ul class = "menu">
-            <li>
-              <a (click) = "goTo('configuration/steps')">Configuración de steps</a> <br /><br />
-            </li>
-            <li>
-              <a (click) = "goTo('configuration/searchBox')">Search box configuration</a> <br /><br />
-            </li>
-          </ul>
-        </ng-sidebar>
-        <div ng-sidebar-content>
-          <header  id="header">
-            <mat-icon (click) = "toggleSidebar()">menu</mat-icon>
+        <div>
+          <header style="padding-bottom: 3rem;"  id="header">
           </header>
           <body>
             <router-outlet> </router-outlet>
           </body>
         </div>
-      </ng-sidebar-container>
   <div class="col-md-9">
 </div>

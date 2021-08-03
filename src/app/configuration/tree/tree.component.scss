@@ -4,6 +4,24 @@
   margin-left: 1rem;
 }
 
+.searchBox {
+  height: 100vh; /* 100% Full-height */
+  width: 0px; /* 0 width - change this with JavaScript */
+  position: absolute; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  background-color: white;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  box-shadow: 10px 0px 10px -4px #bfbed7;
+}
+
+.buttonSearchBox{
+  position: relative;
+  padding: 1rem;
+  height: 100vh;
+}
+
 /* The sidebar menu */
 .sidebar {
   height: 100vh; /* 100% Full-height */

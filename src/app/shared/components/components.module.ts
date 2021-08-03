@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SliderComponent } from './slider/slider.component';
 import { DdComponent } from './dd/dd.component';
 import { MatAutocompleteModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatIconModule, MatRadioModule, MatSelect, MatSelectModule, MatSliderModule, MatStepperModule, MatToolbarModule, MatTooltipModule } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
 import { LabelsComponent } from './labels/labels.component';
 import { ComponentsRoutingModule } from './components-routing.module';
@@ -37,8 +37,17 @@ export interface ConditionIndex{
   conditionName : any;
 }
 
+export interface searchBox{
+  placeHolder   : any,
+  anchoBarra    : any,
+  altoBarra     : any,
+  altoBusqueda  : any,
+  anchoBusqueda : any,
+  show          : boolean;
+}
+
 export interface Step{
-  id            : string
+  id            : string,
   name          : string,
   end           : boolean,
   deleted       : boolean,
@@ -48,8 +57,9 @@ export interface Step{
   conditions    : any[],
   nextStep      : NextStep[],
   backStep      : BackStep[],
-  conditionIndex: ConditionIndex[];
-  defaultIndex  : number;
+  conditionIndex: ConditionIndex[],
+  defaultIndex  : number,
+  searchBox     : any;
 }
 
 
@@ -72,7 +82,8 @@ export interface Step{
     MatSelectModule,
     SidebarModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent, EndComponent, FalseComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent, DefaultComponent,
     MatButtonModule,
@@ -89,6 +100,7 @@ export interface Step{
     MatSelectModule,
     FormsModule,
     SidebarModule,
+    ReactiveFormsModule,
     CommonModule],
 
   entryComponents: [EndComponent, StepBoxComponent,StepBoxRightComponent, ColumnComponent]

@@ -1,8 +1,36 @@
 <div class="row">
-  <div *ngFor="let steps of columns; let i = index" class="column" style=" width: 270px;">
+  <div *ngFor="let steps of columns; let i = index" class="column" style=" width: auto;">
     <div *ngFor="let step of steps; let j = index;" style="padding-bottom: 1rem" class="flex-container">
       <button *ngIf="!step.deleted" id ={{step.id}} [ngClass]= "(open && this.selectedItem == step.id) ? 'open' : 'button'" (click)="editStep(j,i,step.id)" class="button" type="button">{{step.name}}
         <div id = "self {{step.id}}" style="align-self: center;position: relative;top: 15px;left: -16px;">
+            <!-- Search form -->
+            <div *ngIf="step.searchBox.show" id="searchbox">
+              <div style="padding-bottom: 2rem;" class=" search center">
+                <div class="center search-input__group " [style.width.%] = step.searchBox.anchoBusqueda [style.height.px] = "step.searchBox.altoBusqueda" >
+                  <!-- <input placeholder = {{placeholder.value}}  type="text" autocomplete="off" class="search-input " style="line-height: 32px;"> -->
+                  <input
+                    class="search-input"
+                    type="text"
+                    id="search"
+                    placeholder= "{{step.searchBox.placeHolder}}"
+                    matInput
+                    [matAutocomplete]="auto">
+                  <a class="search-input__btn " tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                     <circle cx="11" cy="11" r="8"></circle>
+                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <mat-autocomplete  panelWidth= "{{step.searchBox.anchoBarra}}%"  autoActiveFirstOption #auto="matAutocomplete" >
+                <div [style.height.px] = step.searchBox.altoBarra>
+                  <mat-option  *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </div>
+              </mat-autocomplete>
+            </div>
         </div>
       </button>
       <app-end style="position: relative;top: 29px;left: 26px;height: 20px;padding-left: 5px;" id = "end {{step.id}}" *ngIf="step.end && !step.deleted"></app-end>
