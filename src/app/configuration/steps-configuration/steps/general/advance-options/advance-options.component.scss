@@ -1,0 +1,43 @@
+#modal-content-wrapper {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+#modal-title {
+  font-size: 22px;
+}
+
+#modal-footer {
+  justify-self: right;
+  align-self: center;
+}
+
+#modal-action-button {
+  margin-right: 30px;
+  background-color:#3b3b3b;
+}
+
+#modal-cancel-button {
+  background-color: #4e4e4e;
+}
+
+.cross {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* Position and style the close button (top right corner) */
+.closebtn {
+  position: relative;
+  right: -643px;
+  top: -16px;
+  font-size: 36px;
+  margin-left: 50px;
+  width: fit-content;
+  height: 0px;
+}

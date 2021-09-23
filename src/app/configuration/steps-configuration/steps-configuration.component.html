@@ -1,0 +1,44 @@
+  <div id="mySidebar" class="sidebar" style="margin-left: 1rem;" >
+    <div style="background-color: #57D6B1;width: 100%;height: 56px;position:  relative;top: -60px; ">
+    <a *ngIf="!vacio" href="javascript:void(0)" class="closebtn cross" (click)="closeNav()">&times;</a>
+    </div>
+    <div style = "margin-left: 1rem; top: -58px; position: relative;"*ngIf="edit">
+
+      <div id="Configuration Steps" *ngIf="configSteps">
+        <app-general (show) = "show = $event" (save)="saveNameStep()" [step] = step [row] = row [column] = column></app-general>
+      </div>
+
+      <div id="Flujo de datos" *ngIf="configFlujoDeDatos">
+        <app-work-flow (removeStep)="removeStep($event.column, $event.row)" (chargeIndex)="chargeIndex()" [step] = step [row] = row [column] = column ></app-work-flow>
+      </div>
+
+      <div id="Palabras clave" *ngIf="configKeywords">
+        <app-diccionario-de-datos  [step] = step [row] = row [column] = column></app-diccionario-de-datos>
+      </div>
+
+      <div id="Palabras clave" *ngIf="configSinonimos">
+        <app-synonyms [step] = step [row] = row [column] = column></app-synonyms>
+      </div>
+
+      <div id="Configuration searchBox" *ngIf="configSearchBox">
+        <app-bar-config [step] = step [row] = row [column] = column></app-bar-config>
+      </div>
+
+      <div id="Configuration semantic" *ngIf="configSemantic">
+        <app-search-box-config [step] = step [row] = row [column] = column></app-search-box-config>
+      </div>
+
+      <div>
+        <i class="bi bi-trash"></i>
+        <button style ="margin-top: 1rem;" mat-raised-button color="warn" (click)="removeStep(column,row)" class="button" type="button">Borrar</button>
+      </div>
+    </div>
+  </div>
+
+<div id="main" style="width: fit-content;">
+  <ng-container ng-sidebar-content #viewContainer></ng-container>
+</div>
+
+<app-sidebar #sidebar [(show)] = show [treeData] = treeData [command] = "false" (configSteps) = "configSteps = $event" (configSemantic) = "configSemantic = $event" (configSearchBox) = "configSearchBox = $event" (configSinonimos) = "configSinonimos = $event" (configKeywords) = "configKeywords = $event" (configFlujoDeDatos) = "configFlujoDeDatos = $event"></app-sidebar>
+
+<app-plus-add *ngIf="vacio" (open) = "createStep(undefined)"></app-plus-add>

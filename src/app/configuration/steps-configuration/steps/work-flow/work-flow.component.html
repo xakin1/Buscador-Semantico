@@ -1,0 +1,16 @@
+<h3>Condiciones</h3>
+<div style="margin-bottom: 1rem; margin-top: 1rem" *ngFor="let condition of step[column][row].conditions; let i = index">
+  <input  (change)="saveNameStepCondition(i)" id = "Condicion {{i}}" style="width: fit-content" value = {{condition}} ngTrim=false type="text" placeholder="Escribe aquí la condición">
+  <div style="margin-top: 1rem ;">
+    <div *ngIf="step[column][row].conditionIndex[i].conditionName != undefined" class="flex-container">
+      <app-true></app-true>
+      <app-combo-box  [id]="'true ' + i" (changed)="saveCondition(i,$event)" style="position: relative;top: -1px;margin-left: 1rem;" [data] = "availableSteps(step)"></app-combo-box>
+    </div>
+  </div>
+</div>
+<button (click)="newCondition()" class="button" type="button">Añadir Condición</button>
+<h3>Paso por defecto</h3>
+<div class="flex-container" style="margin-bottom: 1rem;">
+  <app-default></app-default>
+  <app-combo-box  [id]="'next Step'" (changed)="createNextStepWithOutConditions($event)" style="position: relative;margin-left: 1rem;" [data] = "availableSteps(step)"></app-combo-box>
+</div>

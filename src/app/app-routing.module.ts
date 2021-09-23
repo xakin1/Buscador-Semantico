@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ConfigurationSearchBoxHomeComponent } from './configuration/configuration-search-box-home/configuration-search-box-home.component';
-import { TreeComponent } from './configuration/tree/tree.component';
+import { CommandComponent } from './configuration/command-configuration/command/command.component';
+import { StepsConfigurationComponent } from './configuration/steps-configuration/steps-configuration.component';
+
+
 
 
 
@@ -9,14 +11,11 @@ import { TreeComponent } from './configuration/tree/tree.component';
 const routes: Routes = [
   {
     path: '',
-    component: TreeComponent
+    component: CommandComponent
   },
   {
     path: 'configuration/steps',
-    component: TreeComponent
-  },
-  {
-    path: 'configuration/searchBox', component: ConfigurationSearchBoxHomeComponent
+    component: StepsConfigurationComponent
   }
 ];
 

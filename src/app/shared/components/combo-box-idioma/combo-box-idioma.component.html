@@ -1,0 +1,5 @@
+<select id="{{id}}" [ngModel]="selectedItem"  (ngModelChange)="onChange($event)">
+  <option [ngValue]="lengua" *ngFor="let lengua of idiomas">
+    {{lengua}}
+  </option>
+</select>

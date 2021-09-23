@@ -1,0 +1,38 @@
+<h5> Configuración Nivel semantico</h5>
+<div class="form-group">
+  <label class="form-label" for="inputWidth">Nivel semántico</label>
+  <div class="row">
+    <app-slider  [max] = "100" [value] = "50" #nivelSemantico></app-slider>
+  </div>
+</div>
+<div *ngIf="nivelSemantico.value>0">
+  <h3>Inserción de terminos</h3>
+<i>Idioma de los terminos
+  <span>
+      <app-combo-box-idioma ></app-combo-box-idioma>
+  </span>
+</i>
+<br><br>
+<h3 style="margin-top: 1rem;"> Lista de palabras clave</h3>
+<div style="width: fit-content" class= "flex-container">
+  <app-labels #synonym  [list] = "step[column][row].synonym" id = "synonym" [title] = title [placeholder] = placeholder [width] =  100 ></app-labels>
+  <app-info [info] = info class = "info a"></app-info>
+</div>
+
+
+
+
+<h3 style="margin-top: 1rem;"> Listado de palabras clave insertados</h3>
+<div class= "flex-container">
+  <app-labels [list]="step[column][row].keywords" id="keywords" [title]=title [placeholder]=placeholder [width] = 100 #keywords></app-labels>
+  <app-info [info] = infoKeywords class = "info infokeywords"></app-info>
+</div>
+
+<div *ngIf="step[column][row].keywords[keywords.currentIndex] != undefined">
+  <i style="font-weight: bold;">Palabra clave seleccionada: </i> <i>{{keywords.labels[keywords.currentIndex].name}}</i>
+  <div class="row">
+      <app-dd #dd [value]="step[column][row].dd[keywords.currentIndex].join()" ></app-dd>
+  </div>
+
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div id="modal-content-wrapper">
+  <a href="javascript:void(0)" class="closebtn cross" (click)="closeModal()">&times;</a>
+
+  <section id="modal-body">
+    <h1>Opciones avanzadas de configuración de pasos</h1>
+    <h3>Similar Name </h3>
+    <h5>Permite un cierto margen de error a la hora de entender el nombre del paso</h5>
+    <div class= "flex-container">
+      <input  type="checkbox" id="cboxSimilarName" [checked]="similarName" value = "similarName_checkbox">
+      <i>Si está desactivado solo se entenderá el nombre del paso si es exactamente el mismo</i>
+    </div>
+
+    <h3>Question</h3>
+    <h5>Indica si el comando es del tipo pregunta respuesta</h5>
+    <div class= "flex-container">
+      <input type="checkbox" id="cboxQuestion" [checked]="question" value = "question_checkbox">
+      <i>Si está desactivado será un paso semilibre</i>
+    </div>
+
+    <h3>StopWord</h3>
+    <h5>Aceptan stop word</h5>
+    <div class= "flex-container">
+      <input type="checkbox" id="cboxStopWord" [checked]="stopWord" value = "stopWord_checkbox">
+      <i>Si está elimina stopwords (falta un info que explique brevemente lo que es un stopwords)</i>
+    </div>
+
+    <h3>IterationSave</h3>
+    <h5>En cada iteración del usuario se va a procesar cada step uno a uno</h5>
+    <div class= "flex-container">
+      <input type="checkbox" id="cboxSimilarName"   [checked]="iterationSave"   value = "similarName_checkbox">
+      <i>Si está desactivado se procesará todo al final</i>
+    </div>
+  </section>
+  <footer id="modal-footer">
+  </footer>
+</div>

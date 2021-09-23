@@ -1,0 +1,46 @@
+
+   <div id="mySidebar" class="sidebar" style="margin-left: 1rem;top: 48px;right: 0;" >
+    <div style="background-color: #57D6B1;width: 100%;height: 56px;position:  relative;top: -60px; ">
+    <a *ngIf="!vacio" href="javascript:void(0)" class="closebtn cross" (click)="closeNav()">&times;</a>
+    </div>
+
+    <div style="position: relative;left: 21px;top: -50px;">
+
+      <div *ngIf="configCommand">
+        <div>
+          <h3>Nombre del paso <span style="color: red;">*</span></h3>
+          <input id="Title" (change)="saveNameCommand()" style="width: fit-content" placeholder="Escribe aquí el nombre del comando">
+        </div>
+
+        <div id="Descripción">
+          <h3>Descripción</h3>
+          <textarea style="width: 300px;" (change)="saveNameCommand()" placeholder = "Escribe aquí la Descripción del comando" id="descripcion" rows="8" cols="60" ></textarea>
+        </div>
+      </div>
+
+      <div id="Palabras clave" *ngIf="configSinonimos">
+        <app-synonyms [comand] = listOfCommands [position] = position></app-synonyms>
+      </div>
+
+      <a href="javascript:void(0)" (click)="openAdvanceOptions()">Opciones avanzadas <span><mat-icon style="position: relative; top: 7px;">arrow_right_alt</mat-icon></span></a>
+
+      <button style="margin-top: 1rem;" (click)="openStepsCommand()">Confifurar pasos del comando</button>
+    </div>
+  </div>
+
+  <app-sidebar [show] = true [treeData] = treeData [command] = "true" (configCommand) = "configCommand = $event" (configSinonimos) = "configSinonimos = $event"></app-sidebar>
+
+  <div style="margin-left: 24rem;width: 746px;margin-top: 1rem;"  id="command">
+    <div  *ngFor="let command of listOfCommands; let i = index" style="margin: 1rem" class="column card">
+      <div (click)="openNav(i)" class="container">
+        <h4><b>{{command.commandName}}</b></h4>
+        <p>{{command.commandDescription}}</p>
+      </div>
+    </div>
+  </div>
+
+  <app-plus-add (open) = "createCommand()"></app-plus-add>
+
+
+
+

@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ConfigurationSearchBoxHomeComponent } from './configuration-search-box-home/configuration-search-box-home.component';
-import { TreeComponent } from './tree/tree.component';
+import { CommandComponent } from './command-configuration/command/command.component';
+import { StepsConfigurationComponent } from './steps-configuration/steps-configuration.component';
+
 
 
 const routes: Routes = [
   {
-    path: 'steps',
-    component: TreeComponent
+    path: 'steps/:id',
+    component: StepsConfigurationComponent
   },
   {
-    path: 'searchBox',
-    component: ConfigurationSearchBoxHomeComponent
+    path: 'command',
+    component: CommandComponent
   },
 ];
 

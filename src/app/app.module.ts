@@ -8,13 +8,15 @@ import {SidebarModule} from 'ng-sidebar'
 import {  MatIconModule } from '@angular/material';
 import { SharedModule } from './shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ConfigurationSearchBoxHomeComponent } from './configuration/configuration-search-box-home/configuration-search-box-home.component';
-import { TreeComponent } from './configuration/tree/tree.component';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { LlamadasApiComponent } from './ApiCalls/llamadas-api/llamadas-api.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    LlamadasApiComponent,
+
   ],
   imports: [
     BrowserModule,
