@@ -12,11 +12,12 @@ import { SearchBoxModule } from './steps-configuration/search-box/search-box.mod
 import { StepsModule } from './steps-configuration/steps/steps.module';
 import { AdvanceOptionsComponentSteps } from './steps-configuration/steps/general/advance-options/advance-options.component';
 import { AdvanceOptionsComponentCommand } from './command-configuration/command/advance-options/advance-options.component';
+import { ConfigurationSearchBoxHomeComponent } from './configuration-search-box-home/configuration-search-box-home.component';
 
 
 
 @NgModule({
-  declarations: [StepsConfigurationComponent],
+  declarations: [StepsConfigurationComponent, ConfigurationSearchBoxHomeComponent],
   imports: [
     CommonModule,
     ConfigurationRoutingModule,

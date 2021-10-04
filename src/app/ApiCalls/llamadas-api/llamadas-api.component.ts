@@ -14,7 +14,7 @@ export class LlamadasApiComponent implements OnInit {
 
 }
 
-var Apiurl = 'https://pre.s-recsolutions.com/v1/';
+var Apiurl = 'https://api.s-recsolutions.com/v1/';
 
 export async function send_get_command(commandId) {
 
@@ -68,8 +68,8 @@ function send_post(data, url, type) {
 		method: 'POST',
 		mode: 'cors',
 		headers: {
-			'Accept': 'text/plain',
-			'Content-Type': 'text/plain'
+			'Accept': '*',
+			'Content-Type': '*'
 		},
 		body: JSON.stringify(data)
 	}).then(function(response) {
