@@ -10,10 +10,7 @@ const routes: Routes = [
     path: 'steps/:id',
     component: StepsConfigurationComponent
   },
-  {
-    path: 'command',
-    component: CommandComponent
-  },
+
 ];
 
 @NgModule({

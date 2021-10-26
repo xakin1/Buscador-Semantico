@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Inject, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { StepBoxComponent } from 'src/app/shared/components/step-box/step-box.component';
 import 'leader-line';
@@ -6,12 +6,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LabelsComponent } from 'src/app/shared/components/labels/labels.component';
 import { DdComponent } from 'src/app/shared/components/dd/dd.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { configFlujoDeDatos, configKeywords, configSearchBox, configSemantic, configSinonimos, configSteps} from 'src/app/app.component';
-import { send_edit_step, send_get_command } from 'src/app/ApiCalls/llamadas-api/llamadas-api.component';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material';
-import { Sidebar } from 'ng-sidebar';
+
 import { SidebarComponent } from 'src/app/shared/components/sidebar/sidebar.component';
+import { DOCUMENT } from '@angular/common';
+import { send_edit_command, send_get_command } from 'src/app/ApiCalls/llamadas-api/llamadas-api.component';
+
+declare let $: any;
+
 
 export interface Command{
   commandDescription : string,
@@ -91,7 +92,8 @@ export class StepsConfigurationComponent implements OnInit {
   opened: boolean = false;
   baseUrl = window.location.origin+"/xaquin/"
 
-  constructor(private route: ActivatedRoute,private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute,private resolver: ComponentFactoryResolver,private _formBuilder: FormBuilder,
+              private renderer2: Renderer2, @Inject(DOCUMENT) private _document) {
   }
 
   init(){
@@ -101,12 +103,26 @@ export class StepsConfigurationComponent implements OnInit {
   }
 
   async ngOnInit() {
-     this.formGroup = this._formBuilder.group({
-       Ctrl: ['', Validators.required]
-    });
-    this.route.params.subscribe( params =>  this.commandId = params.id);
-    let command = await send_get_command(this.commandId)
-    this.createStep(command[0].steps[0])
+
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
+    s.src = '../../../assets/js/steps.js';
+    s.text = ``;
+    this.renderer2.appendChild(this._document.body, s);
+    var path = window.location.href.split("/");
+    if(path.length > 4){
+      let commandId = path[4]
+      this.cargarDatos(commandId)
+    }
+
+
+
+    //  this.formGroup = this._formBuilder.group({
+    //    Ctrl: ['', Validators.required]
+    // });
+    // this.route.params.subscribe( params =>  this.commandId = params.id);
+    // let command = await send_get_command(this.commandId)
+    // this.createStep(command[0].steps[0])
 
   }
 
@@ -305,4 +321,172 @@ export class StepsConfigurationComponent implements OnInit {
   closeNav() {
     document.getElementById("mySidebar").style.width = "0";
   }
+
+  modificar_nombre(comando,descripcion){
+    console.log("entro")
+    if((<HTMLInputElement>document.getElementById("nombre")) != undefined)
+      send_edit_command((<HTMLInputElement>document.getElementById("nombre")).value,comando,descripcion);
+  }
+
+  cargarDatos(idComando){
+
+    var params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':idComando};
+  //inicio petición COMANDOS
+    $.get( "https://pre.s-recsolutions.com/v1/command/command",  params )
+        .then(function( jsonComando ) {
+          console.log(jsonComando)
+          var anteriorComando=$("li[class*='nav-item active']");
+          anteriorComando.removeClass();
+          anteriorComando.addClass("nav-item");
+          var comandoSinEspacio = jsonComando[0].commandName.replace(/\s/g, '');
+
+          var listaComando=$("#"+comandoSinEspacio);
+          listaComando.removeClass();
+          listaComando.addClass("nav-item active");
+
+            var tabla=$("#dataTableExample");
+            tabla.remove();
+            var div=$("#tablaComandos");
+            var tabla=$("<table>")
+            tabla.attr("id","dataTableExample");
+            tabla.addClass("table");
+            div.append(tabla);
+            var titulo=$("#tituloComando");
+            titulo.empty();
+            titulo.append("Configuración "+(jsonComando[0].commandName).toLowerCase());
+
+            var thead=$("<thead>");
+            var trHead=$("<tr>");
+
+            var thUsuario=$("<th>");
+            thUsuario.addClass("text-white");
+            thUsuario.append("Parametro");
+
+           if(jsonComando.type=="FA"){
+            var thEntrada=$("<th>");
+            thEntrada.addClass("text-white");
+            thEntrada.append("Valor");
+
+            var thSalida=$("<th>");
+            thSalida.addClass("text-white");
+            thSalida.append("Valor");
+           }
+
+            var thHora=$("<th>");
+            thHora.addClass("text-white");
+            thHora.append("Valor");
+
+
+            trHead.append(thUsuario);
+            if(jsonComando.type=="F"){
+              var thSalida=$("<th>");
+              thSalida.addClass("text-white");
+              thSalida.append("Valor");
+              trHead.append(thSalida);
+             }
+
+            if(jsonComando.type=="FA"){
+              trHead.append(thEntrada);
+              trHead.append(thSalida);
+            }
+
+            trHead.append(thHora);
+            if(jsonComando.type!="F"&&jsonComando.type!="FA"){
+
+              var thResumen=$("<th>");
+              thResumen.addClass("text-white");
+              thResumen.append("Descripción");
+              trHead.append(thResumen);
+            }
+            thead.append(trHead);
+            tabla.append(thead);
+            var tbody=$("<tbody>");
+
+            //Nombre del Comando
+              var tr=$("<tr>");
+              var NombreConf=$("<td>");
+              NombreConf.append("<h6>Nombre del Comando</h6>");
+
+
+              var valor=$("<td>");
+              valor.append("<input id=\"nombre\" onchange=modificar_nombre("+jsonComando[0].commandID+") value =\""+ jsonComando[0].commandName+"\">");
+
+              var descripcion=$("<th>");
+              descripcion.append("<h6>El nombre por el cual este comando será identificado</h6>");
+
+              tr.append(NombreConf);
+              tr.append(valor);
+              tr.append(descripcion);
+              tbody.append(tr);
+
+            //Descripción del Comando
+              var tr=$("<tr>");
+              var NombreConf=$("<td>");
+              NombreConf.append("<h6>Descripción del Comando</h6>");
+
+              var valor=$("<td>");
+              valor.append("<textarea id=\"descripcion\" onchange=modificar_nombre("+jsonComando[0].commandID+") rows="+4+" cols="+50+">"+jsonComando[0].commandDescription);
+
+              var descripcion=$("<th>");
+              descripcion.append("<h6>En este campo irá información relevante sobre el comando</h6>");
+
+              tr.append(NombreConf);
+              tr.append(valor);
+              tr.append(descripcion);
+              tbody.append(tr);
+
+            //Sinónimos del Comando
+              var tr=$("<tr>");
+              var NombreConf=$("<td>");
+              NombreConf.append("<h6>Sinónimos del comando</h6>");
+
+              var valor=$("<td>");
+              valor.append("<button onclick=showModalPopUp()>configurar");
+
+              var descripcion=$("<th>");
+              descripcion.append("<h6>En este campo se configurará las distintas maneras en las que te puedes referir para llamar a este comando</h6>");
+
+              tr.append(NombreConf);
+              tr.append(valor);
+              tr.append(descripcion);
+              tbody.append(tr);
+
+            //Sinónimos del Comando
+              var tr=$("<tr>");
+              var NombreConf=$("<td>");
+              NombreConf.append("<h6>Flujo de trabajo del comando</h6>");
+
+              var valor=$("<td>");
+              valor.append("<button onclick=showModalPopUp()>configurar");
+
+              var descripcion=$("<th>");
+              descripcion.append("<h6>Flujo que seguirá el comando a la hora de ejecutarse</h6>");
+
+              tr.append(NombreConf);
+              tr.append(valor);
+              tr.append(descripcion);
+              tbody.append(tr);
+
+            //Opciones avanzadas del Comando
+              var tr=$("<tr>");
+              var NombreConf=$("<td>");
+              NombreConf.append("<h6>Opciones avanzadas</h6>");
+
+              var valor=$("<td>");
+              valor.append("ventana modal en un futuro o algo que cargue para abajo lo segundo estaría mejor");
+
+              var descripcion=$("<th>");
+              descripcion.append("<h6>Distintas opciones para personalizar aúm más el configurador</h6>");
+
+              tr.append(NombreConf);
+              tr.append(valor);
+              tr.append(descripcion);
+              tbody.append(tr);
+          tabla.append(tbody);
+  });
+  }
 }
+
+
+//fin petición USOS
+

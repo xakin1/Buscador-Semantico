@@ -20,6 +20,7 @@ import { DefaultComponent } from './default/default.component';
 import { ComboBoxIdiomaComponent } from './combo-box-idioma/combo-box-idioma.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { PlusAddComponent } from './plus-add/plus-add.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 export interface NextStep{
@@ -72,7 +73,7 @@ export interface Step{
 @NgModule({
   declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent,
     TrueComponent, StepBoxComponent, StepBoxRightComponent, ColumnComponent, DefaultComponent, ComboBoxIdiomaComponent,
-    SidebarComponent, PlusAddComponent],
+    SidebarComponent, PlusAddComponent, NavbarComponent],
   imports: [
     CommonModule,
     ComponentsRoutingModule,
@@ -101,7 +102,7 @@ export interface Step{
   ],
   exports: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,
     EndComponent, ComboBoxIdiomaComponent, TrueComponent, StepBoxComponent, StepBoxRightComponent,
-    ColumnComponent, DefaultComponent, SidebarComponent,PlusAddComponent,
+    ColumnComponent, DefaultComponent, SidebarComponent,PlusAddComponent,  NavbarComponent,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,

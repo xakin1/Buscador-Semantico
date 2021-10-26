@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CommandComponent } from './configuration/command-configuration/command/command.component';
+import { ComandosComponent } from './comandos/comandos.component';
 import { StepsConfigurationComponent } from './configuration/steps-configuration/steps-configuration.component';
-
-
-
-
+import { IndexComponent } from './index/index.component';
 
 
 const routes: Routes = [
   {
-    path: '',
-    component: CommandComponent
+    path: 'index', component : IndexComponent
   },
   {
-    path: 'configuration/steps',
-    component: StepsConfigurationComponent
+    path: 'comandos', component : ComandosComponent
+  },
+  {
+    path: 'comando/:id', component : StepsConfigurationComponent
+  },
+  {
+    path: '', component : IndexComponent
+  },
+  {
+    path: 'comandos',
+    component: ComandosComponent
   }
 ];
 

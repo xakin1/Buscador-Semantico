@@ -10,12 +10,16 @@ import { SharedModule } from './shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { LlamadasApiComponent } from './ApiCalls/llamadas-api/llamadas-api.component';
+import { IndexComponent } from './index/index.component';
+import { ComandosComponent } from './comandos/comandos.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LlamadasApiComponent,
+    IndexComponent,
+    ComandosComponent,
 
   ],
   imports: [

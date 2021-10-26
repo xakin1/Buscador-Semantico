@@ -14,7 +14,7 @@ export class LlamadasApiComponent implements OnInit {
 
 }
 
-var Apiurl = 'https://api.s-recsolutions.com/v1/';
+var Apiurl = 'https://pre.s-recsolutions.com/v1/';
 
 export async function send_get_command(commandId) {
 
@@ -61,6 +61,8 @@ export function send_edit_step(name) {
     console.log(eval(j));
   });
 }
+
+
 
 function send_post(data, url, type) {
 	var valor, index;

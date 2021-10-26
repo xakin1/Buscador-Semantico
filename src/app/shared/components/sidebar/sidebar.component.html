@@ -1,22 +1,28 @@
-<div id="mySidenav" class="sidenav">
+<nav class="sidebar">
+  <div class="sidebar-header bg-white border-0">
+    <a href="index" class="sidebar-brand">
+     <img id="logo" src='assets/images/logo.png'/>
+    </a>
+    <div class="sidebar-toggler not-active">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <div class="sidebar-body ps ps--active-y bg-light border-0">
+    <ul class="nav" id="barraNavegacion">
 
-  <mat-tree  style="background-color: #57D6B1" [dataSource]="dataSource" [treeControl]="treeControl">
+  <li class="nav-item">
+    <a href="index"  class="nav-link">
+      <i class="link-icon" data-feather="home"></i><span class="link-title">Inicio</span>
+    </a>
+  </li>
 
-    <mat-tree-node  *matTreeNodeDef="let node" matTreeNodePadding>
-
-      <button mat-icon-button disabled></button>
-      <a  *ngIf=" ShowSearchBox(node.name)" (click)="ReadNode(node.name)" style="color: white;"> {{node.name}} </a>
-    </mat-tree-node>
-
-    <mat-tree-node  *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-      <button *ngIf="node.name=='Configuración de pasos' || Show()" style="color: white;"  mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.name">
-        <mat-icon   class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-        </mat-icon>
-      </button>
-      <a *ngIf="node.name=='Configuración de pasos' || Show()" style="padding-left: 1rem; color: white ">{{node.name}}</a>
-    </mat-tree-node>
-  </mat-tree>
-
-</div>
+  <li class="nav-item">
+    <a href="comandos"  class="nav-link">
+      <i class="link-icon" data-feather="clipboard"></i><span class="link-title">Comandos</span>
+    </a>
+  </li>
+    </ul>
+  </div>
+</nav>
