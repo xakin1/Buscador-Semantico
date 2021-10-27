@@ -199,7 +199,7 @@ function cargarDatos(idComando,nombreComando,tipoComando){
               NombreConf.append("<h6>Sinónimos del comando</h6>");
 
               var valor=$("<td>");
-              valor.append("<button onclick=showModalPopUp()>configurar");
+              valor.append("<button onclick=route()>configurar");
 
               var descripcion=$("<th>");
               descripcion.append("<h6>En este campo se configurará las distintas maneras en las que te puedes referir para llamar a este comando</h6>");
@@ -410,6 +410,11 @@ function modificar_nombre(comando){
   var nombre      = $("#nombre").val()
   var descripcion = $("#descripcion").val().replace("\n", '')
   send_edit_command(nombre,comando,descripcion);
+}
+
+function route(url){
+  console.log(url)
+  window.location.replace(url)
 }
 
 

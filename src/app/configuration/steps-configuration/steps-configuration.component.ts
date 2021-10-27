@@ -441,7 +441,7 @@ export class StepsConfigurationComponent implements OnInit {
               NombreConf.append("<h6>Sinónimos del comando</h6>");
 
               var valor=$("<td>");
-              valor.append("<button onclick=showModalPopUp()>configurar");
+              valor.append("<button onclick=route('"+window.location.href+"/sinonimos')>configurar");
 
               var descripcion=$("<th>");
               descripcion.append("<h6>En este campo se configurará las distintas maneras en las que te puedes referir para llamar a este comando</h6>");

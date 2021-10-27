@@ -13,11 +13,12 @@ import { StepsModule } from './steps-configuration/steps/steps.module';
 import { AdvanceOptionsComponentSteps } from './steps-configuration/steps/general/advance-options/advance-options.component';
 import { AdvanceOptionsComponentCommand } from './command-configuration/command/advance-options/advance-options.component';
 import { ConfigurationSearchBoxHomeComponent } from './configuration-search-box-home/configuration-search-box-home.component';
+import { SynonymsConfigurationComponent } from './synonyms-configuration/synonyms-configuration.component';
 
 
 
 @NgModule({
-  declarations: [StepsConfigurationComponent, ConfigurationSearchBoxHomeComponent],
+  declarations: [StepsConfigurationComponent, ConfigurationSearchBoxHomeComponent, SynonymsConfigurationComponent],
   imports: [
     CommonModule,
     ConfigurationRoutingModule,
