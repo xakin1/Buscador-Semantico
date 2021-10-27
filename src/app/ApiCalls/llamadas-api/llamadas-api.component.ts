@@ -18,7 +18,11 @@ var Apiurl = 'https://pre.s-recsolutions.com/v1/';
 
 export async function send_get_command(commandId) {
 
-  var params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':commandId};
+  var params;
+  if(commandId != undefined)
+    params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':commandId};
+  else
+    params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770'};
   var url = Apiurl+'command/command';
 
   let j = await send_get(params, url);
@@ -28,8 +32,16 @@ export async function send_get_command(commandId) {
 }
 
 export async function send_get_step(commandId,stepId) {
+  var params
 
-  var params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':commandId,'stepID':stepId};
+  if(commandId != undefined)
+    if(stepId != undefined)
+      params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':commandId,'stepID':stepId};
+    else
+      params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770','commandID':commandId};
+  else
+    params = {'apiKey':'02d5214506fa468484e962868800395f','userPwd':'69637182','profileID':'1268900770'};
+
   var url = Apiurl+'command/command';
 
   let j = await send_get(params, url);

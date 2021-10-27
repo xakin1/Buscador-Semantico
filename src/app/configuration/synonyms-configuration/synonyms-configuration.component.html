@@ -121,26 +121,25 @@
                 <div class="table-responsive" id='tablaComandos'>
                   <table id="dataTableExample" class="table">
                     <div style="width:fit-content;margin-left: auto;margin-right: auto;">
-
-                      <div id="Idioma">
+                      <div id="Idioma" style="position: relative;left: -222px;">
                         <h4 style="width: fit-content;">Inserción de Sinónimos</h4>
                           <app-combo-box-idioma style="padding-left: 1rem" ></app-combo-box-idioma>
                       </div>
 
-                      <div id="lista de sinonimos" style="margin-top: 2rem;margin-bottom: 2rem;">
-                        <h4 style="width: fit-content;">Lista de sinónimos</h4>
+                      <div id="lista de sinonimos" style="margin-top: 2rem;margin-bottom: 2rem;position: relative;left: -222px;">
                         <div style="width: fit-content" class= "flex-container">
-                          <app-labels #synonym id = "synonym" [title] = titleSynonym [placeholder] = placeholderSynonym [width] = widthSynonym ></app-labels>
+                          <h4 style="width: fit-content;">Lista de sinónimos</h4>
                           <app-info [info] = infoSynonym class = "info a"></app-info>
                         </div>
+                        <app-labels #synonym id = "synonym" [list]=synonyms [title] = titleSynonym [placeholder] = placeholderSynonym [width] = widthSynonym ></app-labels>
                       </div>
 
-                      <div id ="lista insertada">
-                        <h4 style="width: fit-content;">Listado de sinónimos insertados</h4>
+                      <div id ="lista insertada" style="position: relative;left: -222px;">
                         <div style="width: fit-content" class= "flex-container">
-                          <app-labels #synonym  id = "synonym" [title] = titleSynonym [placeholder] = placeholderSynonym [width] = widthSynonym ></app-labels>
+                          <h4 style="width: fit-content;">Listado de sinónimos insertados</h4>
                           <app-info [info] = infoSynonym class = "info a"></app-info>
                         </div>
+                        <app-labels #synonym  [list]=synonyms [title] = titleSynonym [placeholder] = placeholderSynonym [width] = widthSynonym ></app-labels>
                       </div>
                     </div>
                   </table>

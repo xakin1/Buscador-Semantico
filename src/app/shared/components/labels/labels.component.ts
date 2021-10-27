@@ -4,10 +4,6 @@ import { MatChipInputEvent } from '@angular/material';
 
 
 
-export interface Label {
-  name: string;
-}
-
 @Component({
   selector: 'app-labels',
   templateUrl: './labels.component.html',
@@ -19,7 +15,7 @@ export class LabelsComponent{
   @Input('placeholder') placeholder: string = "New label...";
   @Input('width') width: number= 50;
   @Input('textArea') textArea: boolean = false;
-  @Input('list') public labels: Label[] = [];
+  @Input('list') public labels: String[] = [];
   @Input('editable') editable: boolean = true;
   @Input('removable') removable: boolean = true;
   @Output() update = new EventEmitter<any>();
@@ -42,7 +38,7 @@ export class LabelsComponent{
 
     // Add labelt
     if ((value || '').trim()) {
-      this.labels.push({name: value.trim()});
+      this.labels.push(value.trim());
       this.added.emit(this.labels.length-1);
     }
 
@@ -53,7 +49,7 @@ export class LabelsComponent{
 
   }
 
-  remove(label: Label): void {
+  remove(label: String): void {
     const index = this.labels.indexOf(label);
 
     if (index >= 0) {

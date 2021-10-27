@@ -12,7 +12,7 @@ export class StepBoxRightComponent implements OnInit {
   public haveNext = false;
   @Input("titleStep") titleStep = "Title of Step"
   @Input('id') unique_key: number = 0;
-  @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
+  @ViewChild("viewContainer", { read: ViewContainerRef }) VCR: ViewContainerRef
 
   constructor(private resolver: ComponentFactoryResolver,public viewContainerRef:ViewContainerRef) { }
 

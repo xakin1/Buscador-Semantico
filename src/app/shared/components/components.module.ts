@@ -69,6 +69,19 @@ export interface Step{
   searchBox     : searchBox;
 }
 
+export interface Command{
+  commandDescription: string,
+  commandID: number,
+  commandName: string,
+  iterationSave: string,
+  multi: string,
+  question: string,
+  similarName: string,
+  standard: string,
+  synonyms: string,
+  steps: any[],
+  message: string
+}
 
 @NgModule({
   declarations: [InfoComponent, LabelsComponent, SliderComponent, DdComponent, ComboBoxComponent,EndComponent,

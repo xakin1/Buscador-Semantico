@@ -34,7 +34,7 @@ export class ConfigurationSearchBoxHomeComponent implements OnInit {
   maxResultados:number = 500;
   minResultados:number = 0
 
-  @ViewChild("nivelSemantico",{static: false}) semantico;
+  @ViewChild("nivelSemantico") semantico;
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];

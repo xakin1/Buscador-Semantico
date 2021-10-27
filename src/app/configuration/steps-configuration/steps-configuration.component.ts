@@ -64,12 +64,12 @@ export class StepsConfigurationComponent implements OnInit {
   configKeywords      = false;
   configFlujoDeDatos  = false;
 
-  @ViewChild("viewContainer", { read: ViewContainerRef, static : false }) VCR: ViewContainerRef
-  @ViewChild("keywords", { read: ViewContainerRef, static : false }) keyword: LabelsComponent
-  @ViewChild("keywordsSearchBox", { read: ViewContainerRef, static : false }) keywordsSearchBox: LabelsComponent
-  @ViewChild("synonym", { read: ViewContainerRef, static : false }) synonym: LabelsComponent
-  @ViewChild("dd", { read: ViewContainerRef, static : false }) dd: DdComponent
-  @ViewChild("sidebar", { read: ViewContainerRef, static : false }) sidebar: SidebarComponent
+  @ViewChild("viewContainer", { read: ViewContainerRef }) VCR: ViewContainerRef
+  @ViewChild("keywords", { read: ViewContainerRef }) keyword: LabelsComponent
+  @ViewChild("keywordsSearchBox", { read: ViewContainerRef }) keywordsSearchBox: LabelsComponent
+  @ViewChild("synonym", { read: ViewContainerRef }) synonym: LabelsComponent
+  @ViewChild("dd", { read: ViewContainerRef }) dd: DdComponent
+  @ViewChild("sidebar", { read: ViewContainerRef }) sidebar: SidebarComponent
 
   formGroup : FormGroup;
   display   : boolean = false;

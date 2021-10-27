@@ -29,7 +29,7 @@
 </div>
 
 <div *ngIf="step[column][row].keywords[keywords.currentIndex] != undefined">
-  <i style="font-weight: bold;">Palabra clave seleccionada: </i> <i>{{keywords.labels[keywords.currentIndex].name}}</i>
+  <i style="font-weight: bold;">Palabra clave seleccionada: </i> <i>{{keywords.labels[keywords.currentIndex]}}</i>
   <div class="row">
       <app-dd #dd [value]="step[column][row].dd[keywords.currentIndex].join()" ></app-dd>
   </div>
