@@ -11,20 +11,13 @@ const routes: Routes = [
     path: 'index', component : IndexComponent
   },
   {
-    path: 'comandos', component : ComandosComponent
+    path: 'comandos', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule)
   },
   {
-    path: 'comando/:id', component : StepsConfigurationComponent
-  },
-  {
-    path: 'comando/:id/sinonimos', component : SynonymsConfigurationComponent
+    path: 'comando', loadChildren: () => import('./configuration/configuration.module').then(m => m.ConfigurationModule)
   },
   {
     path: '', component : IndexComponent
-  },
-  {
-    path: 'comandos',
-    component: ComandosComponent
   }
 ];
 

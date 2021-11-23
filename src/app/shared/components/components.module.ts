@@ -130,7 +130,6 @@ export interface Command{
     MatSelectModule,
     MatTreeModule,
     MatButtonModule,
-    MatIconModule,
     FormsModule,
     SidebarModule,
     ReactiveFormsModule,
