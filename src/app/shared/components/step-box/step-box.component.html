@@ -1,4 +1,4 @@
-<div class="row">
+<div class="rowStep" >
   <div *ngFor="let steps of columns; let i = index" class="column" style=" width: auto;">
     <div *ngFor="let step of steps; let j = index;" style="padding-bottom: 1rem" class="flex-container">
       <button *ngIf="!step.deleted" id ={{step.id}} [ngClass]= "(open && this.selectedItem == step.id) ? 'open' : 'button'" (click)="editStep(j,i,step.id)" class="button" type="button">{{step.name}}

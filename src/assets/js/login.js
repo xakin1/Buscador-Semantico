@@ -30,51 +30,51 @@ function login(){
 
 
 
-      fetch("https://api.s-recsolutions.com/v1/users/login", {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Accept': 'text/plain',
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify(datos)
-      }).then(function(response) {
+      // fetch("https://api.s-recsolutions.com/v1/users/login", {
+      //   method: 'POST',
+      //   mode: 'cors',
+      //   headers: {
+      //     'Accept': 'text/plain',
+      //     'Content-Type': 'text/plain'
+      //   },
+      //   body: JSON.stringify(datos)
+      // }).then(function(response) {
 
-        return response.text();
-
-
-
-      }).then(function(text) {
-        var userPwd=text.split("\n")[0].trim();
-
-        var profileId=text.split("\n")[1].trim();
-
-        setCookie("userPwd",userPwd);
-        setCookie("profileId",profileId);
-
-        // window.location.replace("https://www.s-recsolutions.com/dashboard/amaquia/principal.html");
-      }).catch(function(text){
-
-        var error=$("#errorAcceso");
-
-       if(error!=null){
-         error.empty();
-       }
-
-
-        var col=$("<div class='col-12'>")
-        var label=$("<label class='bg-danger text-white p-1'>");
-        label.append("Usuario o contraseña incorrectos. Vuelve a intentarlo.");
-        col.append(label);
-        error.append(col);
+      //   return response.text();
 
 
 
+      // }).then(function(text) {
+      //   var userPwd=text.split("\n")[0].trim();
+
+      //   var profileId=text.split("\n")[1].trim();
+
+      //   setCookie("userPwd",userPwd);
+      //   setCookie("profileId",profileId);
+
+      //   // window.location.replace("https://www.s-recsolutions.com/dashboard/amaquia/principal.html");
+      // }).catch(function(text){
+
+      //   var error=$("#errorAcceso");
+
+      //  if(error!=null){
+      //    error.empty();
+      //  }
 
 
-      });
+      //   var col=$("<div class='col-12'>")
+      //   var label=$("<label class='bg-danger text-white p-1'>");
+      //   label.append("Usuario o contraseña incorrectos. Vuelve a intentarlo.");
+      //   col.append(label);
+      //   error.append(col);
 
-      }
+
+
+
+
+      // });
+
+      // }
 
 
       function getCookie(name) {

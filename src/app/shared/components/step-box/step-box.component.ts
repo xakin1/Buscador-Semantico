@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import 'leader-line';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { Step } from '../components.module';
 declare let LeaderLine: any;
 
 
@@ -20,10 +19,10 @@ export class StepBoxComponent implements OnInit {
   @Input("titleStep") titleStep = "Title of Step"
   open: boolean = false;
   options: string[] = ['One', 'Two', 'Three'];
-  columns: Step[][] = []
+  columns: any[][] = []
   constructor() { }
-  selectedItem ;
-  filteredOptions: Observable<string[]>;
+  selectedItem : any ;
+  filteredOptions: Observable<string[]> | undefined;
 
 
   ngOnInit() {
@@ -39,7 +38,7 @@ export class StepBoxComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  editStep(row, column,id){
+  editStep(row: number, column: number, id : string){
     this.open = true;
     this.selectedItem = id
     this.edit.emit({row: row, column: column});
@@ -48,7 +47,7 @@ export class StepBoxComponent implements OnInit {
   public close(){
     this.open = false;
   }
-  public end(column,row,startElement){
+  public end(column : number ,row : number,startElement : HTMLInputElement){
     this.columns[column][row].end = true;
 
     setTimeout(()=>{
@@ -59,7 +58,7 @@ export class StepBoxComponent implements OnInit {
   }
 }
 
-function drawLine(startElement, endElement){
+function drawLine(startElement : HTMLInputElement, endElement: HTMLInputElement){
   let line = new LeaderLine({
       start: startElement,
       end: endElement

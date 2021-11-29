@@ -32,7 +32,7 @@ $.get( "https://pre.s-recsolutions.com/v1/command/command", comandos )
         liComando.addClass("nav-item");
         var comandoSinEspacio= datos.commandName.replace(/\s/g, '');
         liComando.attr("id",comandoSinEspacio);
-        a.attr("href","comando/"+datos.commandID);
+        a.attr("href","/xaquin/comando/"+datos.commandID);
         a.attr("onclick","cargarDatos("+datos.commandID+",'"+datos.commandName+"','"+datos.type+"')");
         a.addClass("nav-link");
         i.addClass("link-icon");
@@ -202,8 +202,10 @@ function cargarDatos(idComando,nombreComando,tipoComando){
               NombreConf.append("<h6>Opciones avanzadas</h6>");
 
               var valor=$("<td>");
-              valor.append("ventana modal en un futuro o algo que cargue para abajo lo segundo estaría mejor");
-
+              valor.append("a");
+              valor.append("a1");
+              valor.append("a2");
+              valor.append("a3");
               var descripcion=$("<th>");
               descripcion.append("<h6>Distintas opciones para personalizar aúm más el configurador</h6>");
 

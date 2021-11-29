@@ -1,15 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material';
-
-
 
 @Component({
   selector: 'app-labels',
   templateUrl: './labels.component.html',
   styleUrls: ['./labels.component.scss']
 })
-export class LabelsComponent{
+export class LabelsComponent implements OnInit {
+
 
   @Input('title') title: string = "Labels";
   @Input('placeholder') placeholder: string = "New label...";
@@ -22,15 +21,19 @@ export class LabelsComponent{
   @Output() added = new EventEmitter<number>();
   @Output() removed = new EventEmitter<number>();
 
-  public unique_key: number;
+  public unique_key: number = -1;
 
   visible = true;
   selectable = true;
   addOnBlur = true;
   display = false;
-  currentIndex:number = undefined;
+  currentIndex : number = -1;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  constructor(){}
+
+  ngOnInit(){}
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -63,7 +66,5 @@ export class LabelsComponent{
     this.currentIndex = index;
     this.display = true;
   }
-
-
 
 }

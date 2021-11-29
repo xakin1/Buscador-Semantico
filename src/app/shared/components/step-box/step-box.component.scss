@@ -1,4 +1,3 @@
-
 .button {
   min-height: 1em;
   border: black;
@@ -27,48 +26,10 @@
 /* Create two equal columns that floats next to each other */
 .column {
   float: left;
-  width: auto;
-  padding: 10px;
-
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-span {
-  color: #fff;
-  width: 38px;
-  display: flex;
-  font-size: 0.85rem;
-  background: #6e96e0;
-  font-weight: 500;
-  align-items: center;
-  border-radius: 0.3em;
-  justify-content: center;
-  cursor: inherit;
-  flex: 1 0 auto;
-  flex-direction: unset;
-
-}
-
-
-///////////////////////////////////////////////@at-root
-
-* {
-  box-sizing: border-box;
-}
-
-
-/* Create two equal columns that floats next to each other */
-.column {
-  float: left;
   height:auto;
   display:flex;
   flex-direction: column;
+  padding: 10px;
 }
 
 #col1{
@@ -80,16 +41,19 @@ span {
   width: 70% !important;
 }
 /* Clear floats after the columns */
-.row:after {
+.rowStep:after {
   content: "";
   display: table;
   clear: both;
 }
 
+.rowStep{
+  max-width: 50em !important;
+}
+
 .search, .search * {
   box-sizing: border-box;
 }
-
 
 .search .search-input {
   flex: 1 1;
@@ -142,36 +106,4 @@ svg:not(:root) {
   border: 0;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 80%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-table td:first-child {
-  width: 100px;
-}
-
-
-table td:last-child {
-  width: 50px;
-}
-
-mat-icon:hover{
-  cursor: pointer;
-}
-
-.icon:hover{
-  cursor: pointer;
-}
 

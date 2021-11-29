@@ -4,11 +4,10 @@
 	<div class="main-wrapper">
 
 		<!-- partial:partials/_sidebar.php -->
-
 	<nav class="sidebar">
       <div class="sidebar-header bg-white border-0">
-        <a href="index" class="sidebar-brand">
-         <img id="logo" src='../../assets/images/logo.png'/>
+        <a [routerLink]="['/index']" class="sidebar-brand">
+         <img id="logo" src='assets/images/logo.png'/>
         </a>
         <div class="sidebar-toggler not-active">
           <span></span>
@@ -20,13 +19,7 @@
         <ul class="nav" id="barraNavegacion">
 
 			<li class="nav-item">
-				<a href="index"  class="nav-link">
-					<i class="link-icon" data-feather="home"></i><span class="link-title">Inicio</span>
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a href="comandos"  class="nav-link">
+				<a [routerLink]="['/comandos']"  class="nav-link">
 					<i class="link-icon" data-feather="clipboard"></i><span class="link-title">Comandos</span>
 				</a>
 			</li>
@@ -55,12 +48,12 @@
 					<ul class="navbar-nav">
 						<li class="nav-item dropdown nav-profile">
 							<a class="nav-link dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<img src="../../assets/images/logoPerfil.png" alt="userr">
+								<img src="assets/images/logoPerfil.png" alt="userr">
 							</a>
 							<div class="dropdown-menu" aria-labelledby="profileDropdown">
 								<div class="dropdown-header d-flex flex-column align-items-center">
 									<div class="figure mb-3">
-										<img src="../../assets/images/logoPerfil.png" alt="">
+										<img src="assets/images/logoPerfil.png" alt="">
 									</div>
 									<div class="info text-center" id="infoUsuario">
 
@@ -69,7 +62,7 @@
 								<div class="dropdown-body">
 									<ul class="profile-nav p-0 pt-3">
 										<li class="nav-item">
-											<a href="perfil.html" class="nav-link">
+											<a [routerLink]="['/perfil']" class="nav-link">
 												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
 												<span>Perfil</span>
 											</a>
